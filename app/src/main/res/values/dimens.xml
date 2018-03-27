@@ -1,0 +1,100 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!--Color-->
+    <dimen name="corner_card">5dp</dimen>
+    <!-- Margin -->
+    <dimen name="matgin_left_8">8dp</dimen>
+    <dimen name="matgin_top_8">8dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_7">7dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
+    <dimen name="matgin_top_16">16dp</dimen>
+    <dimen name="matgin_right_56">56dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_right_24">24dp</dimen>
+    <dimen name="margin_right_16">16dp</dimen>
+    <!--Height-->
+    <dimen name="height_24">24dp</dimen>
+    <dimen name="height_36">36dp</dimen>
+    <dimen name="height_48">48dp</dimen>
+    <dimen name="height_56">56dp</dimen>
+    <dimen name="height_64">64dp</dimen>
+    <dimen name="height_80">80dp</dimen>
+    <dimen name="height_128">128dp</dimen>
+    <!--Wight-->
+    <dimen name="width_24">24dp</dimen>
+    <dimen name="width_48">48dp</dimen>
+    <dimen name="width_36">36dp</dimen>
+    <dimen name="width_56">56dp</dimen>
+    <dimen name="width_64">64dp</dimen>
+    <dimen name="width_80">80dp</dimen>
+    <dimen name="width_128">224dp</dimen>
+    <!--text-->
+    <dimen name="textsize_12">12sp</dimen>
+    <dimen name="textsize_14">14sp</dimen>
+    <dimen name="textsize_16">16sp</dimen>
+    <dimen name="textsize_20">20sp</dimen>
+    <dimen name="textsize_34">34sp</dimen>
+    <dimen name="title_small">20sp</dimen>
+    <dimen name="textsize_24">24sp</dimen>
+
+    /*==========*/
+    <!--inner notice-->
+    <dimen name="space_height_content_inner">170dp</dimen>
+    <dimen name="space_top_inner">8dp</dimen>
+    <dimen name="space_bottom_inner">7dp</dimen>
+    <dimen name="space_left_inner">8dp</dimen>
+    <dimen name="space_right_inner">8dp</dimen>
+    <dimen name="textsize_note_inner">18sp</dimen>
+    <dimen name="textsize_msg_inner">18sp</dimen>
+
+    <!--ActionBar-->
+    <dimen name="height_actionbar">48dp</dimen>
+    <!--popwin-->
+    <dimen name="height_btn_popwin_32">32dp</dimen>
+    <dimen name="height_btn_popwin_48">48dp</dimen>
+    <!-- Actionbar -->
+    <dimen name="actionbar_height_56">56dp</dimen>
+
+    <!-- Button -->
+    <dimen name="btn_width_128">128dp</dimen>
+    <dimen name="btn_height_128">128dp</dimen>
+    <dimen name="btn_height_96">96dp</dimen>
+    <dimen name="btn_height_64">64dp</dimen>
+    <dimen name="btn_width_48">48dp</dimen>
+    <dimen name="btn_height_48">48dp</dimen>
+    <dimen name="btn_height_36">36dp</dimen>
+
+    <!--Index-->
+    <dimen name="textSize_quicksidebar">10sp</dimen>
+    <dimen name="textSize_quicksidebar_choose">15sp</dimen>
+    <dimen name="textSize_quicksidebartips">20sp</dimen>
+    <dimen name="height_quicksidebartips">45dp</dimen>
+    <!-- Tab -->
+    <dimen name="tab_height_36">36dp</dimen>
+
+    <!--RollView-->
+    <dimen name="rv_height_185">185dp</dimen>
+
+    <!--ClearableEditText-->
+    <dimen name="hint_pic">24dp</dimen>
+    <dimen name="hint_pic_small">17dp</dimen>
+
+    <!--ImageView-->
+    <dimen name="imageview_height_36">36dp</dimen>
+    <dimen name="imageview_height_48">48dp</dimen>
+    <dimen name="imageview_width_48">48dp</dimen>
+    <dimen name="imageview_height_64">64dp</dimen>
+    <dimen name="imageview_width_64">64dp</dimen>
+
+    <!--List-->
+    <dimen name="list_height_64">64dp</dimen>
+
+    <!--SlidingMenu-->
+    <dimen name="sliding_menu_offset">56dp</dimen>
+</resources>

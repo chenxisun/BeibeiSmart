@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lay_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    tools:context="edu.buaa.beibeismart.Activity.MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/lay_root"
+        app:layout_constraintTop_toTopOf="@id/lay_root"
+        app:layout_constraintBottom_toBottomOf="@id/lay_root"
+        android:orientation="vertical"
+        >
+        <Button
+            android:text="@string/btn_MainActivity_music"
+            style="@style/MainActiviyMenuButtonStyle"/>
+        <Button
+            android:text="@string/btn_MainActivity_story"
+            style="@style/MainActiviyMenuButtonStyle"/>
+        <Button
+            android:text="@string/btn_MainActivity_cyclopedia"
+            style="@style/MainActiviyMenuButtonStyle"/>
+        <Button
+            android:text="@string/btn_MainActivity_english"
+            style="@style/MainActiviyMenuButtonStyle"/>
+        <Button
+            android:text="@string/btn_MainActivity_download"
+            style="@style/MainActiviyMenuButtonStyle"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

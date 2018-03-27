@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BeibeiSmart</string>
+    <!--首页-->
+    <string name="btn_MainActivity_music">音乐</string>
+    <string name="btn_MainActivity_story">故事</string>
+    <string name="btn_MainActivity_cyclopedia">百科</string>
+    <string name="btn_MainActivity_english">英语</string>
+    <string name="btn_MainActivity_download">在线下载</string>
+</resources>

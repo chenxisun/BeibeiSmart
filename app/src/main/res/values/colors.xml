@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="perpolred">#f000ff</color>
+    <color name="pink">#CCADB5</color>
+    <color name="whitesmoke">#F5F5F5</color> <!-- 烟白色 -->
+    <color name="error_gray">#EBEBEB</color>
+    <color name="blank">#C3C3C3</color>
+
+    <!-- Theme -->
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorSecond">#3260FD</color>
+    <color name="colorPrimaryLight">#c5cae9</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorFallback">#FF80ab</color>
+    <color name="default_gray">#A2A2A2</color>
+
+
+    <!-- actionbar -->
+    <color name="actionbar">#2475FB</color>
+    <color name="tab_transparent_normal">#cc63A1D2</color>
+    <color name="tab_normal">#63A1D2</color>
+    <color name="tab_selected">#f0ffff</color>
+    <!--background-->
+    <color name="bg_cardmask">#99ffffff</color>
+    <color name="bg_cardmask_gray">#99aaaaaa</color>
+    <color name="bg_main">#40ABE1</color>
+    <!--border-->
+    <color name="border_user">#DEE1D7</color>
+    <!--body-->
+    <color name="bg_content_gray">#F9F9FB</color>
+    <color name="bg_content_white">#ffffff</color>
+    <color name="bg_card">#ffffff</color>
+    <!--Button-->
+    <color name="button_normal">#7AB9EE</color>
+    <color name="button_focus">#2475FB</color>
+    <color name="button_invalid">#C0C0C0</color>
+    <color name="button_function_press">#F2F2F2</color>
+    <color name="button_float">#CCADB5</color>
+    <color name="button_float_press">#BD9AAD</color>
+
+    <!--DrawerLayout-->
+    <color name="text_drawer">#ffffff</color>
+    <!--Line-->
+    <color name="line_blue">#C9DDFF</color>
+    <color name="line_blue1">#60ADC1</color>
+    <color name="line_gray">#F2F2F2</color>
+    <!--List-->
+    <color name="gray_list">#aaaaaa</color>
+    <color name="gray_transparent_list">#4cffffff</color>
+    <color name="light_blue_list">#6593cb</color>
+    <!--LoadingView-->
+    <color name="bg_loading">#66000000</color>
+
+    <!--notice text-->
+    <color name="notice_text">#CA808A87</color>
+
+    <!--text-->
+    <color name="text_search">#40ABE1</color>
+    <color name="text_blue">#40ABE1</color>
+    <color name="text_name">#333333</color>
+    <color name="text_desc">#5E5E5E</color>
+    <color name="text_date">#828282</color>
+    <color name="text_normal">#000000</color>
+    <color name="text_white">#ffffff</color>
+    <color name="text_gray">#808A87</color>
+    <color name="te">#737373</color>
+    <color name="text_black">#272636</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="secondary_text_transparent_70">#B3727272</color>
+</resources>
