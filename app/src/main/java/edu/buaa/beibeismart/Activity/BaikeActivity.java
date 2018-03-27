@@ -7,7 +7,7 @@ package edu.buaa.beibeismart.Activity;
 public class BaikeActivity extends BaseActivity {
     @Override
     protected void initView() {
-
+      //ddd
     }
 
     @Override
