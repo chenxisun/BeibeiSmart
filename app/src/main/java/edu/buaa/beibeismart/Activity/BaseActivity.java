@@ -28,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity implements  VolleyU
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideBottomUIMenu();
         //获取数据
         initData();
         //初始化界面
