@@ -18,18 +18,23 @@
         >
         <Button
             android:text="@string/btn_MainActivity_music"
+            android:id="@+id/btn_mainactivity_music"
             style="@style/MainActiviyMenuButtonStyle"/>
         <Button
             android:text="@string/btn_MainActivity_story"
+            android:id="@+id/btn_mainactivity_story"
             style="@style/MainActiviyMenuButtonStyle"/>
         <Button
             android:text="@string/btn_MainActivity_cyclopedia"
+            android:id="@+id/btn_mainactivity_baike"
             style="@style/MainActiviyMenuButtonStyle"/>
         <Button
             android:text="@string/btn_MainActivity_english"
+            android:id="@+id/btn_mainactivity_learnenglish"
             style="@style/MainActiviyMenuButtonStyle"/>
         <Button
             android:text="@string/btn_MainActivity_download"
+            android:id="@+id/btn_mainactivity_download"
             style="@style/MainActiviyMenuButtonStyle"/>
 
     </LinearLayout>

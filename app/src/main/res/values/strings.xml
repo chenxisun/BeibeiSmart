@@ -6,4 +6,12 @@
     <string name="btn_MainActivity_cyclopedia">百科</string>
     <string name="btn_MainActivity_english">英语</string>
     <string name="btn_MainActivity_download">在线下载</string>
+
+    <!--英语-->
+    <string name="btn_word">单词</string>
+    <string name="btn_vedio">视频</string>
+    <string name="btn_movie">电影</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
