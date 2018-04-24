@@ -66,6 +66,7 @@
     <dimen name="btn_height_128">128dp</dimen>
     <dimen name="btn_height_96">96dp</dimen>
     <dimen name="btn_height_64">64dp</dimen>
+    <dimen name="btn_width_64">64dp</dimen>
     <dimen name="btn_width_48">48dp</dimen>
     <dimen name="btn_height_48">48dp</dimen>
     <dimen name="btn_height_36">36dp</dimen>

@@ -1,84 +1,84 @@
 package edu.buaa.beibeismart.Activity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.ashokvarma.bottomnavigation.BottomNavigationBar;
-import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-
-import edu.buaa.beibeismart.Fragment.BaseFragment;
-import edu.buaa.beibeismart.Fragment.MovieFragment;
-import edu.buaa.beibeismart.Fragment.VedioFragment;
-import edu.buaa.beibeismart.Fragment.WordFragment;
+import edu.buaa.beibeismart.Adapter.LearnEnglishAdapter;
 import edu.buaa.beibeismart.R;
 
-public class LearnEnglishActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
+public class LearnEnglishActivity extends BaseActivity {
 
-    BottomNavigationBar  bottomNavigationBar;
-    MovieFragment movieFragment;
-    VedioFragment vedioFragment;
-    WordFragment wordFragment;
+    private GridView gvCatalogs;
+    private ArrayList<Map<String,Object>> dataList;
+    private LearnEnglishAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_learn_english);
-        bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
-        bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.word_64,"Word")).setActiveColor(R.color.btnClick)
-                .addItem(new BottomNavigationItem(R.drawable.vedio_64,"Vedio")).setActiveColor(R.color.btnClick)
-                .addItem(new BottomNavigationItem(R.drawable.movie_64,"Movie")).setActiveColor(R.color.btnClick)
-                .setFirstSelectedPosition(0)
-                .initialise();
-
-        bottomNavigationBar.setTabSelectedListener(this);
-        setDefaultFragment();
-    }
-
-    private void setDefaultFragment(){
-        wordFragment =  new WordFragment();
-        getFragmentManager().beginTransaction().replace(R.id.fragments,wordFragment).commit();
     }
 
     @Override
     protected void initView() {
+        //加载数据
+        setContentView(R.layout.activity_learn_english);
+        gvCatalogs = findViewById(R.id.gv_catalog);
+        initData();
+        String[] from = {"img","text"};
+        int[] to ={R.id.img_gvi_learn_english,R.id.tv_gvi_learn_english};
+        adapter = new LearnEnglishAdapter(this,dataList);
+        gvCatalogs.setAdapter(adapter);
+        gvCatalogs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                disposeTypeItemClick(view,i);
+            }
+        });
+    }
+
+    private void disposeTypeItemClick( View view, int i){
+        Toast.makeText(getApplicationContext(),""+i, Toast.LENGTH_SHORT).show();
+        Intent intent;
+        switch (i){
+            case 0:
+                intent = new Intent(LearnEnglishActivity.this,EnglishWordsActivity.class);
+                startActivity(intent);
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+
+        }
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+
+        String[] catalogNames = {"ABC","水果","蔬菜","动物","植物"};
+        int catalogIcnos[] = {R.drawable.abc_64,R.drawable.fruit_64,R.drawable.vegetable_64,R.drawable.animal_64,R.drawable.plant_64};
+        dataList = new ArrayList<Map<String,Object>>();
+        for (int i = 0; i<catalogIcnos.length;i++){
+            Map<String,Object> map = new HashMap<String, Object>();
+            map.put("img",catalogIcnos[i]);
+            map.put("text",catalogNames[i]);
+            dataList.add(map);
+        }
     }
 
     @Override
     public void onVolleyFinish(int isSuccess, Object result) {
 
     }
-
-    @Override
-    public void onTabSelected(int position) {
-        FragmentTransaction transaction = this.getFragmentManager().beginTransaction();
-        switch (position){
-            case 0:
-                if (wordFragment == null){
-                    wordFragment = new WordFragment();
-                }
-                transaction.replace(R.id.fragments,wordFragment);
-                break;
-            case 1:
-                if (vedioFragment == null){
-                    vedioFragment = new VedioFragment();
-                }
-                transaction.replace(R.id.fragments,vedioFragment);
-                break;
-            case 2:
-                if (movieFragment == null){
-                    movieFragment = new MovieFragment();
-                }
-                transaction.replace(R.id.fragments,movieFragment);
-                break;
-        }
-        transaction.commit();
-    }
-
-    @Override
-    public void onTabUnselected(int position) {}
-
-    @Override
-    public void onTabReselected(int position) {}
 }

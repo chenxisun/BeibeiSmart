@@ -2,21 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_learn_english"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Activity.LearnEnglishActivity">
 
-
-    <FrameLayout
-        android:id="@+id/fragments"
+    <GridView
+        android:id="@+id/gv_catalog"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"/>
-    <com.ashokvarma.bottomnavigation.BottomNavigationBar
-        android:layout_gravity="bottom"
-        android:id="@+id/bottom_navigation_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="fill_parent"
+        android:horizontalSpacing="1dp"
+        android:layout_margin="@dimen/margin_8"
+        android:numColumns="5"/>
 </LinearLayout>
