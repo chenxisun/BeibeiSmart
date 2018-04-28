@@ -39,9 +39,10 @@
     <dimen name="textsize_14">14sp</dimen>
     <dimen name="textsize_16">16sp</dimen>
     <dimen name="textsize_20">20sp</dimen>
-    <dimen name="textsize_34">34sp</dimen>
     <dimen name="title_small">20sp</dimen>
     <dimen name="textsize_24">24sp</dimen>
+    <dimen name="textsize_34">34sp</dimen>
+    <dimen name="textsize_96">96sp</dimen>
 
     /*==========*/
     <!--inner notice-->
@@ -66,6 +67,7 @@
     <dimen name="btn_height_128">128dp</dimen>
     <dimen name="btn_height_96">96dp</dimen>
     <dimen name="btn_height_64">64dp</dimen>
+    <dimen name="btn_height_81">81dp</dimen>
     <dimen name="btn_width_64">64dp</dimen>
     <dimen name="btn_width_48">48dp</dimen>
     <dimen name="btn_height_48">48dp</dimen>
