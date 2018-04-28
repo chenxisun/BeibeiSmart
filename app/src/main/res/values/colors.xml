@@ -33,6 +33,7 @@
     <color name="bg_cardmask">#99ffffff</color>
     <color name="bg_cardmask_gray">#99aaaaaa</color>
     <color name="bg_main">#40ABE1</color>
+    <color name="bg_black">#303030</color>
     <!--border-->
     <color name="border_user">#DEE1D7</color>
     <!--body-->
@@ -52,7 +53,7 @@
     <!--Line-->
     <color name="line_blue">#C9DDFF</color>
     <color name="line_blue1">#60ADC1</color>
-    <color name="line_gray">#F2F2F2</color>
+    <color name="line_gray">#aaaaaa</color>
     <!--List-->
     <color name="gray_list">#aaaaaa</color>
     <color name="gray_transparent_list">#4cffffff</color>

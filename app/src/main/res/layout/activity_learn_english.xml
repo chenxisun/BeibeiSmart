@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.LearnEnglishActivity">
+
+    <Button
+        android:id="@+id/btn_learn_english_return"
+        android:layout_width="@dimen/btn_width_128"
+        android:layout_height="@dimen/btn_height_81"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/return_black_128"
+        />
 
     <GridView
         android:id="@+id/gv_catalog"
@@ -13,4 +22,4 @@
         android:horizontalSpacing="1dp"
         android:layout_margin="@dimen/margin_8"
         android:numColumns="5"/>
-</LinearLayout>
+</FrameLayout>

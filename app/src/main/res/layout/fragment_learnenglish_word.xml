@@ -1,10 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:paddingLeft="@dimen/margin_16"
+    android:paddingRight="@dimen/margin_16"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/view_center"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"/>
+    <Button
+        android:id="@+id/btn_read"
+        android:layout_above="@id/view_center"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/margin_96"
+        android:layout_width="@dimen/width_36"
+        android:layout_height="@dimen/height_36"
+        android:background="@drawable/read"/>
+
     <TextView
+        android:id="@+id/tv_introduction"
+        android:layout_alignBaseline="@id/btn_read"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/margin_4"
+        android:layout_toRightOf="@id/btn_read"
+        android:textSize="@dimen/textsize_24"
+        android:textColor="@color/bg_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_chacter"
+        android:layout_above="@id/tv_introduction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="word"/>
-</LinearLayout>
+        android:textColor="@color/btnClick"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/textsize_96"/>
+    <!--中文例句-->
+
+    <Button
+        android:id="@+id/btn_read_chinese"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_below="@id/tv_introduction"
+        android:layout_alignParentLeft="true"
+        android:layout_width="@dimen/width_36"
+        android:layout_height="@dimen/height_36"
+        android:background="@drawable/read"/>
+    <TextView
+        android:id="@+id/tv_introduction_chinese"
+        android:layout_alignBaseline="@id/btn_read_chinese"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/margin_4"
+        android:layout_toRightOf="@id/btn_read_chinese"
+        android:textSize="@dimen/textsize_24"
+        android:textColor="@color/bg_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--Image-->
+
+    <GridView
+        android:id="@+id/gv_english_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_introduction_chinese"
+        android:layout_above="@id/btn_next"
+        android:layout_margin="@dimen/margin_8"
+        android:numColumns="4"/>
+    <!--底部-->
+    <View
+        android:id="@+id/view_center_bottom"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/margin_8"
+        android:layout_marginRight="@dimen/margin_8"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        />
+    <Button
+        android:id="@+id/btn_pre"
+        android:layout_toLeftOf="@id/view_center_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btn_width_64"
+        android:textSize="@dimen/textsize_24"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_8"
+        android:text="上一个"/>
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_toRightOf="@id/view_center_bottom"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/textsize_24"
+        android:layout_height="@dimen/btn_width_64"
+        android:layout_alignTop="@id/btn_pre"
+        android:text="下一个"/>
+</RelativeLayout>

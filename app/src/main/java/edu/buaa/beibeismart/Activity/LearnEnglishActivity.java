@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Map;
 import edu.buaa.beibeismart.Adapter.LearnEnglishAdapter;
 import edu.buaa.beibeismart.R;
 
-public class LearnEnglishActivity extends BaseActivity {
+public class LearnEnglishActivity extends BaseActivity implements View.OnClickListener {
 
     private GridView gvCatalogs;
     private ArrayList<Map<String,Object>> dataList;
@@ -29,9 +30,10 @@ public class LearnEnglishActivity extends BaseActivity {
         //加载数据
         setContentView(R.layout.activity_learn_english);
         gvCatalogs = findViewById(R.id.gv_catalog);
-        initData();
-        String[] from = {"img","text"};
-        int[] to ={R.id.img_gvi_learn_english,R.id.tv_gvi_learn_english};
+        Button btnReture = findViewById(R.id.btn_learn_english_return);
+
+        btnReture.setOnClickListener(this);
+
         adapter = new LearnEnglishAdapter(this,dataList);
         gvCatalogs.setAdapter(adapter);
         gvCatalogs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -43,7 +45,6 @@ public class LearnEnglishActivity extends BaseActivity {
     }
 
     private void disposeTypeItemClick( View view, int i){
-        Toast.makeText(getApplicationContext(),""+i, Toast.LENGTH_SHORT).show();
         Intent intent;
         switch (i){
             case 0:
@@ -80,5 +81,10 @@ public class LearnEnglishActivity extends BaseActivity {
     @Override
     public void onVolleyFinish(int isSuccess, Object result) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        finish();
     }
 }

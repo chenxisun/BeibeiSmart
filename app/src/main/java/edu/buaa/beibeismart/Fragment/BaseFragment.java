@@ -42,9 +42,8 @@ public abstract class BaseFragment extends Fragment implements VolleyUtil.Volley
 //        DataSource.getDataSource().setOnDataSourceFinashListener(this);
         //加载数据
         initData();
-        //加载页面
-        initView();
     }
+
 
     @Override
     public void onResume() {
@@ -152,10 +151,6 @@ public abstract class BaseFragment extends Fragment implements VolleyUtil.Volley
     protected void disposeVolleySuccess(Object result){}
     //Volley响应成功
     protected void disposeVolleyFailed(Object result){}
-    //子类初始化View方法
-    protected void initView(){
-        Log.e(TAG,"initView");
-    }
     //加载数据
     protected void initData(){
         Log.e(TAG,"initData");

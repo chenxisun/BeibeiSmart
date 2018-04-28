@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.buaa.beibeismart.R;
+
 /**
  * VolleyUtil 网络请求
  */
@@ -93,17 +95,14 @@ public class VolleyUtil {
     //Glide加载图片
     public void loadGlideImage(Context context, String url, ImageView imageView){
         //图片
-        if(url.startsWith("/")){
-            url = UrlUtil.IP + url;
-        }
         Log.e(TAG_IMG,""+url);
         //新闻图片
- /*       Glide.with(context).load(url)
+        Glide.with(context).load(url)
 //                    .fitCenter()
 //                    .placeholder(R.drawable.bg_default_news)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.mipmap.img_error_150)
-                .into(imageView);*/
+                .error(R.mipmap.img_error_128)
+                .into(imageView);
     }
 
     //获取用户关注人

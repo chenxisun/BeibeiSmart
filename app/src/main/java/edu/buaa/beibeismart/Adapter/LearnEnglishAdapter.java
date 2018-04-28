@@ -1,7 +1,6 @@
 package edu.buaa.beibeismart.Adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import edu.buaa.beibeismart.R;
@@ -44,7 +42,7 @@ public class LearnEnglishAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View mView = LayoutInflater.from(context).inflate(R.layout.gradview_learn_english,null);
+        View mView = LayoutInflater.from(context).inflate(R.layout.item_gridview_learn_english,null);
 
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,viewGroup.getHeight());
         mView.setLayoutParams(params);
