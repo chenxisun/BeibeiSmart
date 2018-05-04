@@ -4,4 +4,5 @@
     <item android:state_pressed="true" android:drawable="@color/bg_cardmask"/>
     <item android:state_selected="true" android:drawable="@color/bg_cardmask"/>
     <item android:state_focused="false" android:drawable="@color/bg_black"/>
+
 </selector>
