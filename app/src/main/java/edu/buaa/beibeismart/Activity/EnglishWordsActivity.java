@@ -106,6 +106,7 @@ public class EnglishWordsActivity extends BaseActivity implements Response.Error
 
         requestQueue.add(stringRequest);
         /*initJson();*/
+
     }
 
     private void initJson(){

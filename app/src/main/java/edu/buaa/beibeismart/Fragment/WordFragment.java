@@ -8,16 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import edu.buaa.beibeismart.Activity.EnglishWordsActivity;
 import edu.buaa.beibeismart.Adapter.ImgLoadeAdapter;
 import edu.buaa.beibeismart.R;
 
@@ -41,8 +38,10 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_learnenglish_word,container,false);
         TextView tvChacter = view.findViewById(R.id.tv_chacter);
-        TextView tvEnglishIntroduction = view.findViewById(R.id.tv_introduction);
+        TextView tvEnglishIntroduction = view.findViewById(R.id.tv_introduction_english);
         TextView tvChineseIntroduction = view.findViewById(R.id.tv_introduction_chinese);
+        Button btnEnglish = view.findViewById(R.id.btn_read_english);
+        Button btnChinese = view.findViewById(R.id.btn_read_chinese);
         btnPre = view.findViewById(R.id.btn_pre);
         btnNext = view.findViewById(R.id.btn_next);
 
@@ -51,8 +50,8 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
         tvChineseIntroduction.setText(chinese_introduction);
         btnPre.setOnClickListener(this);
         btnNext.setOnClickListener(this);
-
-
+        btnEnglish.setOnClickListener(this);
+        btnChinese.setOnClickListener(this);
 
         gvImg = view.findViewById(R.id.gv_english_pic);
         gvImg.setNumColumns(imgList.size());
@@ -92,7 +91,7 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
             english_vedio = content.getString("englishVoice");
             english_introduction = content.getString("englishIntroduction");
             chinese_vedio = content.getString("chineseVoice");
-            wordVoice = content.getString("wordVoice");
+            //wordVoice = content.getString("wordVoice");
             imgUrl = content.getJSONObject("imgUrl");
             for(int i =0; i < imgUrl.length();i++){
                 System.out.println("json:"+imgUrl.getString(imgUrl.names().getString(i)));
@@ -103,9 +102,21 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
+    private void disposeRead(String url){
+        String url1 = "";
+
+    }
     @Override
     public void onClick(View view) {
-        iButtonNeighborListener.onNeighborButtonClick(view.getId());
+        switch (view.getId()){
+            case R.id.btn_read_english:
+                disposeRead(english_vedio);
+                break;
+            case R.id.btn_read_chinese:
+                break;
+            default:
+                iButtonNeighborListener.onNeighborButtonClick(view.getId());
+        }
 
     }
     IButtonNeighborListener iButtonNeighborListener;

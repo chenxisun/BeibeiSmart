@@ -11,7 +11,7 @@
         android:layout_height="1dp"
         android:layout_centerInParent="true"/>
     <Button
-        android:id="@+id/btn_read"
+        android:id="@+id/btn_read_english"
         android:layout_above="@id/view_center"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="@dimen/margin_96"
@@ -20,11 +20,11 @@
         android:background="@drawable/read"/>
 
     <TextView
-        android:id="@+id/tv_introduction"
-        android:layout_alignBaseline="@id/btn_read"
+        android:id="@+id/tv_introduction_english"
+        android:layout_alignBaseline="@id/btn_read_english"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/margin_4"
-        android:layout_toRightOf="@id/btn_read"
+        android:layout_toRightOf="@id/btn_read_english"
         android:textSize="@dimen/textsize_24"
         android:textColor="@color/bg_black"
         android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/tv_chacter"
-        android:layout_above="@id/tv_introduction"
+        android:layout_above="@id/tv_introduction_english"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/btnClick"
@@ -43,7 +43,7 @@
     <Button
         android:id="@+id/btn_read_chinese"
         android:layout_marginTop="@dimen/margin_16"
-        android:layout_below="@id/tv_introduction"
+        android:layout_below="@id/tv_introduction_english"
         android:layout_alignParentLeft="true"
         android:layout_width="@dimen/width_36"
         android:layout_height="@dimen/height_36"
