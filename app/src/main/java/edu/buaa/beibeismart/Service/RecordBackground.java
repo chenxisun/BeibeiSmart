@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.service.carrier.CarrierMessagingService;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -64,31 +65,31 @@ public class RecordBackground extends Service {
             //结束录音后，根据识别出来的句子，通过语音合成进行反馈
 
             Toast.makeText(getApplicationContext(),"结束录音",Toast.LENGTH_SHORT).show();
-//
-//            if( sentence.indexOf("晚上好") != -1){
-//                speaker.startSpeaking("晚上好",synthesizerListener);
-//            }
-//            else if( sentence.indexOf("你好") != -1 ){
-//                speaker.startSpeaking("你好",synthesizerListener);
-//            }
-//            else if( sentence.indexOf("现在几点") != -1){
-//                //获取本地时间
-//                Date date=new Date();
-//                DateFormat format=new SimpleDateFormat("HH:mm:ss");
-//                String time= format.format(date);
-//                //提取时，分，秒
-//                String[] timeArray = time.split(":");
-//                String hour = timeArray[0];
-//                String minute = timeArray[1];
-//                String seconds = timeArray[2];
-//
-//                speaker.startSpeaking("现在是北京时间"+hour+"时"+minute+"分"+seconds+"秒",synthesizerListener);
-//
-//            }else if( sentence.indexOf("你是男的还是女的") != -1 ){
-//                speaker.startSpeaking("难道你听不出来吗",synthesizerListener);
-//            }else {
-//                speaker.startSpeaking("我听不懂你在说什么",synthesizerListener);
-//            }
+
+            if( sentence.indexOf("晚上好") != -1){
+                speaker.startSpeaking("晚上好",synthesizerListener);
+            }
+            else if( sentence.indexOf("你好") != -1 ){
+                speaker.startSpeaking("你好",synthesizerListener);
+            }
+            else if( sentence.indexOf("现在几点") != -1){
+                //获取本地时间
+                Date date=new Date();
+                DateFormat format=new SimpleDateFormat("HH:mm:ss");
+                String time= format.format(date);
+                //提取时，分，秒
+                String[] timeArray = time.split(":");
+                String hour = timeArray[0];
+                String minute = timeArray[1];
+                String seconds = timeArray[2];
+
+                speaker.startSpeaking("现在是北京时间"+hour+"时"+minute+"分"+seconds+"秒",synthesizerListener);
+
+            }else if( sentence.indexOf("你是男的还是女的") != -1 ){
+                speaker.startSpeaking("难道你听不出来吗",synthesizerListener);
+            }else {
+                speaker.startSpeaking("我听不懂你在说什么",synthesizerListener);
+            }
             recognizer.startListening(recognizerListener);
         }
         /**
@@ -114,6 +115,13 @@ public class RecordBackground extends Service {
                 }
                 //打印
                 Log.e("TAG", sentence.toString());
+
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        speaker.startSpeaking(sentence.toString(),synthesizerListener);
+//                    }
+//                }).start();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -133,7 +141,6 @@ public class RecordBackground extends Service {
          */
         @Override
         public void onEvent(int i, int i1, int i2, Bundle bundle) {
-
         }
     };
 
@@ -192,7 +199,6 @@ public class RecordBackground extends Service {
         }
     };
 
-
     //初始化监听器。
     private InitListener mInitListener = new InitListener() {
 
@@ -204,7 +210,6 @@ public class RecordBackground extends Service {
             }
         }
     };
-
 
     @Override
     public void onCreate() {
@@ -223,6 +228,15 @@ public class RecordBackground extends Service {
         //设置为普通话
         recognizer.setParameter(SpeechConstant.ACCENT, "mandarin ");
 
+        // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理
+        recognizer.setParameter(SpeechConstant.VAD_BOS, "8000");
+
+        // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
+        recognizer.setParameter(SpeechConstant.VAD_EOS, "2000");
+
+        // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
+        recognizer.setParameter(SpeechConstant.ASR_PTT, "1");
+
         //设置发音人
         speaker.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan");
         //设置语速
@@ -231,6 +245,14 @@ public class RecordBackground extends Service {
         speaker.setParameter(SpeechConstant.VOLUME, "200");
         //设置云端
         speaker.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+        // 设置音调
+        speaker.setParameter(SpeechConstant.PITCH, "50");
+        // 设置播放器音频流类型
+        speaker.setParameter(SpeechConstant.STREAM_TYPE, "3");
+        // 设置播放合成音频打断音乐播放，默认为true
+        speaker.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "true");
+        // 设置音频保存路径，需要申请WRITE_EXTERNAL_STORAGE权限，如不需保存注释该行代码
+        speaker.setParameter(SpeechConstant.TTS_AUDIO_PATH,"./sdcard/iflytek.pcm");
 
         recognizer.startListening(recognizerListener);
 
@@ -242,8 +264,6 @@ public class RecordBackground extends Service {
         return super.onStartCommand(intent, flags, startId);
 
     }
-
-
 
     @Override
     public IBinder onBind(Intent intent) {
