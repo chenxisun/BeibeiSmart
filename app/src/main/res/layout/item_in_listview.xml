@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="80dp">
+    <ImageView
+        android:id="@+id/img_mp3"
+        android:src="@drawable/mp3_squre"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/music_name"
+        android:layout_toRightOf="@+id/img_mp3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="音乐名称"
+        android:textSize="20dp"/>
+    <TextView
+        android:id="@+id/music_duration"
+        android:layout_toRightOf="@+id/img_mp3"
+        android:layout_below="@+id/music_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="长度"
+        android:textSize="20dp"/>
+    <TextView
+        android:id="@+id/music_size"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="音乐大小"
+        android:textSize="20dp"/>
+
+</RelativeLayout>

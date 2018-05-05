@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/list_backgrownd"
+    >
+
+    <Button
+        android:id="@+id/back_btn_story_list"
+        android:layout_margin="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/back_btn"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingBottom="350dp">
+        <ImageView
+            android:id="@+id/chinese_story_click"
+            android:layout_margin="50dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:clickable="true"
+            android:background="@drawable/chinese_story"/>
+        <ImageView
+            android:id="@+id/english_story_click"
+            android:layout_toRightOf="@+id/chinese_story_click"
+            android:layout_margin="50dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@drawable/english_story"/>
+    </RelativeLayout>
+
+</LinearLayout>

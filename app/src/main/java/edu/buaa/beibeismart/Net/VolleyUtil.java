@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.buaa.beibeismart.R;
-
 /**
  * VolleyUtil 网络请求
  */
@@ -65,20 +63,6 @@ public class VolleyUtil {
     public static final int REQUEST_SOCIAL_HOTNEWS = 222;
     /*===========================外部请求函数==================================*/
 
-
-    //获取用户关注人
-    public void requestBaidu(Context pContext,int pRequestType, int pMethod, String pUrl){
-        context = pContext;
-        requestType = pRequestType;
-        requestQueue = Volley.newRequestQueue(context);
-        pUrl = pUrl +"/";
-        Log.e(TAGURL,pUrl);
-        if(pMethod == VolleyUtil.METHOD_GET){
-            stringRequest = new StringRequest(Request.Method.GET,pUrl,stringListener,errorListener);
-        }
-        requestQueue.add(stringRequest);
-    }
-
     //请求退出群组
     public void requestExitGroup(Context pContext,int pRequestType, int pMethod,String pUrl,String userId,long groupId){
         context = pContext;
@@ -95,14 +79,17 @@ public class VolleyUtil {
     //Glide加载图片
     public void loadGlideImage(Context context, String url, ImageView imageView){
         //图片
+        if(url.startsWith("/")){
+            url = UrlUtil.IP + url;
+        }
         Log.e(TAG_IMG,""+url);
         //新闻图片
-        Glide.with(context).load(url)
+ /*       Glide.with(context).load(url)
 //                    .fitCenter()
 //                    .placeholder(R.drawable.bg_default_news)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.mipmap.img_error_128)
-                .into(imageView);
+                .error(R.mipmap.img_error_150)
+                .into(imageView);*/
     }
 
     //获取用户关注人

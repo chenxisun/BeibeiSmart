@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+            <TextView
+            android:id="@+id/album_title"
+            android:layout_width="match_parent"
+                android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="40dp"
+            android:background="#003366"/>
+            <Button
+                android:id="@+id/back_btn_album_list"
+                android:layout_margin="10dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/back_btn"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#333666">
+
+            <ListView
+                android:id="@+id/album_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical">
+            </ListView>
+
+            <TextView
+                android:id="@+id/album_list_none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="200dp"
+                android:text="没有任何内容哦"
+                android:textSize="30dp"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/Player"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+</LinearLayout>
