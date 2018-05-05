@@ -64,31 +64,32 @@ public class RecordBackground extends Service {
             //结束录音后，根据识别出来的句子，通过语音合成进行反馈
 
             Toast.makeText(getApplicationContext(),"结束录音",Toast.LENGTH_SHORT).show();
-
-            if( sentence.indexOf("晚上好") != -1){
-                speaker.startSpeaking("晚上好",synthesizerListener);
-            }
-            else if( sentence.indexOf("你好") != -1 ){
-                speaker.startSpeaking("你好",synthesizerListener);
-            }
-            else if( sentence.indexOf("现在几点") != -1){
-                //获取本地时间
-                Date date=new Date();
-                DateFormat format=new SimpleDateFormat("HH:mm:ss");
-                String time= format.format(date);
-                //提取时，分，秒
-                String[] timeArray = time.split(":");
-                String hour = timeArray[0];
-                String minute = timeArray[1];
-                String seconds = timeArray[2];
-
-                speaker.startSpeaking("现在是北京时间"+hour+"时"+minute+"分"+seconds+"秒",synthesizerListener);
-
-            }else if( sentence.indexOf("你是男的还是女的") != -1 ){
-                speaker.startSpeaking("难道你听不出来吗",synthesizerListener);
-            }else {
-                speaker.startSpeaking("我听不懂你在说什么",synthesizerListener);
-            }
+//
+//            if( sentence.indexOf("晚上好") != -1){
+//                speaker.startSpeaking("晚上好",synthesizerListener);
+//            }
+//            else if( sentence.indexOf("你好") != -1 ){
+//                speaker.startSpeaking("你好",synthesizerListener);
+//            }
+//            else if( sentence.indexOf("现在几点") != -1){
+//                //获取本地时间
+//                Date date=new Date();
+//                DateFormat format=new SimpleDateFormat("HH:mm:ss");
+//                String time= format.format(date);
+//                //提取时，分，秒
+//                String[] timeArray = time.split(":");
+//                String hour = timeArray[0];
+//                String minute = timeArray[1];
+//                String seconds = timeArray[2];
+//
+//                speaker.startSpeaking("现在是北京时间"+hour+"时"+minute+"分"+seconds+"秒",synthesizerListener);
+//
+//            }else if( sentence.indexOf("你是男的还是女的") != -1 ){
+//                speaker.startSpeaking("难道你听不出来吗",synthesizerListener);
+//            }else {
+//                speaker.startSpeaking("我听不懂你在说什么",synthesizerListener);
+//            }
+            recognizer.startListening(recognizerListener);
         }
         /**
          * 听写结果回调接口 , 返回Json格式结果
@@ -113,7 +114,6 @@ public class RecordBackground extends Service {
                 }
                 //打印
                 Log.e("TAG", sentence.toString());
-                recognizer.startListening(recognizerListener);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

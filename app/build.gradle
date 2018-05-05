@@ -10,6 +10,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    sourceSets{
+        main{
+            jniLibs.srcDirs=['Libs']
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -31,4 +36,6 @@ dependencies {
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.3'
     compile 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.google.code.gson:gson:2.8.3'
+    implementation files('libs/Msc.jar')
+    implementation files('libs/Sunflower.jar')
 }
