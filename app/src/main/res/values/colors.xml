@@ -20,7 +20,7 @@
     <color name="colorPrimaryLight">#c5cae9</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorFallback">#FF80ab</color>
-    <color name="default_gray">#A2A2A2</color>
+    <color name="default_gray">#4cA2A2A2</color>
 
 
     <!-- actionbar -->
@@ -51,6 +51,7 @@
     <color name="text_drawer">#ffffff</color>
     <!--Line-->
     <color name="line_blue">#C9DDFF</color>
+    <color name="line_black">#4f303030</color>
     <color name="line_blue1">#60ADC1</color>
     <color name="line_gray">#aaaaaa</color>
     <!--List-->

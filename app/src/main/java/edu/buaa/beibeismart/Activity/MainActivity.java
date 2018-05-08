@@ -8,20 +8,32 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import edu.buaa.beibeismart.Adapter.CatalogAdapter;
+import edu.buaa.beibeismart.Interface.OnRecyclerViewItemClickListener;
 import android.widget.Button;
 
 import edu.buaa.beibeismart.R;
+import edu.buaa.beibeismart.View.DividerItemLineDecoration;
 import edu.buaa.beibeismart.Service.RecordBackground;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
-    //BaseActivity activity = new BaseActivity();
-    Button btnMusic,btnStory,btnBaike,btnEnglish,btnDownload;
+public class MainActivity extends BaseActivity implements OnRecyclerViewItemClickListener {
+
+    ArrayList<Map> dataList = new ArrayList();
     Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         PermisionUtils.verifyStoragePermissions(this);
 
@@ -38,42 +50,80 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initView() {
         setContentView(R.layout.activity_main);
-        btnMusic = findViewById(R.id.btn_mainactivity_music);
-        btnStory = findViewById(R.id.btn_mainactivity_story);
-        btnBaike = findViewById(R.id.btn_mainactivity_baike);
-        btnEnglish = findViewById(R.id.btn_mainactivity_learnenglish);
-        btnDownload = findViewById(R.id.btn_mainactivity_download);
-        btnMusic.setOnClickListener(this);
-        btnStory.setOnClickListener(this);
-        btnBaike.setOnClickListener(this);
-        btnEnglish.setOnClickListener(this);
-        btnDownload.setOnClickListener(this);
+        RecyclerView rvCatalog = findViewById(R.id.gallery_mainactivity);
+        rvCatalog.addItemDecoration(new DividerItemLineDecoration(this, DividerItemLineDecoration.HORIZONTAL_LIST,R.drawable.divider,40));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        //GridLayoutManager gridLayoutManager = new GridLayoutManager(this,1);
+        rvCatalog.setLayoutManager(layoutManager);
+        CatalogAdapter adapter = new CatalogAdapter(getApplicationContext(),dataList,this);
+        rvCatalog.setAdapter(adapter);
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.btn_mainactivity_music:
-                startActivity(new Intent(My_Music_list.Action));
-                break;
-            case R.id.btn_mainactivity_story:
-                startActivity(new Intent(My_story_list.Action));
-                break;
-            case R.id.btn_mainactivity_baike:
-                break;
-            case R.id.btn_mainactivity_learnenglish:
-                intent = new Intent(MainActivity.this,LearnEnglishActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.btn_mainactivity_download:
-                break;
-        }
+    protected void initData() {
+        super.initData();
+        Map mapMusic = new HashMap();
+        mapMusic.put("catalogId","music");
+        mapMusic.put("catalog","音乐");
+        mapMusic.put("img",R.drawable.catalog_music_128);
+
+        Map mapStory = new HashMap();
+        mapStory.put("catalogId","story");
+        mapStory.put("catalog","故事");
+        mapStory.put("img",R.drawable.catalog_story_128);
+
+        Map mapBio = new HashMap();
+        mapBio.put("catalogId","baike");
+        mapBio.put("catalog","百科");
+        mapBio.put("img",R.drawable.catalog_baike_128);
+
+        Map mapEng = new HashMap();
+        mapEng.put("catalogId","wordLearning");
+        mapEng.put("catalog","单词学习");
+        mapEng.put("img",R.drawable.catalog_words_128);
+
+        Map mapDownload = new HashMap();
+        mapDownload.put("catalogId","download");
+        mapDownload.put("catalog","下载");
+        mapDownload.put("img",R.drawable.catalog_download_128);
+
+        dataList.add(mapMusic);
+        dataList.add(mapStory);
+        dataList.add(mapBio);
+        dataList.add(mapEng);
+        dataList.add(mapDownload);
+
     }
 
     @Override
     public void onVolleyFinish(int isSuccess, Object result) {
 
     }
+
+    /**recyclerView item click*/
+    @Override
+    public void onItemClickListener(View view, int position) {
+        String catalogId = (String) dataList.get(position).get("catalogId");
+        Log.e("MainActivity",catalogId);
+        switch (catalogId){
+            case "music":
+                startActivity(new Intent(My_Music_list.Action));
+                break;
+            case "story":
+                startActivity(new Intent(My_story_list.Action));
+                break;
+            case "baike":
+                break;
+            case "wordLearning":
+                intent = new Intent(MainActivity.this,LearnEnglishActivity.class);
+                startActivity(intent);
+                break;
+            case "download":
+                break;
+        }
+    }
+
 
     public static class PermisionUtils {
 
