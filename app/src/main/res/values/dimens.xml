@@ -46,7 +46,6 @@
     <dimen name="textsize_24">24sp</dimen>
     <dimen name="textsize_34">34sp</dimen>
     <dimen name="textsize_96">96sp</dimen>
-
     /*==========*/
     <!--inner notice-->
     <dimen name="space_height_content_inner">170dp</dimen>
