@@ -2,6 +2,7 @@ package edu.buaa.beibeismart.Activity;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -98,15 +99,15 @@ public class EnglishWordsActivity extends BaseActivity implements Response.Error
 
     @Override
     protected void initData() {
-
-        String url = "http://47.94.165.157:8080/mock/hello";
-        //String url = "https://fanyi.youdao.com/openapi.do?keyfrom=xinlei&key=759115437&type=data&doctype=json&version=1.1&q=%E6%88%91%E7%9A%84";
+        Intent intent = getIntent();
+        String topicId = intent.getStringExtra("topicId");
+        Toast.makeText(getApplicationContext(),"topicId:"+topicId,Toast.LENGTH_SHORT).show();
+        String url = "http://47.94.165.157:8080/mock/hello1";
+        //String url = "http://47.94.165.157:8080/english/words/topics";
         stringRequest = new StringRequest(Request.Method.GET,url,this,this);
         requestQueue = Volley.newRequestQueue(EnglishWordsActivity.this);
 
         requestQueue.add(stringRequest);
-        /*initJson();*/
-
     }
 
     private void initJson(){

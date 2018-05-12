@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
     <style name="MainActiviyMenuButtonStyle">
         <item name="android:background">@color/colorAccent</item>
         <item name="android:layout_width">@dimen/btn_width_128</item>

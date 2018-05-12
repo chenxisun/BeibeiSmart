@@ -29,6 +29,8 @@
     <dimen name="height_64">64dp</dimen>
     <dimen name="height_80">80dp</dimen>
     <dimen name="height_128">128dp</dimen>
+    <dimen name="height_156">156dp</dimen>
+    <dimen name="height_224">224dp</dimen>
     <!--Wight-->
     <dimen name="width_24">24dp</dimen>
     <dimen name="width_48">48dp</dimen>
@@ -36,7 +38,9 @@
     <dimen name="width_56">56dp</dimen>
     <dimen name="width_64">64dp</dimen>
     <dimen name="width_80">80dp</dimen>
-    <dimen name="width_128">224dp</dimen>
+    <dimen name="width_224">224dp</dimen>
+    <dimen name="width_128">128dp</dimen>
+    <dimen name="width_156">156dp</dimen>
     <!--text-->
     <dimen name="textsize_12">12sp</dimen>
     <dimen name="textsize_14">14sp</dimen>
@@ -46,7 +50,6 @@
     <dimen name="textsize_24">24sp</dimen>
     <dimen name="textsize_34">34sp</dimen>
     <dimen name="textsize_96">96sp</dimen>
-
     /*==========*/
     <!--inner notice-->
     <dimen name="space_height_content_inner">170dp</dimen>
