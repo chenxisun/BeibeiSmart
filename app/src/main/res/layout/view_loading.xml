@@ -12,7 +12,7 @@
         android:background="@color/transparent">
 
         <RelativeLayout
-            android:layout_width="@dimen/width_128"
+            android:layout_width="@dimen/width_224"
             android:layout_height="@dimen/height_128"
             android:layout_centerInParent="true"
             android:background="@drawable/bg_loadingview">

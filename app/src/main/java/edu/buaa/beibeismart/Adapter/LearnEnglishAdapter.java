@@ -51,7 +51,7 @@ public class LearnEnglishAdapter extends BaseAdapter {
         TextView textView = mView.findViewById(R.id.tv_gvi_learn_english);
 
         imageView.setImageResource((Integer) dataList.get(i).get("img"));
-        textView.setText((CharSequence) dataList.get(i).get("text"));
+        textView.setText((CharSequence) dataList.get(i).get("topicName"));
 
         return mView;
     }

@@ -2,7 +2,10 @@ package edu.buaa.beibeismart.Fragment;
 
 
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,7 +106,30 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void disposeRead(String url){
-        String url1 = "";
+        String stringExtra1="http://music.baidu.com/song/569080829?pst=musicsong_play";
+        Uri uri1;
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        if(stringExtra1!=null){
+            uri1 = Uri.parse(stringExtra1);
+        }else{
+            uri1= Uri.parse(stringExtra1);
+        }
+        try {
+            mediaPlayer.setDataSource(getContext(), uri1);
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    // TODO Auto-generated method stub
+                    Log.e("MusicReceiver", "a");
+                    mp.start();
+                }
+            });
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
     @Override

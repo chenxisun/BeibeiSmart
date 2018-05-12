@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lay_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main"
-    tools:context="edu.buaa.beibeismart.Activity.MainActivity">
+    android:background="@color/bg_content_white"
+    tools:context=".Activity.MainActivity">
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gallery_mainactivity"
+        android:paddingLeft="@dimen/margin_16"
+        android:paddingRight="@dimen/margin_16"
+        android:background="@color/default_gray"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <View
+        android:id="@+id/center"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/margin_96"/>
+    <LinearLayout
+        android:layout_above="@id/gallery_mainactivity"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/lay_root"
-        app:layout_constraintTop_toTopOf="@id/lay_root"
-        app:layout_constraintBottom_toBottomOf="@id/lay_root"
         android:orientation="vertical"
-        >
-        <Button
-            android:text="@string/btn_MainActivity_music"
-            android:id="@+id/btn_mainactivity_music"
-            style="@style/MainActiviyMenuButtonStyle"/>
-        <Button
-            android:text="@string/btn_MainActivity_story"
-            android:id="@+id/btn_mainactivity_story"
-            style="@style/MainActiviyMenuButtonStyle"/>
-        <Button
-            android:text="@string/btn_MainActivity_cyclopedia"
-            android:id="@+id/btn_mainactivity_baike"
-            style="@style/MainActiviyMenuButtonStyle"/>
-        <Button
-            android:text="@string/btn_MainActivity_english"
-            android:id="@+id/btn_mainactivity_learnenglish"
-            style="@style/MainActiviyMenuButtonStyle"/>
-        <Button
-            android:text="@string/btn_MainActivity_download"
-            android:id="@+id/btn_mainactivity_download"
-            style="@style/MainActiviyMenuButtonStyle"/>
+        android:paddingBottom="@dimen/margin_24"
+        android:paddingTop="@dimen/margin_24"
+        android:background="#F8E474"
+        android:layout_marginBottom="@dimen/margin_96"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/img_welcome"
+            android:layout_width="@dimen/width_156"
+            android:layout_height="@dimen/height_156"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/beibei_index"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_welcome"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/textsize_34"
+            android:textColor="@color/text_black"
+            android:text="@string/welcome"
+            />
 
     </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
