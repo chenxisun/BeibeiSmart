@@ -60,6 +60,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(new Intent(My_story_list.Action));
                 break;
             case R.id.btn_mainactivity_baike:
+                intent = new Intent(MainActivity.this,BaikeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_mainactivity_learnenglish:
                 intent = new Intent(MainActivity.this,LearnEnglishActivity.class);

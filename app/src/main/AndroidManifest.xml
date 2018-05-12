@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -25,11 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.EnglishWordsActivity2" ></activity>
-        <activity android:name=".Activity.LearnEnglishActivity">
-
-        </activity>
-        <activity android:name=".Activity.EnglishWordsActivity"></activity>
+        <activity android:name=".Activity.EnglishWordsActivity2" />
+        <activity android:name=".Activity.LearnEnglishActivity" />
+        <activity android:name=".Activity.EnglishWordsActivity" />
         <activity
             android:name=".Activity.My_Music_list"
             android:launchMode="singleTask">
@@ -54,7 +52,12 @@
         <service
             android:name=".Service.RecordBackground"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".Activity.BaikeActivity" />
+        <activity android:name=".Activity.Baike_Dongwu_Activity" />
+        <activity android:name=".Activity.Baike_Shucai_Activity" />
+        <activity android:name=".Activity.Baike_Dongwu_Cow_Activity"></activity>
     </application>
 
 </manifest>
