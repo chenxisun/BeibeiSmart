@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:paddingBottom="350dp">
+        android:paddingBottom="100dp">
         <ImageView
             android:id="@+id/chinese_story_click"
             android:layout_margin="50dp"
