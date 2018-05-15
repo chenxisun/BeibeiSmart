@@ -41,40 +41,15 @@ public class VolleyUtil {
     static String cookies;
     String TAGURL = "VOLLEYURL:";
 
-    public static final int REQUEST_NEWS = 0;
-    public static final int REQUEST_NEWS_CHANAL = 1;
     public static final int REQUEST_LOGIN = 10;
     public static final int REQUEST_FIND_FRIEND = 2;
     public static final int REQUEST_ADD_ATTENTOR = 200;
     public static final int REQUEST_FIND_ATTENTOR = 201;
     public static final int REQUEST_JOIN_GROUP = 202;
     public static final int REQUEST_EXIT_GROUP = 203;
-    public static final int REQUEST_MYNEWS = 210;
-    public static final int REQUEST_SOCIALIZE = 211;
-    public static final int REQUEST_OPERATION_SOCIALIZE = 212;
-    public static final int REQUEST_OPERATION_ZAN = 218;
     public static final int REQUEST_OPERATION_SOCIALZAN = 213;
-    public static final int REQUEST_OPERATION_SOCIALCOLLECT = 215;
     public static final int REQUEST_OPERATION_GETSOCIALZAN = 214;
-    public static final int REQUEST_OPERATION_COMMENT = 216;
-    public static final int REQUEST_OPERATION_GETCOMMENT = 217;
-    public static final int REQUEST_PERSONALNEWS_GETCIRCLENEWS = 221;
-    public static final int REQUEST_PERSONALNEWS_REFRESHCIRCLENEWS = 223;
-    public static final int REQUEST_SOCIAL_HOTNEWS = 222;
     /*===========================外部请求函数==================================*/
-
-    //请求退出群组
-    public void requestExitGroup(Context pContext,int pRequestType, int pMethod,String pUrl,String userId,long groupId){
-        context = pContext;
-        requestType = pRequestType;
-        requestQueue = Volley.newRequestQueue(context);
-        pUrl = pUrl+"/"+userId+"/"+groupId;
-        Log.e(TAGURL,pUrl);
-        if(pMethod == VolleyUtil.METHOD_GET){
-            stringRequest = new StringRequest(Request.Method.GET,pUrl,stringListener,errorListener);
-        }
-        requestQueue.add(stringRequest);
-    }
 
     //Glide加载图片
     public void loadGlideImage(Context context, String url, ImageView imageView){

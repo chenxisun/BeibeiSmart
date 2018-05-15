@@ -100,7 +100,7 @@ public class EnglishWordsActivity extends BaseActivity implements Response.Error
     @Override
     protected void initData() {
         Intent intent = getIntent();
-        String topicId = intent.getStringExtra("topicId");
+        int topicId = intent.getIntExtra("topicId",0);
         Toast.makeText(getApplicationContext(),"topicId:"+topicId,Toast.LENGTH_SHORT).show();
         String url = "http://47.94.165.157:8080/mock/hello1";
         //String url = "http://47.94.165.157:8080/english/words/topics";

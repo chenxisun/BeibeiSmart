@@ -17,18 +17,23 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.buaa.beibeismart.Adapter.LearnEnglishAdapter;
+import edu.buaa.beibeismart.Bean.EnglishTopicBean;
 import edu.buaa.beibeismart.Net.UrlUtil;
 import edu.buaa.beibeismart.R;
 
 public class LearnEnglishActivity extends BaseActivity implements View.OnClickListener, Response.ErrorListener, Response.Listener<String> {
 
     private GridView gvCatalogs;
-    private ArrayList<Map<String,Object>> dataList =new ArrayList<>();
+    private ArrayList<EnglishTopicBean> dataList =new ArrayList<>();
     private LearnEnglishAdapter adapter;
     StringRequest stringRequest;
     RequestQueue requestQueue;
@@ -60,7 +65,7 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
 
     private void disposeTypeItemClick( View view, int i){
 
-        String topicId = (String) dataList.get(i).get("topicId");
+        int topicId =  dataList.get(i).getId();
         Intent intent = new Intent(LearnEnglishActivity.this,EnglishWordsActivity.class);
         intent.putExtra("topicId",topicId);
 
@@ -78,7 +83,7 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
 
         requestQueue.add(stringRequest);
 
-        String[] topicNames = {"ABC","水果","蔬菜","动物","植物"};
+        /*String[] topicNames = {"ABC","水果","蔬菜","动物","植物"};
         String[] topicIds = {"abc","fruit","vegetable","animal","plant"};
 
         int catalogIcnos[] = {R.drawable.abc_64,R.drawable.fruit_64,R.drawable.vegetable_64,R.drawable.animal_64,R.drawable.plant_64};
@@ -88,13 +93,11 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
             map.put("topicName",topicNames[i]);
             map.put("topicId",topicIds[i]);
             dataList.add(map);
-        }
+        }*/
     }
 
     @Override
     public void onVolleyFinish(int isSuccess, Object result) {
-
-        Log.e("LearnEnglishActivityVolley", (String) result);
     }
 
     @Override
@@ -110,5 +113,18 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onResponse(String response) {
         Log.e("LearnEnglishActivityVolley", (String) response);
+        try {
+            Log.e("LearnEnglishActivityVolley", "1");
+            JSONArray jsonArray = new JSONArray((String) response);
+            Log.e("LearnEnglishActivityVolley", "2");
+            Log.e("LearnEnglishActivityVolley",  ""+jsonArray.length());
+            for (int i =0; i < jsonArray.length(); i++){
+                dataList.add(new EnglishTopicBean((JSONObject) jsonArray.get(i)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("LearnEnglishActivityVolley",  ""+dataList.size());
+        adapter.notifyDataSetChanged();
     }
 }

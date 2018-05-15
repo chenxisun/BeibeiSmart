@@ -9,18 +9,22 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.Map;
 
+import edu.buaa.beibeismart.Bean.EnglishTopicBean;
+import edu.buaa.beibeismart.Net.UrlUtil;
 import edu.buaa.beibeismart.R;
 
 public class LearnEnglishAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<Map<String,Object>> dataList;
+    ArrayList<EnglishTopicBean> dataList;
 
 
-    public LearnEnglishAdapter(Context context,ArrayList<Map<String,Object>> dataList){
+    public LearnEnglishAdapter(Context context,ArrayList<EnglishTopicBean> dataList){
         this.context = context;
         this.dataList = dataList;
     }
@@ -50,8 +54,8 @@ public class LearnEnglishAdapter extends BaseAdapter {
         ImageView imageView = mView.findViewById(R.id.img_gvi_learn_english);
         TextView textView = mView.findViewById(R.id.tv_gvi_learn_english);
 
-        imageView.setImageResource((Integer) dataList.get(i).get("img"));
-        textView.setText((CharSequence) dataList.get(i).get("topicName"));
+        Glide.with(context).load(UrlUtil.IP_MATERIAL+ dataList.get(i).getImg1Path()).into(imageView);
+        textView.setText(dataList.get(i).getContent());
 
         return mView;
     }
