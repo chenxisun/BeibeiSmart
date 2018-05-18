@@ -1,6 +1,7 @@
 package edu.buaa.beibeismart.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,15 @@ public class LearnEnglishAdapter extends BaseAdapter {
         TextView textView = mView.findViewById(R.id.tv_gvi_learn_english);
 
         Glide.with(context).load(UrlUtil.IP_MATERIAL+ dataList.get(i).getImg1Path()).into(imageView);
-        textView.setText(dataList.get(i).getContent());
+        String text = dataList.get(i).getContent().trim();
+        Log.e("LearnEnglishAdapter:text.length()",""+text.length());
+        if (text.length() >2){
+            textView.setTextSize(12);
+        }
+        else {
+            textView.setTextSize(16);
+        }
+        textView.setText(text);
 
         return mView;
     }

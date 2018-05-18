@@ -6,16 +6,12 @@ import android.os.Bundle;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
-import edu.buaa.beibeismart.Fragment.MovieFragment;
-import edu.buaa.beibeismart.Fragment.VedioFragment;
 import edu.buaa.beibeismart.Fragment.WordFragment;
 import edu.buaa.beibeismart.R;
 
 public class EnglishWordsActivity2 extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     BottomNavigationBar  bottomNavigationBar;
-    MovieFragment movieFragment;
-    VedioFragment vedioFragment;
     WordFragment wordFragment;
 
     @Override
@@ -77,16 +73,8 @@ public class EnglishWordsActivity2 extends BaseActivity implements BottomNavigat
                 transaction.replace(R.id.fragments,wordFragment);
                 break;
             case 1:
-                if (vedioFragment == null){
-                    vedioFragment = new VedioFragment();
-                }
-                transaction.replace(R.id.fragments,vedioFragment);
                 break;
             case 2:
-                if (movieFragment == null){
-                    movieFragment = new MovieFragment();
-                }
-                transaction.replace(R.id.fragments,movieFragment);
                 break;
         }
         transaction.commit();

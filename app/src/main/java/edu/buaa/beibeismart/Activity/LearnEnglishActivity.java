@@ -1,6 +1,8 @@
 package edu.buaa.beibeismart.Activity;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +29,7 @@ import java.util.Map;
 
 import edu.buaa.beibeismart.Adapter.LearnEnglishAdapter;
 import edu.buaa.beibeismart.Bean.EnglishTopicBean;
+import edu.buaa.beibeismart.Media.OnlineMediaPlayer;
 import edu.buaa.beibeismart.Net.UrlUtil;
 import edu.buaa.beibeismart.R;
 
@@ -37,10 +40,12 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
     private LearnEnglishAdapter adapter;
     StringRequest stringRequest;
     RequestQueue requestQueue;
+    OnlineMediaPlayer onlineMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        onlineMediaPlayer = OnlineMediaPlayer.getInstance();
     }
 
     @Override
@@ -53,8 +58,6 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
 
         adapter = new LearnEnglishAdapter(this,dataList);
         gvCatalogs.setAdapter(adapter);
-
-
         gvCatalogs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -64,11 +67,13 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void disposeTypeItemClick( View view, int i){
+        //播放音频
+        OnlineMediaPlayer.getInstance().play(UrlUtil.IP_MATERIAL+dataList.get(i).getEnglishVoicePath());
+        onlineMediaPlayer.play(UrlUtil.IP_MATERIAL+dataList.get(i).getChineseVoicePath());
 
-        int topicId =  dataList.get(i).getId();
+        String  topicContent =  dataList.get(i).getContent();
         Intent intent = new Intent(LearnEnglishActivity.this,EnglishWordsActivity.class);
-        intent.putExtra("topicId",topicId);
-
+        intent.putExtra("topicContent",topicContent);
         startActivity(intent);
     }
 
@@ -82,18 +87,6 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
         requestQueue = Volley.newRequestQueue(this);
 
         requestQueue.add(stringRequest);
-
-        /*String[] topicNames = {"ABC","水果","蔬菜","动物","植物"};
-        String[] topicIds = {"abc","fruit","vegetable","animal","plant"};
-
-        int catalogIcnos[] = {R.drawable.abc_64,R.drawable.fruit_64,R.drawable.vegetable_64,R.drawable.animal_64,R.drawable.plant_64};
-        for (int i = 0; i<catalogIcnos.length;i++){
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put("img",catalogIcnos[i]);
-            map.put("topicName",topicNames[i]);
-            map.put("topicId",topicIds[i]);
-            dataList.add(map);
-        }*/
     }
 
     @Override
@@ -112,19 +105,17 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onResponse(String response) {
-        Log.e("LearnEnglishActivityVolley", (String) response);
+        Log.e("LearnEnglishActivity",response);
         try {
-            Log.e("LearnEnglishActivityVolley", "1");
-            JSONArray jsonArray = new JSONArray((String) response);
-            Log.e("LearnEnglishActivityVolley", "2");
-            Log.e("LearnEnglishActivityVolley",  ""+jsonArray.length());
+            JSONArray jsonArray = new JSONArray( response);
             for (int i =0; i < jsonArray.length(); i++){
                 dataList.add(new EnglishTopicBean((JSONObject) jsonArray.get(i)));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("LearnEnglishActivityVolley",  ""+dataList.size());
         adapter.notifyDataSetChanged();
     }
+
+
 }

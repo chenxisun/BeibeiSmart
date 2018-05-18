@@ -115,12 +115,12 @@ public class RecordBackground extends Service {
                 //打印
                 Log.e("TAG", sentence.toString());
 
-                new Thread(new Runnable() {
+                /*new Thread(new Runnable() {
                     @Override
                     public void run() {
                         speaker.startSpeaking(sentence.toString(),synthesizerListener);
                     }
-                }).start();
+                }).start();*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }

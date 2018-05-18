@@ -19,16 +19,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import edu.buaa.beibeismart.Adapter.ImgLoadeAdapter;
+import edu.buaa.beibeismart.Bean.EnglishWordBean;
+import edu.buaa.beibeismart.Media.OnlineMediaPlayer;
 import edu.buaa.beibeismart.R;
 
 @SuppressLint("ValidFragment")
 public class WordFragment extends BaseFragment implements View.OnClickListener {
 
-    String chacter;
     JSONObject content;
-    String chinese_introduction;
-    String english_vedio;
-    String english_introduction;
     String chinese_vedio,wordVoice;
     ArrayList<String> imgList = new ArrayList<>();
     GridView gvImg;
@@ -48,9 +46,23 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
         btnPre = view.findViewById(R.id.btn_pre);
         btnNext = view.findViewById(R.id.btn_next);
 
-        tvChacter.setText(chacter);
-        tvEnglishIntroduction.setText(english_introduction);
-        tvChineseIntroduction.setText(chinese_introduction);
+        tvChacter.setText(curEnglishWord.getEnglishContent());
+        tvChacter.setVisibility(View.VISIBLE);
+        if (curEnglishWord.getEnglishContent().trim().isEmpty() || curEnglishWord.getEnglishContent().trim().equals("null")){
+            tvChacter.setVisibility(View.INVISIBLE);
+        }
+        tvEnglishIntroduction.setText(curEnglishWord.getEnglishContent());
+        tvEnglishIntroduction.setVisibility(View.VISIBLE);
+        if (curEnglishWord.getEnglishContent().trim().isEmpty() || curEnglishWord.getEnglishContent().trim().equals("null")){
+            tvEnglishIntroduction.setVisibility(View.INVISIBLE);
+            btnEnglish.setVisibility(View.INVISIBLE);
+        }
+        tvChineseIntroduction.setText(curEnglishWord.getChineseContent());
+        tvChineseIntroduction.setVisibility(View.VISIBLE);
+        if (curEnglishWord.getChineseContent().trim().isEmpty() || curEnglishWord.getChineseContent().trim().equals("null")){
+            tvChineseIntroduction.setVisibility(View.INVISIBLE);
+            btnChinese.setVisibility(View.INVISIBLE);
+        }
         btnPre.setOnClickListener(this);
         btnNext.setOnClickListener(this);
         btnEnglish.setOnClickListener(this);
@@ -79,23 +91,22 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
     //记录当前数据位置
     int isStart;
     int isEnd;
+    EnglishWordBean curEnglishWord;
     @Override
     protected void initData() {
         super.initData();
         Bundle bundle = getArguments();
-        JSONObject imgUrl = null;
+        JSONObject imgUrl = new JSONObject();
         try {
             isStart = bundle.getInt("isStart");
             isEnd = bundle.getInt("isEnd");
-            JSONObject param = new JSONObject(bundle.getString("param"));
-            chacter = param.getString("chacter");
-            content = param.getJSONObject("content");
-            chinese_introduction = content.getString("chineseIntroduction");
-            english_vedio = content.getString("englishVoice");
-            english_introduction = content.getString("englishIntroduction");
-            chinese_vedio = content.getString("chineseVoice");
-            //wordVoice = content.getString("wordVoice");
-            imgUrl = content.getJSONObject("imgUrl");
+            JSONObject paramObject = new JSONObject(bundle.getString("param"));
+            curEnglishWord = new EnglishWordBean(paramObject);
+
+
+
+            imgUrl.put("imgUrl",curEnglishWord.getImgPath());
+
             for(int i =0; i < imgUrl.length();i++){
                 System.out.println("json:"+imgUrl.getString(imgUrl.names().getString(i)));
                 imgList.add(imgUrl.getString(imgUrl.names().getString(i)));
@@ -104,41 +115,19 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-
     private void disposeRead(String url){
-        String stringExtra1="http://music.baidu.com/song/569080829?pst=musicsong_play";
-        Uri uri1;
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        if(stringExtra1!=null){
-            uri1 = Uri.parse(stringExtra1);
-        }else{
-            uri1= Uri.parse(stringExtra1);
-        }
-        try {
-            mediaPlayer.setDataSource(getContext(), uri1);
-            mediaPlayer.prepareAsync();
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    // TODO Auto-generated method stub
-                    Log.e("MusicReceiver", "a");
-                    mp.start();
-                }
-            });
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        //String stringExtra1="http://music.baidu.com/song/569080829?pst=musicsong_play";
+        OnlineMediaPlayer.getInstance().play(url);
 
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_read_english:
-                disposeRead(english_vedio);
+                disposeRead(curEnglishWord.getEnglishVoicePath());
                 break;
             case R.id.btn_read_chinese:
+                disposeRead(curEnglishWord.getChineseVoicePath());
                 break;
             default:
                 iButtonNeighborListener.onNeighborButtonClick(view.getId());

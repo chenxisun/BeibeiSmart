@@ -27,9 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.buaa.beibeismart.Adapter.CharacterAdapter;
+import edu.buaa.beibeismart.Bean.EnglishWordBean;
 import edu.buaa.beibeismart.Fragment.BaseFragment;
 import edu.buaa.beibeismart.Fragment.WordFragment;
 import edu.buaa.beibeismart.Interface.OnRecyclerViewItemClickListener;
+import edu.buaa.beibeismart.Net.UrlUtil;
 import edu.buaa.beibeismart.Net.VolleyUtil;
 import edu.buaa.beibeismart.R;
 
@@ -44,7 +46,7 @@ public class EnglishWordsActivity extends BaseActivity implements Response.Error
     StringRequest stringRequest;
     RequestQueue requestQueue;
     RecyclerView recyclerView;
-    ArrayList dataList = new ArrayList();
+    ArrayList<EnglishWordBean> dataList = new ArrayList();
     CharacterAdapter adapter;
     WordFragment wordFragment;
     JSONObject jsonObject;
@@ -66,23 +68,17 @@ public class EnglishWordsActivity extends BaseActivity implements Response.Error
         //设置Adapter
         adapter = new CharacterAdapter(this,dataList,this);
         recyclerView.setAdapter(adapter);
-        //setFragment(0);
-
     }
 
-
     private void setFragment(int i){
-        JSONObject fragmentParamJson = new JSONObject();
+        Bundle bundle = new Bundle();
         try {
-            String chacter = (String) jsonObject.names().get(i);
-            JSONObject content = jsonObject.getJSONObject(chacter);
-            fragmentParamJson.put("chacter",chacter);
-            fragmentParamJson.put("content",content);
+            bundle.putString("param",contentArray.get(i).toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Bundle bundle = new Bundle();
-        bundle.putString("param",fragmentParamJson.toString());
+
+        //是否是最后一个单词
         bundle.putInt("isEnd",0);
         bundle.putInt("isStart",0);
         if (i == (dataList.size() - 1)){
@@ -97,51 +93,28 @@ public class EnglishWordsActivity extends BaseActivity implements Response.Error
         getFragmentManager().beginTransaction().replace(R.id.fragment_activity_english_words,wordFragment).commit();
     }
 
+    private int pageSize = 15;
+    private int curPageNo = 0;
+    private int totalPage = 0;
+    private int totalElements = 0;
+    private boolean isLast = true;
+    private int numberOfElements = 0;
+    private boolean isFirst = true;
+
     @Override
     protected void initData() {
         Intent intent = getIntent();
-        int topicId = intent.getIntExtra("topicId",0);
-        Toast.makeText(getApplicationContext(),"topicId:"+topicId,Toast.LENGTH_SHORT).show();
-        String url = "http://47.94.165.157:8080/mock/hello1";
+        String topicContent = intent.getStringExtra("topicContent");
+        Toast.makeText(getApplicationContext(),"topicContent:"+topicContent,Toast.LENGTH_SHORT).show();
+        //http://47.94.165.157:8080/english/words/list?topic=animal&pageNo=1&pageSize=10
+        String url = UrlUtil.IP+"/english/words/list?topic="+topicContent+"&pageNo="+curPageNo+"&pageSize="+pageSize;
+        Log.e("EnglishWordsActivity",url);
+        //String url = "http://47.94.165.157:8080/mock/hello1";
         //String url = "http://47.94.165.157:8080/english/words/topics";
         stringRequest = new StringRequest(Request.Method.GET,url,this,this);
         requestQueue = Volley.newRequestQueue(EnglishWordsActivity.this);
 
         requestQueue.add(stringRequest);
-    }
-
-    private void initJson(){
-        try {
-            JSONObject jsonObjecta = new JSONObject();
-            jsonObjecta.put("chinese_introduction","A 的中文解释");
-            jsonObjecta.put("english_vedio","服务端自定义");
-            jsonObjecta.put("english_introduction","The word, Apple, can be regard as a kind of fruits or a smart phone. You can get both of them!");
-            jsonObjecta.put("chinese_vedio","服务端自定义");
-            JSONObject imgUrl = new JSONObject();
-            imgUrl.put("img1","https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=A&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&cs=1875575115,2012986140&os=1566147858,1294510543&simid=3494427969,347114886&pn=9&rn=1&di=49293184930&ln=1859&fr=&fmq=1524901101456_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=0&spn=0&pi=0&gsm=0&objurl=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201410%2F04%2F20141004180229_erFVP.jpeg&rpstart=0&rpnum=0&adpicid=0&ctd=1524901166713^3_1231X550%1");
-            imgUrl.put("img2","https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=A&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&cs=1875575115,2012986140&os=1566147858,1294510543&simid=3494427969,347114886&pn=9&rn=1&di=49293184930&ln=1859&fr=&fmq=1524901101456_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=0&spn=0&pi=0&gsm=0&objurl=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201410%2F04%2F20141004180229_erFVP.jpeg&rpstart=0&rpnum=0&adpicid=0&ctd=1524901166713^3_1231X550%1");
-            imgUrl.put("img3","https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=A&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&cs=4209834082,3252743465&os=768096571,2884893162&simid=4154893210,670882886&pn=34&rn=1&di=184883309820&ln=1859&fr=&fmq=1524901101456_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=0&spn=0&pi=0&gsm=0&objurl=http%3A%2F%2Fimg2.3lian.com%2F2014%2Ff4%2F181%2Fd%2F50.jpg&rpstart=0&rpnum=0&adpicid=0&ctd=1524901487488^3_1231X550%1");
-            jsonObjecta.put("imgUrl",imgUrl);
-
-            JSONObject jsonObjectb = new JSONObject();
-            jsonObjectb.put("chinese_introduction","B 的中文解释");
-            jsonObjectb.put("english_vedio","服务端自定义");
-            jsonObjectb.put("english_introduction","B introduction content");
-            jsonObjectb.put("chinese_vedio","服务端自定义");
-            jsonObjectb.put("imgUrl",imgUrl);
-            JSONObject jsonObjectc = new JSONObject();
-            jsonObjectc.put("chinese_introduction","C 的中文解释");
-            jsonObjectc.put("english_vedio","服务端自定义");
-            jsonObjectc.put("english_introduction","C introduction content");
-            jsonObjectc.put("chinese_vedio","服务端自定义");
-            jsonObjectc.put("imgUrl",imgUrl);
-            jsonObject = new JSONObject();
-            jsonObject.put("A",jsonObjecta);
-            jsonObject.put("B",jsonObjectb);
-            jsonObject.put("C",jsonObjectc);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -156,21 +129,28 @@ public class EnglishWordsActivity extends BaseActivity implements Response.Error
         Log.e("Volley","error");
     }
 
+    JSONArray contentArray;
     @Override
     public void onResponse(String response) {
-        Log.i("onResponse",response);
+
+        Log.e("EnglishWordsActivity:",response);
         try {
             jsonObject = new JSONObject(response);
+            totalPage = jsonObject.getInt("totalPages");
+            totalElements = jsonObject.getInt("totalElements");
+            isLast = jsonObject.getBoolean("last");
+            numberOfElements = jsonObject.getInt("numberOfElements");
+            isFirst = jsonObject.getBoolean("first");
+            contentArray = jsonObject.getJSONArray("content");
+
+            for (int i = 0; i < contentArray.length(); i++){
+                dataList.add(new EnglishWordBean((JSONObject) contentArray.get(i)));
+                //Log.e("EnglishWordsActivity:",contentArray.get(i).toString());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        for (int i=0; i < jsonObject.names().length();i++){
-            try {
-                dataList.add(jsonObject.names().get(i));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+
         adapter.notifyDataSetChanged();
         setFragment(0);
         System.out.print("volley:"+dataList.size());

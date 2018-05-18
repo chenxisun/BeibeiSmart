@@ -9,13 +9,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
 
+import edu.buaa.beibeismart.Bean.EnglishWordBean;
 import edu.buaa.beibeismart.Interface.OnRecyclerViewItemClickListener;
 import edu.buaa.beibeismart.R;
 
 public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.ViewHolder> implements View.OnClickListener {
 
     Context context;
-    ArrayList dataList;
+    ArrayList<EnglishWordBean> dataList;
     int curPosition = 0;
 
     private OnRecyclerViewItemClickListener onRecyclerViewItemClickListener;
@@ -58,7 +59,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemView.setSelected(curPosition == position);
-        String chac = ""+dataList.get(position);
+        String chac = ""+dataList.get(position).getEnglishContent();
         holder.textView.setText(chac );
         holder.itemView.setTag(position);
     }

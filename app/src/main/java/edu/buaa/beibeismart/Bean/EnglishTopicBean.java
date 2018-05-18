@@ -29,6 +29,9 @@ public class EnglishTopicBean {
             setContent(object.getString("content"));
             setSize(object.getInt("size"));
             setEnglishVoicePath(object.getString("englishVoicePath"));
+            //if (object.getString("content").endsWith("letter")){
+            //setEnglishVoicePath("englishVoice");
+            //}
             setChineseVoicePath(object.getString("chineseVoicePath"));
             setImg1Path(object.getString("img1Path"));
         } catch (JSONException e) {
