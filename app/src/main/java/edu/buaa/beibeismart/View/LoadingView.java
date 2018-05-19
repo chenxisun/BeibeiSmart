@@ -119,7 +119,7 @@ public class LoadingView{
 
     public LoadingView(Context pContext){
         context = pContext;
-        viewBgResid = R.drawable.loading;
+        viewBgResid = R.drawable.loading1;
         inflater = LayoutInflater.from(context);
     }
 }

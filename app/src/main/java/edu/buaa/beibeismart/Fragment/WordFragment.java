@@ -2,10 +2,7 @@ package edu.buaa.beibeismart.Fragment;
 
 
 import android.annotation.SuppressLint;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,18 +76,18 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
     private void disposeButton(){
         btnNext.setVisibility(View.VISIBLE);
         btnPre.setVisibility(View.VISIBLE);
-        if (isStart == 1){
+        if (isStartWord == 1){
             btnPre.setVisibility(View.INVISIBLE);
         }
-        if(isEnd == 1){
+        if(isEndWord == 1){
             btnNext.setVisibility(View.INVISIBLE);
         }
 
     }
 
     //记录当前数据位置
-    int isStart;
-    int isEnd;
+    int isStartWord;
+    int isEndWord;
     EnglishWordBean curEnglishWord;
     @Override
     protected void initData() {
@@ -98,12 +95,9 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
         Bundle bundle = getArguments();
         JSONObject imgUrl = new JSONObject();
         try {
-            isStart = bundle.getInt("isStart");
-            isEnd = bundle.getInt("isEnd");
-            JSONObject paramObject = new JSONObject(bundle.getString("param"));
-            curEnglishWord = new EnglishWordBean(paramObject);
-
-
+            isStartWord = bundle.getInt("isStartdWord");
+            isEndWord = bundle.getInt("isEndWord");
+            curEnglishWord = (EnglishWordBean) bundle.getSerializable("param");
 
             imgUrl.put("imgUrl",curEnglishWord.getImgPath());
 
