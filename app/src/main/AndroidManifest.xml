@@ -58,7 +58,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activity.Album_list" />
+        <activity android:name=".Activity.Album_list"
+            />
 
 
         <service

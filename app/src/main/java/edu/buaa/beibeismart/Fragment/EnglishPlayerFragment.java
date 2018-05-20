@@ -5,6 +5,7 @@ import android.icu.text.SimpleDateFormat;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,9 +16,15 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
 
+import edu.buaa.beibeismart.Activity.Album_list;
+import edu.buaa.beibeismart.Net.FileUtils;
 import edu.buaa.beibeismart.R;
 import edu.buaa.beibeismart.item_attrib;
 
@@ -26,7 +33,7 @@ import static android.media.AudioManager.STREAM_MUSIC;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EnglishPlayerFragment extends BaseFragment {
+public class EnglishPlayerFragment extends BaseFragment implements Album_list.stopMediaPlay {
 
     TextView englishplayname;
     ImageButton englishplayandpause;
@@ -70,6 +77,7 @@ public class EnglishPlayerFragment extends BaseFragment {
 
         //初始化播放器
         initPlayer();
+        Album_list.setStopMediaplay(this);
 
         //设置seekbar的用户改变音乐进度监听事件
         playingProcess.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -142,13 +150,14 @@ public class EnglishPlayerFragment extends BaseFragment {
 
     private void initPlayer() {
         //判断歌曲是否收藏并获得歌曲播放路径与信息
-
+        //downLoad("downloadPath",item.getName());
+       // String playerPath= Environment.getExternalStorageDirectory().toString() + "/voice/"+item.getName();
         //给播放器一个标题
         englishplayname.setText(musicname[0]);
 
         //初始化播放器,显示音乐总时长,设置seekbar总时长和初始值
         try {
-            mediaPlayer.setDataSource(item.getData());
+            mediaPlayer.setDataSource(item.getData());//item.getData();
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -160,8 +169,11 @@ public class EnglishPlayerFragment extends BaseFragment {
         playingProcess.setProgress(0);
         playingProcess.setMax(totalTime);
 
+        mediaPlayer.start();
+        englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
+        playtag = true;
+        refreshTime();
     }
-
 
     //定义newInstance方法在打开该播放器时获得音乐对象
     public static EnglishPlayerFragment newInstance(item_attrib item_in) {
@@ -192,15 +204,15 @@ public class EnglishPlayerFragment extends BaseFragment {
     //进度条改变时候更新时间和播放进度
     public void updateTime() {
         int time = playingProcess.getProgress()+1000;
-        if (time >= totalTime-1000) {
+        if (time >= totalTime) {
             time = 0;
             mediaPlayer.seekTo(0);
             mediaPlayer.pause();
-            playtag=false;
+            playtag = false;
             englishplayandpause.setBackgroundResource(R.mipmap.englishplay);
         }
-        playingProcess.setProgress(time);
-        playingTime_text.setText(getFormatDateTime("mm:ss", time));
+            playingProcess.setProgress(time);
+            playingTime_text.setText(getFormatDateTime("mm:ss", time));
 
     }
 
@@ -209,7 +221,7 @@ public class EnglishPlayerFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (playtag&&playingProcess.getProgress() < totalTime-1000) {
+                while (playtag&&playingProcess.getProgress() < totalTime) {
 
                     hangler.post(new Runnable() {
                         @Override
@@ -222,6 +234,46 @@ public class EnglishPlayerFragment extends BaseFragment {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                }
+            }
+        }).start();
+    }
+
+    public  void stopPlay(){
+        mediaPlayer.stop();
+    }
+
+    //从服务器下载歌曲,图片
+    public void downLoad(final String path, final String FileName) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(path);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setReadTimeout(5000);
+                    con.setConnectTimeout(5000);
+                    con.setRequestProperty("Charset", "UTF-8");
+                    con.setRequestMethod("GET");
+                    if (con.getResponseCode() == 200) {
+                        InputStream is = con.getInputStream();//获取输入流
+                        FileOutputStream fileOutputStream = null;//文件输出流
+                        if (is != null) {
+                            FileUtils fileUtils = new FileUtils();
+                            fileOutputStream = new FileOutputStream(fileUtils.createFile(FileName));//指定文件保存路径
+                            byte[] buf = new byte[1024];
+                            int ch;
+                            while ((ch = is.read(buf)) != -1) {
+                                fileOutputStream.write(buf, 0, ch);//将获取到的流写入文件中
+                            }
+                        }
+                        if (fileOutputStream != null) {
+                            fileOutputStream.flush();
+                            fileOutputStream.close();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
