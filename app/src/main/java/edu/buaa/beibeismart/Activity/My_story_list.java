@@ -19,7 +19,6 @@ public class My_story_list extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story_list);
-
         setListener();
 
     }
