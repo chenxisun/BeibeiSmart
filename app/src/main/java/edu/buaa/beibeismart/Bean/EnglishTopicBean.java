@@ -13,6 +13,23 @@ public class EnglishTopicBean {
     long updateTime;
     String content;
     int size;
+
+    @Override
+    public String toString() {
+        return "EnglishTopicBean{" +
+                "id=" + id +
+                ", version=" + version +
+                ", deleted=" + deleted +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", content='" + content + '\'' +
+                ", size=" + size +
+                ", englishVoicePath='" + englishVoicePath + '\'' +
+                ", chineseVoicePath='" + chineseVoicePath + '\'' +
+                ", img1Path='" + img1Path + '\'' +
+                '}';
+    }
+
     String englishVoicePath;
     String chineseVoicePath;
     String img1Path;

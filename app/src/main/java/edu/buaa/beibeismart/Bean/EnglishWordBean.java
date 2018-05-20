@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class EnglishWordBean {
+import java.io.Serializable;
+
+public class EnglishWordBean implements Serializable {
     int id;
     int version;
     int deleted;
@@ -18,6 +20,26 @@ public class EnglishWordBean {
     String chineseContent;
     String englishVoicePath;
     String chineseVoicePath;
+
+    @Override
+    public String toString() {
+        return "EnglishWordBean{" +
+                "id=" + id +
+                ", version=" + version +
+                ", deleted=" + deleted +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", topicId=" + topicId +
+                ", topicName='" + topicName + '\'' +
+                ", wordId=" + wordId +
+                ", englishContent='" + englishContent + '\'' +
+                ", chineseContent='" + chineseContent + '\'' +
+                ", englishVoicePath='" + englishVoicePath + '\'' +
+                ", chineseVoicePath='" + chineseVoicePath + '\'' +
+                ", imgPath='" + imgPath + '\'' +
+                '}';
+    }
+
     String imgPath;
 
     public EnglishWordBean(JSONObject jsonObject) {

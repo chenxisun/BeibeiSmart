@@ -2,16 +2,8 @@ package edu.buaa.beibeismart.Activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,17 +13,21 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import java.io.File;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.*;
+import android.widget.Toast;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.buaa.beibeismart.Adapter.CatalogAdapter;
 import edu.buaa.beibeismart.Interface.OnRecyclerViewItemClickListener;
-
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.Toast;
 
 import edu.buaa.beibeismart.R;
 import edu.buaa.beibeismart.View.DividerItemLineDecoration;
@@ -45,6 +41,7 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    //    super.setIntegerProperty("splashscreen", R.drawable.wandapad_splash);
 
 
         PermisionUtils.verifyStoragePermissions(this);
@@ -57,61 +54,8 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
 
         initView();
         startService(new Intent(this, RecordBackground.class));
-
     }
 
-    private void complete(Context context,final long id) {
-        final DownloadManager  downloadManager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
-        //监视下载进度
-        IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-
-        BroadcastReceiver receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                // TODO 自动生成的方法存根
-                long reference = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-                if (id == reference) {
-                    //对下载的文件进行一些操作
-                    DownloadManager.Query myDownloadQuery = new DownloadManager.Query();    //查询器查询下载请求的状态，进度和详细信息
-                    myDownloadQuery.setFilterById(reference);  //传入下载进程的id
-                    //myDownloadQuery.setFilterByStatus(DownloadManager.STATUS_PAUSED); //使用setFilterByStatue过滤下载状态,被暂停的下载
-                    Cursor myDownload = downloadManager.query(myDownloadQuery);   //获取查询的数据结果，Cursor是一种数据结构
-                    //查询结果中的第一个。可以while(myDownload.moveToNext())遍历结果
-                    if (myDownload.moveToFirst()) {
-                        int fileNameIdx = myDownload.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME);  //文件名称，
-                        int fileUriIdx = myDownload.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);   //下载地址
-//                      int reasonIdx = myDownload.getColumnIndex(DownloadManager.COLUMN_REASON);   //暂停原因
-//                      int titleIdx = myDownload.getColumnIndex(DownloadManager.COLUMN_TITLE);  //下载标题
-//                      int fileSizeIdx = myDownload.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES);   //文件总大小
-//                      int bytesDLIdx = myDownload.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR);   //剩余下载大小
-
-                        String fileName = myDownload.getString(fileNameIdx);
-                        String fileUri = myDownload.getString(fileUriIdx);
-//                      String title = myDownload.getString(titleIdx);
-//                      int fileSize = myDownload.getInt(fileSizeIdx);
-//                      int bytesDL = myDownload.getInt(bytesDLIdx);
-//                      int reason = myDownload.getInt(reasonIdx);  // 将暂停原因转化为友好的文本
-//                        String reasonString = "Unknown";
-//                        switch (reason) {
-//                              case DownloadManager.PAUSED_QUEUED_FOR_WIFI :
-//                                reasonString = "Waiting for WiFi"; break;
-//                              case DownloadManager.PAUSED_WAITING_FOR_NETWORK :
-//                                reasonString = "Waiting for connectivity"; break;
-//                              case DownloadManager.PAUSED_WAITING_TO_RETRY :
-//                                reasonString = "Waiting to retry"; break;
-//                              default : break;
-//                        }
-                        //对文件进行一些操作
-                        Log.d("网络操作", fileName + " : " + fileUri);
-                    }
-                    myDownload.close();  //关闭结果
-
-                }
-            }
-        };
-
-        ((Activity)context).registerReceiver(receiver, filter);
-    }
     @Override
     protected void initView() {
         setContentView(R.layout.activity_main);
@@ -145,12 +89,12 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
 
         Map mapEng = new HashMap();
         mapEng.put("catalogId","wordLearning");
-        mapEng.put("catalog","英语学习");
+        mapEng.put("catalog","单词学习");
         mapEng.put("img",R.drawable.catalog_words_128);
 
         Map mapDownload = new HashMap();
         mapDownload.put("catalogId","download");
-        mapDownload.put("catalog","在线下载");
+        mapDownload.put("catalog","下载");
         mapDownload.put("img",R.drawable.catalog_download_128);
 
         dataList.add(mapMusic);
@@ -158,6 +102,7 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
         dataList.add(mapBio);
         dataList.add(mapEng);
         dataList.add(mapDownload);
+
     }
 
     @Override
@@ -178,7 +123,6 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
                 startActivity(new Intent(My_story_list.Action));
                 break;
             case "baike":
-
                 intent = new Intent(MainActivity.this,BaikeActivity.class);
                 startActivity(intent);
                 break;
