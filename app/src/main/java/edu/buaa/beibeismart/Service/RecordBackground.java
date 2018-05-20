@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.iflytek.cloud.ErrorCode;
@@ -23,10 +22,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import edu.buaa.beibeismart.Activity.Album_list;
 
+import edu.buaa.beibeismart.Media.OnlineMediaPlayer;
+import edu.buaa.beibeismart.requestClient;
 
 public class RecordBackground extends Service {
 
@@ -36,23 +35,38 @@ public class RecordBackground extends Service {
     //语音合成对象
     private SpeechSynthesizer speaker;
 
+    OnlineMediaPlayer onlineMediaPlayer;
+
     //识别出来的句子
-    StringBuilder sentence = null ;
+    StringBuilder sentence = null;
+    static String requestRes = "";
+    String isSleep = "false";
+    String waitNext = "false";
+    String voiceInput = "";
+    String voicePath = "";
+    String command = "0";
+    String content = "";
 
-    //麦克风按钮
-    Button startRecord;
 
-    //听写监听器
-    private RecognizerListener recognizerListener = new RecognizerListener(){
+    public void playmusic() {
+        finishActivityListener.finishActivity();
+        Intent intent = new Intent(this, Album_list.class);
+        intent.putExtra("title", "所有音乐");
+        intent.putExtra("id", 2);
+        startActivity(intent);
+    }
+
+    private RecognizerListener recognizerListener = new RecognizerListener() {
         @Override
         public void onVolumeChanged(int i, byte[] bytes) {
         }
+
         /**
          * 开始录音
          */
         @Override
         public void onBeginOfSpeech() {
-            Toast.makeText(getApplicationContext(),"开始录音",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "开始录音", Toast.LENGTH_SHORT).show();
         }
 
         /**
@@ -60,37 +74,12 @@ public class RecordBackground extends Service {
          */
         @Override
         public void onEndOfSpeech() {
-
             //结束录音后，根据识别出来的句子，通过语音合成进行反馈
-
-            Toast.makeText(getApplicationContext(),"结束录音",Toast.LENGTH_SHORT).show();
-
-//            if( sentence.indexOf("晚上好") != -1){
-//                speaker.startSpeaking("晚上好",synthesizerListener);
-//            }
-//            else if( sentence.indexOf("你好") != -1 ){
-//                speaker.startSpeaking("你好",synthesizerListener);
-//            }
-//            else if( sentence.indexOf("现在几点") != -1){
-//                //获取本地时间
-//                Date date=new Date();
-//                DateFormat format=new SimpleDateFormat("HH:mm:ss");
-//                String time= format.format(date);
-//                //提取时，分，秒
-//                String[] timeArray = time.split(":");
-//                String hour = timeArray[0];
-//                String minute = timeArray[1];
-//                String seconds = timeArray[2];
-//
-//                speaker.startSpeaking("现在是北京时间"+hour+"时"+minute+"分"+seconds+"秒",synthesizerListener);
-//
-//            }else if( sentence.indexOf("你是男的还是女的") != -1 ){
-//                speaker.startSpeaking("难道你听不出来吗",synthesizerListener);
-//            }else {
-//                speaker.startSpeaking("我听不懂你在说什么",synthesizerListener);
-//            }
+            Toast.makeText(getApplicationContext(), "结束录音", Toast.LENGTH_SHORT).show();
             recognizer.startListening(recognizerListener);
         }
+
+
         /**
          * 听写结果回调接口 , 返回Json格式结果
          * @param recognizerResult  json结果对象
@@ -105,22 +94,56 @@ public class RecordBackground extends Service {
                 JSONArray words = jsonObject.getJSONArray("ws");
                 //拼成句子
                 sentence = new StringBuilder("");
-                for( int i = 0 ; i < words.length() ; i ++ ){
+                for (int i = 0; i < words.length(); i++) {
                     JSONObject word = words.getJSONObject(i);
                     JSONArray subArray = word.getJSONArray("cw");
                     JSONObject subWord = subArray.getJSONObject(0);
                     String character = subWord.getString("w");
                     sentence.append(character);
                 }
+
                 //打印
                 Log.e("TAG", sentence.toString());
 
-                /*new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        speaker.startSpeaking(sentence.toString(),synthesizerListener);
+                voiceInput = sentence.toString();
+                if (voiceInput != null) {
+                    String url = String.format("http://47.94.165.157:8080/voice/get?isSleep=%s&waitNext=%s&voiceInput=%s", isSleep, waitNext, voiceInput);
+                    Log.e("url", url);
+                    new requestClient().get(getApplicationContext(), url);
+                    Log.e("callback3", requestRes);
+
+
+                    try {
+                        Log.e("res", requestRes);
+                        JSONObject jobject = new JSONObject(requestRes);
+                        if (jobject.getString("needWaitNext") == "YES") {
+                            waitNext = "true";
+                        } else if (jobject.getString("needWaitNext") == "NO") {
+                            waitNext = "false";
+                        }
+                        voicePath = jobject.getString("voicePath");
+                        command = jobject.getString("command");
+                        content = jobject.getString("content");
+                        String Musicurl = jobject.getString("voicePath");
+                        onlineMediaPlayer.play(Musicurl);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }).start();*/
+                }
+
+
+//                playmusic();
+
+//                startActivity(new Intent(getBaseContext(), MainActivity.class));
+
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        speaker.startSpeaking(sentence.toString(),synthesizerListener);
+//                    }
+//                }).start();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -134,6 +157,7 @@ public class RecordBackground extends Service {
         public void onError(SpeechError speechError) {
 
         }
+
 
         /**
          * 扩展用接口
@@ -152,6 +176,7 @@ public class RecordBackground extends Service {
         public void onSpeakBegin() {
 
         }
+
         /**
          * 缓冲进度回调
          */
@@ -159,6 +184,7 @@ public class RecordBackground extends Service {
         public void onBufferProgress(int i, int i1, int i2, String s) {
 
         }
+
         /**
          * 暂停播放
          */
@@ -166,6 +192,7 @@ public class RecordBackground extends Service {
         public void onSpeakPaused() {
 
         }
+
         /**
          * 恢复播放回调接口
          */
@@ -181,6 +208,7 @@ public class RecordBackground extends Service {
         public void onSpeakProgress(int i, int i1, int i2) {
 
         }
+
         /**
          * 会话结束回调接口，没有错误时，error为null
          */
@@ -205,7 +233,7 @@ public class RecordBackground extends Service {
         public void onInit(int code) {
             Log.d("TAG", "SpeechRecognizer init() code = " + code);
             if (code != ErrorCode.SUCCESS) {
-                Toast.makeText(getApplicationContext(),"初始化失败，错误码：" + code, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "初始化失败，错误码：" + code, Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -213,12 +241,13 @@ public class RecordBackground extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5abcd50a");
+        onlineMediaPlayer = OnlineMediaPlayer.getInstance();
+        SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5abcd50a");
         //获取录音按钮视图
 
         //初始化语音对象
-        recognizer = SpeechRecognizer.createRecognizer(this,mInitListener);
-        speaker = SpeechSynthesizer.createSynthesizer(this,mInitListener);
+        recognizer = SpeechRecognizer.createRecognizer(this, mInitListener);
+        speaker = SpeechSynthesizer.createSynthesizer(this, mInitListener);
 
         //设置听写参数
         recognizer.setParameter(SpeechConstant.DOMAIN, "iat");
@@ -231,13 +260,15 @@ public class RecordBackground extends Service {
         recognizer.setParameter(SpeechConstant.VAD_BOS, "8000");
 
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
-        recognizer.setParameter(SpeechConstant.VAD_EOS, "2000");
+        recognizer.setParameter(SpeechConstant.VAD_EOS, "1000");
 
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
         recognizer.setParameter(SpeechConstant.ASR_PTT, "1");
 
+        recognizer.setParameter(SpeechConstant.ASR_PTT, "0");
+
         //设置发音人
-        speaker.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan");
+        speaker.setParameter(SpeechConstant.VOICE_NAME, "nannan");
         //设置语速
         speaker.setParameter(SpeechConstant.SPEED, "30");
         //设置音量，范围0~100
@@ -251,9 +282,10 @@ public class RecordBackground extends Service {
         // 设置播放合成音频打断音乐播放，默认为true
         speaker.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "true");
         // 设置音频保存路径，需要申请WRITE_EXTERNAL_STORAGE权限，如不需保存注释该行代码
-        speaker.setParameter(SpeechConstant.TTS_AUDIO_PATH,"./sdcard/iflytek.pcm");
+        speaker.setParameter(SpeechConstant.TTS_AUDIO_PATH, "./sdcard/iflytek.pcm");
 
         recognizer.startListening(recognizerListener);
+
 
     }
 
@@ -269,5 +301,31 @@ public class RecordBackground extends Service {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    private static FinishActivityListener finishActivityListener;
+
+    public static void setFinishActivityListener(FinishActivityListener iFinishActivityListener) {
+        finishActivityListener = iFinishActivityListener;
+    }
+
+    public interface FinishActivityListener {
+        void finishActivity();
+    }
+
+    private static CallBackInterface callBackInterface;
+
+    public static void callback(String request) {
+        requestRes = request;
+    }
+
+    public interface CallBackInterface {
+        /**
+         * 这是一个回调函数，用于回答者B知道答案后给提问者A回电话，并告知提问者A答案是什么
+         * 这个回电话的方式callBack是提问者A确定的，所以这个方法的实现类是A类
+         * 这个回电话的内容result是回答者B提供的，所以这个变量的值是在B类中确定的
+         */
+        void callback(String result);
+    }
+
 
 }
