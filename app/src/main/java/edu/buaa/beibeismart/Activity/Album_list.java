@@ -76,6 +76,10 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
         findViewById(R.id.back_btn_album_list).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(title.endsWith("故事")){
+                    startActivity(new Intent(My_story_list.Action));
+                }
+                else
                 startActivity(new Intent(My_Music_list.Action));
             }
         });
