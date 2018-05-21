@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white"
+    tools:context=".Activity.Baike_1_Activity">
+
+    <Button
+        android:id="@+id/btn_baike_1_return"
+        android:layout_width="@dimen/btn_width_128"
+        android:layout_height="81dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/return_black_128"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView1_1"
+        android:layout_width="508dp"
+        android:layout_height="303dp"
+        android:layout_below="@+id/btn_baike_1_return"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/bear_1"
+        tools:layout_editor_absoluteX="92dp"
+        tools:layout_editor_absoluteY="97dp" />
+
+    <ImageView
+        android:id="@+id/imageView2_1"
+        android:layout_width="511dp"
+        android:layout_height="320dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        app:srcCompat="@drawable/bear_2"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="446dp" />
+
+    <ImageView
+        android:id="@+id/imageView3_1"
+        android:layout_width="516dp"
+        android:layout_height="314dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/imageView1_1"
+        app:srcCompat="@drawable/bear_3"
+        tools:layout_editor_absoluteX="542dp"
+        tools:layout_editor_absoluteY="81dp" />
+
+    <ImageView
+        android:id="@+id/imageView4_1"
+        android:layout_width="507dp"
+        android:layout_height="307dp"
+        android:layout_alignBottom="@+id/imageView1_1"
+        android:layout_toEndOf="@+id/imageView2_1"
+        app:srcCompat="@drawable/bear_4"
+        tools:layout_editor_absoluteX="493dp"
+        tools:layout_editor_absoluteY="433dp" />
+
+</RelativeLayout>
