@@ -21,7 +21,7 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
         playUrlsList.clear();
     }
     public void stop(){
-        mediaPlayer.stop();
+        playUrlsList.removeFirst();
         mediaPlayer.release();
     }
 
@@ -57,9 +57,8 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
     }
 
     public void play(String url){
-        if (mediaPlayer == null){
-            initMediaPlayer();
-        }
+
+        initMediaPlayer();
         addPlayUrl(url);
     }
 

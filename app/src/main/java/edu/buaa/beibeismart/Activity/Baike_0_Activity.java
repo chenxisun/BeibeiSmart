@@ -48,6 +48,7 @@ public class Baike_0_Activity extends BaseActivity implements View.OnClickListen
         switch (view.getId()){
             case R.id.btn_baike_0_return:
                 onlineMediaPlayer.stop();
+                onlineMediaPlayer.clearVedioUrl();
                 intent = new Intent(this,BaikeActivity.class);
                 startActivity(intent);
                 break;

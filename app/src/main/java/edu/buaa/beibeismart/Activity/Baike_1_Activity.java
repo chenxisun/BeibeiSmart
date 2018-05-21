@@ -54,6 +54,7 @@ public class Baike_1_Activity extends BaseActivity implements View.OnClickListen
                 intent = new Intent(this,BaikeActivity.class);
                 startActivity(intent);
                 onlineMediaPlayer.stop();
+                onlineMediaPlayer.clearVedioUrl();
                 break;
             default:
                 break;
