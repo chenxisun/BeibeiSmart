@@ -58,12 +58,6 @@ public class LearnEnglishAdapter extends BaseAdapter {
         Glide.with(context).load(UrlUtil.IP_MATERIAL+ dataList.get(i).getImg1Path()).into(imageView);
         String text = dataList.get(i).getContent().trim();
         Log.e("LearnEnglishAdapter:text.length()",""+text.length());
-        if (text.length() >2){
-            textView.setTextSize(12);
-        }
-        else {
-            textView.setTextSize(16);
-        }
         textView.setText(text);
 
         return mView;

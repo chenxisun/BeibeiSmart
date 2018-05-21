@@ -38,6 +38,8 @@
     <dimen name="width_56">56dp</dimen>
     <dimen name="width_64">64dp</dimen>
     <dimen name="width_80">80dp</dimen>
+    <dimen name="width_88">88dp</dimen>
+    <dimen name="width_96">96dp</dimen>
     <dimen name="width_224">224dp</dimen>
     <dimen name="width_128">128dp</dimen>
     <dimen name="width_156">156dp</dimen>
@@ -49,6 +51,8 @@
     <dimen name="title_small">20sp</dimen>
     <dimen name="textsize_24">24sp</dimen>
     <dimen name="textsize_34">34sp</dimen>
+    <dimen name="textsize_48">48sp</dimen>
+    <dimen name="textsize_64">64sp</dimen>
     <dimen name="textsize_96">96sp</dimen>
     /*==========*/
     <!--inner notice-->
@@ -70,6 +74,7 @@
 
     <!-- Button -->
     <dimen name="btn_width_128">128dp</dimen>
+    <dimen name="btn_width_144">156dp</dimen>
     <dimen name="btn_height_128">128dp</dimen>
     <dimen name="btn_height_96">96dp</dimen>
     <dimen name="btn_height_64">64dp</dimen>
