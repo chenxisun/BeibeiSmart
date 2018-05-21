@@ -47,8 +47,9 @@ import okhttp3.Response;
 public class Album_list extends BaseActivity implements RecordBackground.FinishActivityListener {
 
     String title = "";
-    String url_music_list = "http://47.94.165.157:8080/song/list?topic=song&pageNo=0&pageSize=1000";
-    String url_english_list = "http://47.94.165.157:8080/song/list?topic=english&pageNo=0&pageSize=1000";
+    final String url_music_list = "http://47.94.165.157:8080/song/list?topic=song&pageNo=0&pageSize=1000";
+    final String url_english_list = "http://47.94.165.157:8080/song/list?topic=english&pageNo=0&pageSize=1000";
+    final String url_story_list="http://47.94.165.157:8080/story/list?topic=tory&pageNo=0&pageSize=1000";
     static String requestRes = "";
     String requestResMusicList = "";
     String requestResEnglishList = "";
@@ -56,10 +57,10 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
     private ListView album_list;
     private TextView album_title;
     private TextView test_album_list;
-    int id = 0;
+    int flag = 0;
 
     private ArrayList<item_attrib> musicitems;
-    private ArrayList<item_attrib> EnglishItems;
+    private item_attrib voice2Music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,6 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
 
                 item_attrib item = musicitems.get(i);
                 // test_album_list.setText(item.getName()+item.getData());
-
                 EnglishPlayerFragment f1 = EnglishPlayerFragment.newInstance(item);
                 FragmentTransaction Mf = getFragmentManager().beginTransaction();
                 Mf.replace(R.id.Player, f1);
@@ -131,7 +131,16 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
 
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
-        id = intent.getIntExtra("id", -1);
+        if (title.equals("所有音乐")||title.equals("中文故事")){
+        flag = intent.getIntExtra("flag", 0);
+        if(flag==-1){item_attrib item=new item_attrib();
+        item.setSize(Integer.valueOf(intent.getStringExtra("musicSize"))*1000);
+        item.setName(intent.getStringExtra("musicName"));
+        item.setDuration(Integer.valueOf(intent.getStringExtra("musicDuration"))*1000);
+        item.setData(intent.getStringExtra("musicData"));
+        voice2Music=item;}
+
+        }
     }
 
     private void getMusicData() {
@@ -153,6 +162,17 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
                 requestResEnglishList = requestRes;
                 extractMusicList(requestResEnglishList);
                 break;
+            case"中文故事":
+                getRemoteData(url_story_list);
+                requestResEnglishList = requestRes;
+                extractMusicList(requestResEnglishList);
+                break;
+        }
+        if(flag==-1){
+            EnglishPlayerFragment f1 = EnglishPlayerFragment.newInstance(voice2Music);
+            FragmentTransaction Mf = getFragmentManager().beginTransaction();
+            Mf.replace(R.id.Player, f1);
+            Mf.commit();
         }
     }
 
@@ -184,20 +204,19 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
             for (int i = 0; i < jarray.length(); i++) {
                 item_attrib item_music = new item_attrib();
                 JSONObject item = jarray.getJSONObject(i);
-                int id = item.getInt("createTime");
-                item_music.setDuration(id);
                 String name = item.getString("name");
-                item_music.setName(name);
-                int time = item.getInt("updateTime");
-                item_music.setSize(time);         //需要更改
                 String path = item.getString("voicePath");
+                int duration = Integer.valueOf(item.getString("timeLength")) *1000;
+                int size =Integer.valueOf(item.getInt("size"))*1000 ;
+                item_music.setName(name);
+                item_music.setDuration(duration);
+                item_music.setSize(size);         //需要更改
                 item_music.setData(path);
                 musicitems.add(item_music);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
     }
 
