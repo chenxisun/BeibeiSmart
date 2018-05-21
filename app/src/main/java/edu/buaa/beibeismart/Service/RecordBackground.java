@@ -418,12 +418,12 @@ public class RecordBackground extends Service {
 
     public static void speakContent(final String content){
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
                 speaker.startSpeaking(content, synthesizerListener);
-            }
-        }).start();
+//            }
+//        }).start();
     }
     public static  boolean isPlaying(){
         return speaker.isSpeaking();
