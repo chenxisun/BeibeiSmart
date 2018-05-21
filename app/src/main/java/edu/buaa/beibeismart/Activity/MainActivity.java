@@ -51,7 +51,6 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
             ActivityCompat.requestPermissions(this,new String[]{
                     android.Manifest.permission.RECORD_AUDIO},1);
         }
-
         initView();
         startService(new Intent(this, RecordBackground.class));
     }

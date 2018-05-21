@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.widget.Toast;
 
 import com.iflytek.cloud.ErrorCode;
@@ -22,10 +23,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import edu.buaa.beibeismart.Activity.Album_list;
 
 import edu.buaa.beibeismart.Media.OnlineMediaPlayer;
 import edu.buaa.beibeismart.requestClient;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class RecordBackground extends Service {
 
@@ -33,28 +40,40 @@ public class RecordBackground extends Service {
     private SpeechRecognizer recognizer;
 
     //语音合成对象
-    private SpeechSynthesizer speaker;
+    private static SpeechSynthesizer speaker;
 
     OnlineMediaPlayer onlineMediaPlayer;
+
+    requestClient requestCli=new requestClient();
 
     //识别出来的句子
     StringBuilder sentence = null;
     static String requestRes = "";
-    String isSleep = "false";
-    String waitNext = "false";
+    static String isSleep = "false";
+    static String waitNext = "false";
     String voiceInput = "";
-    String voicePath = "";
-    String command = "0";
-    String content = "";
+//    String voicePath = "";
+//    String command = "0";
+//    String content = "";
+//    String musicDuration="";
+//    String musicSize="";
+//    String musicData="";
+//    String musicName="";
 
-
-    public void playmusic() {
-        finishActivityListener.finishActivity();
-        Intent intent = new Intent(this, Album_list.class);
-        intent.putExtra("title", "所有音乐");
-        intent.putExtra("id", 2);
-        startActivity(intent);
-    }
+//    public void playmusic(boolean flag) {
+//        finishActivityListener.finishActivity();
+//
+//        Intent intent = new Intent(this, Album_list.class);
+//        if (flag)
+//        {intent.putExtra("title", "所有音乐");}
+//        else{intent.putExtra("title", "中文故事");}
+//        intent.putExtra("flag",-1);
+//        intent.putExtra("musicDuration", musicDuration);
+//        intent.putExtra("musicData",musicData);
+//        intent.putExtra("musicName",musicName);
+//        intent.putExtra("musicSize",musicSize);
+//        startActivity(intent);
+//    }
 
     private RecognizerListener recognizerListener = new RecognizerListener() {
         @Override
@@ -76,9 +95,42 @@ public class RecordBackground extends Service {
         public void onEndOfSpeech() {
             //结束录音后，根据识别出来的句子，通过语音合成进行反馈
             Toast.makeText(getApplicationContext(), "结束录音", Toast.LENGTH_SHORT).show();
-            recognizer.startListening(recognizerListener);
+//            try {
+//                TimeUnit.SECONDS.sleep(2);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+            if(recognizer.isListening()) {
+                recognizer.stopListening();
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                recognizer.startListening(recognizerListener);
+            }
         }
 
+
+        private void getRemoteData(final String url) {
+            new Thread() {
+                @Override
+                public void run() {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url(url)
+                            .get().build();
+                    try {
+                        Response response = client.newCall(request).execute();
+                        requestRes = response.body().string();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }.start();
+        }
 
         /**
          * 听写结果回调接口 , 返回Json格式结果
@@ -106,35 +158,73 @@ public class RecordBackground extends Service {
                 Log.e("TAG", sentence.toString());
 
                 voiceInput = sentence.toString();
-                if (voiceInput != null) {
-                    String url = String.format("http://47.94.165.157:8080/voice/get?isSleep=%s&waitNext=%s&voiceInput=%s", isSleep, waitNext, voiceInput);
-                    Log.e("url", url);
-                    new requestClient().get(getApplicationContext(), url);
-                    Log.e("callback3", requestRes);
+                if (voiceInput.length()>0) {
+
+//                    String url = String.format("http://47.94.165.157:8080/voice/get?isSleep=%s&waitNext=%s&voiceInput=%s", isSleep, waitNext, voiceInput);
+//                    Log.e("url", url);
+                    if (!isPlaying())
+                    requestCli.get(getApplicationContext(), voiceInput);
+//                    getRemoteData(url);
+//                    Log.e("callback3", requestRes);
+                }
+
+//                    try {
+//                        JSONObject jobject = new JSONObject(requestRes);
+//                        if (jobject.getString("needWaitNext").equals("YES")) {
+//                            waitNext = "true";
+//                        } else if (jobject.getString("needWaitNext").equals("NO")) {
+//                            waitNext = "false";
+//                        }
+//                        command = jobject.getString("command");
+//
+//                        switch (command) {
+//                            case "-21":
+//                                isSleep = "true";
+//                                break;
+//                            case "-22":
+//                            case "-11":
+//                                isSleep = "false";
+//                                voicePath = jobject.getString("voicePath");
+//                                onlineMediaPlayer.play(voicePath);
+//                                break;
+//                            case "-8":
+//                            case "-7":
+//                                content = jobject.getString("content");
+//                                new Thread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        speaker.startSpeaking(content, synthesizerListener);
+//                                    }
+//                                }).start();
+//                            case "-12":
+//                                musicDuration = jobject.getString("forFangSheng_time");
+//                                musicData=jobject.getString("voicePath");
+//                                musicSize=jobject.getString("forFangSheng_size");
+//                                musicName="";
+//                                if (waitNext.equals("NO")){
+//                                playmusic(true);}
+//                            case "-13":
+//                                musicDuration = jobject.getString("forFangSheng_time");
+//                                musicData=jobject.getString("voicePath");
+//                                musicSize=jobject.getString("forFangSheng_size");
+//                                musicName="";
+//                                if (waitNext.equals("NO")){
+//                                playmusic(false);}
+//                            case "-5":
+//                                try{
+//                                playmusic(false);}
+//                                catch(Exception e){
+//                                }
 
 
-                    try {
-                        Log.e("res", requestRes);
-                        JSONObject jobject = new JSONObject(requestRes);
-                        if (jobject.getString("needWaitNext") == "YES") {
-                            waitNext = "true";
-                        } else if (jobject.getString("needWaitNext") == "NO") {
-                            waitNext = "false";
-                        }
-                        voicePath = jobject.getString("voicePath");
-                        command = jobject.getString("command");
-                        content = jobject.getString("content");
-                        String Musicurl = jobject.getString("voicePath");
-                        onlineMediaPlayer.play(Musicurl);
+//                        }
 
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
+//                }
 
-
-//                playmusic();
 
 //                startActivity(new Intent(getBaseContext(), MainActivity.class));
 
@@ -144,9 +234,10 @@ public class RecordBackground extends Service {
 //                        speaker.startSpeaking(sentence.toString(),synthesizerListener);
 //                    }
 //                }).start();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+
         }
 
         /**
@@ -168,7 +259,7 @@ public class RecordBackground extends Service {
     };
 
     //语音合成监听器
-    private SynthesizerListener synthesizerListener = new SynthesizerListener() {
+    private static SynthesizerListener synthesizerListener = new SynthesizerListener() {
         /**
          * 开始播放
          */
@@ -286,7 +377,6 @@ public class RecordBackground extends Service {
 
         recognizer.startListening(recognizerListener);
 
-
     }
 
     @Override
@@ -314,8 +404,29 @@ public class RecordBackground extends Service {
 
     private static CallBackInterface callBackInterface;
 
-    public static void callback(String request) {
-        requestRes = request;
+//    public static void callback(String request) {
+//        requestRes = request;
+//        new Thread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    speaker.startSpeaking(requestRes, synthesizerListener);
+//                                }
+//                            }).start();
+////        isSleep=isSleepy;
+////        waitNext=waitNexty;
+//    }
+
+    public static void speakContent(final String content){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                speaker.startSpeaking(content, synthesizerListener);
+            }
+        }).start();
+    }
+    public static  boolean isPlaying(){
+        return speaker.isSpeaking();
     }
 
     public interface CallBackInterface {
