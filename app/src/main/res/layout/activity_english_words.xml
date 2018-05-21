@@ -8,7 +8,7 @@
     tools:context=".Activity.EnglishWordsActivity">
     <Button
         android:id="@+id/btn_englishwords_return"
-        android:layout_width="@dimen/btn_width_128"
+        android:layout_width="@dimen/btn_width_144"
         android:layout_height="@dimen/btn_height_81"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -17,14 +17,7 @@
 
     <edu.buaa.beibeismart.View.LFRecyclerView.LFRecyclerView
         android:id="@+id/rv_englishwords_return"
-        android:layout_width="@dimen/btn_width_128"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/btn_englishwords_return"
-        app:layout_constraintTop_toBottomOf="@+id/btn_englishwords_return"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_englishwords_return1"
-        android:layout_width="@dimen/btn_width_128"
+        android:layout_width="@dimen/btn_width_144"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/btn_englishwords_return"
@@ -32,6 +25,7 @@
 
     <FrameLayout
         android:id="@+id/fragment_activity_english_words"
+        android:layout_toRightOf="@id/rv_englishwords_return"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"

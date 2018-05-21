@@ -31,6 +31,12 @@ public class WordFragment extends BaseFragment implements View.OnClickListener {
     Button btnPre,btnNext;
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OnlineMediaPlayer.getInstance().clearVedioUrl();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 

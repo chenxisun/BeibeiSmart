@@ -4,14 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/cow1"
-    tools:context=".Activity.Baike_Dongwu_Cow_Activity">
+    tools:context=".Activity.Baike_3_Activity">
 
-    <Button
-        android:id="@+id/button_baike_cow"
-        android:layout_width="1099dp"
-        android:layout_height="716dp"
-        android:background="#00000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

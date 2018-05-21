@@ -8,15 +8,15 @@
 
     <TextView
         android:id="@+id/tv_item_recyclerview_english_word"
-        android:layout_width="@dimen/btn_width_128"
+        android:layout_width="@dimen/btn_width_144"
         android:layout_height="@dimen/btn_height_96"
-        android:textSize="@dimen/textsize_24"
+        android:textSize="@dimen/textsize_34"
         android:gravity="center"
         android:textColor="@color/light_blue_list"
         android:background="@drawable/selector_item_background_recyclerview_english_word_activity"
         android:layout_gravity="center"/>
     <View
-        android:layout_width="@dimen/btn_width_128"
+        android:layout_width="@dimen/btn_width_144"
         android:layout_height="1dp"
         android:background="@color/line_gray"/>
 </LinearLayout>

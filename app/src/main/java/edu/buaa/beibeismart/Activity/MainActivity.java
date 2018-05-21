@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
 
         Map mapDownload = new HashMap();
         mapDownload.put("catalogId","download");
-        mapDownload.put("catalog","下载");
+        mapDownload.put("catalog","在线下载");
         mapDownload.put("img",R.drawable.catalog_download_128);
 
         dataList.add(mapMusic);
@@ -114,7 +114,6 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
     @Override
     public void onItemClickListener(View view, int position) {
         String catalogId = (String) dataList.get(position).get("catalogId");
-        Log.e("MainActivity",catalogId);
         switch (catalogId){
             case "music":
                 startActivity(new Intent(My_Music_list.Action));

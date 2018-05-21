@@ -18,7 +18,7 @@
         android:layout_height="@dimen/height_64" />
     <TextView
         android:id="@+id/tv_gvi_catalog"
-        android:layout_width="fill_parent"
+        android:layout_width="@dimen/width_96"
         android:gravity="center"
         android:textColor="@color/primary_text"
         android:textSize="@dimen/textsize_24"

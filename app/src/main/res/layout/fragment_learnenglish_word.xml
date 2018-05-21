@@ -15,8 +15,8 @@
         android:layout_above="@id/view_center"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="@dimen/margin_96"
-        android:layout_width="@dimen/width_36"
-        android:layout_height="@dimen/height_36"
+        android:layout_width="@dimen/width_48"
+        android:layout_height="@dimen/height_48"
         android:background="@drawable/read"/>
 
     <TextView
@@ -45,8 +45,8 @@
         android:layout_marginTop="@dimen/margin_16"
         android:layout_below="@id/tv_introduction_english"
         android:layout_alignParentLeft="true"
-        android:layout_width="@dimen/width_36"
-        android:layout_height="@dimen/height_36"
+        android:layout_width="@dimen/width_48"
+        android:layout_height="@dimen/height_48"
         android:background="@drawable/read"/>
     <TextView
         android:id="@+id/tv_introduction_chinese"

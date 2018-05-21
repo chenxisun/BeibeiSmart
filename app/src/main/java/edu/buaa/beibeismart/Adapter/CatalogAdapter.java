@@ -36,7 +36,13 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.imageView.setImageResource((Integer) dataList.get(position).get("img"));
-        holder.textView.setText((String)dataList.get(position).get("catalog"));
+
+        String text = (String) dataList.get(position).get("catalog");
+        holder.textView.setTextSize(24);
+        if (text.trim().length() >= 3){
+            holder.textView.setTextSize(24);
+        }
+        holder.textView.setText(text);
         holder.itemView.setTag(position);
     }
 

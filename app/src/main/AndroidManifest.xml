@@ -31,14 +31,6 @@
             </intent-filter>
         </activity>
 
-
-        <receiver android:name=".BroadcastReceiver.BootBroadcastReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-
         <activity
             android:name=".Activity.My_Music_list"
             android:launchMode="singleTask">
@@ -68,9 +60,11 @@
             android:exported="true" />
 
         <activity android:name=".Activity.BaikeActivity" />
-        <activity android:name=".Activity.Baike_Dongwu_Activity" />
-        <activity android:name=".Activity.Baike_Shucai_Activity" />
-        <activity android:name=".Activity.Baike_Dongwu_Cow_Activity"></activity>
+        <activity android:name=".Activity.Baike_1_Activity" />
+        <activity android:name=".Activity.Baike_2_Activity" />
+        <activity android:name=".Activity.Baike_3_Activity" />
+        <activity android:name=".Activity.Baike_0_Activity" />
+        <activity android:name=".Activity.BAIKE_4_Activity"></activity>
     </application>
 
 </manifest>

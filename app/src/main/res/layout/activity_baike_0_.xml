@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white"
+    tools:context=".Activity.Baike_0_Activity">
+
+    <Button
+        android:id="@+id/btn_baike_0_return"
+        android:layout_width="@dimen/btn_width_128"
+        android:layout_height="81dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/return_black_128"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView1_0"
+        android:layout_width="wrap_content"
+        android:layout_height="325dp"
+        android:layout_below="@+id/btn_baike_0_return"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/alligator_3"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="81dp" />
+
+    <ImageView
+        android:id="@+id/imageView2_0"
+        android:layout_width="529dp"
+        android:layout_height="289dp"
+        android:layout_below="@+id/imageView1_0"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/alligator_1"
+        tools:layout_editor_absoluteX="394dp"
+        tools:layout_editor_absoluteY="137dp" />
+
+    <ImageView
+        android:id="@+id/imageView3_0"
+        android:layout_width="wrap_content"
+        android:layout_height="289dp"
+        android:layout_below="@+id/imageView1_0"
+        android:layout_toEndOf="@+id/imageView1_0"
+        app:srcCompat="@drawable/alligator_2"
+        tools:layout_editor_absoluteX="377dp"
+        tools:layout_editor_absoluteY="618dp" />
+
+    <ImageView
+        android:id="@+id/imageView4_0"
+        android:layout_width="492dp"
+        android:layout_height="322dp"
+        android:layout_below="@+id/btn_baike_0_return"
+        android:layout_toEndOf="@+id/imageView1_0"
+        app:srcCompat="@drawable/alligator_4"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="528dp" />
+
+</RelativeLayout>

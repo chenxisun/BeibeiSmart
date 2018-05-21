@@ -17,6 +17,14 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
 
     LinkedList<String> playUrlsList;
 
+    public void clearVedioUrl(){
+        playUrlsList.clear();
+    }
+    public void stop(){
+        mediaPlayer.stop();
+        mediaPlayer.release();
+    }
+
     private OnlineMediaPlayer() {
         initMediaPlayer();
         playUrlsList = new LinkedList();
