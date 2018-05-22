@@ -88,7 +88,6 @@ public class BaikeActivity extends BaseActivity implements View.OnClickListener,
 
     public class CityItem {
         private String cityName;
-        private String cityCode;
         private String image1Path;
         private String image2Path;
         private String image3Path;
@@ -152,14 +151,6 @@ public class BaikeActivity extends BaseActivity implements View.OnClickListener,
         public void setCityName(String cityName) {
             this.cityName = cityName;
         }
-
-        public String getCityCode() {
-            return cityCode;
-        }
-
-        public void setCityCode(String cityCode) {
-            this.cityCode = cityCode;
-        }
     }
 
     private void setData() {
@@ -171,7 +162,6 @@ public class BaikeActivity extends BaseActivity implements View.OnClickListener,
             if(i >= 2) break;
             item = new CityItem();
             item.setCityName(ts.content.get(i).name);
-            item.setCityCode("000");
             item.setVoicePath("http://47.94.165.157:8083" + ts.content.get(i).voicePath);
             item.setImage1Path("http://47.94.165.157:8083" + ts.content.get(i).img1Path);
             item.setImage2Path("http://47.94.165.157:8083" + ts.content.get(i).img2Path);

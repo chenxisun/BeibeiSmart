@@ -9,13 +9,13 @@
     tools:context=".Activity.BaikeActivity">
 
     <Button
-        android:id="@+id/btn_baike_return"
-        android:layout_width="@dimen/btn_width_128"
-        android:layout_height="81dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/return_black_128"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:id="@+id/btn_baike_return"
+    android:layout_width="@dimen/btn_width_128"
+    android:layout_height="81dp"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:background="@drawable/return_black_128"
+    app:layout_constraintTop_toTopOf="parent" />
 
 
 

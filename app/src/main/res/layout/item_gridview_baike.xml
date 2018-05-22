@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/ItemImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         ></ImageView>
 
@@ -19,15 +19,6 @@
         android:layout_gravity="center_horizontal"
         android:text="Title"
         android:textColor="#000000">
-    </TextView>
-
-    <TextView
-        android:id="@+id/tvCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Info"
-        android:textColor="#000000" >
     </TextView>
 
 </LinearLayout>

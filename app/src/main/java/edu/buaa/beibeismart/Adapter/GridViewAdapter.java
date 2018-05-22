@@ -53,7 +53,6 @@ public class GridViewAdapter extends BaseAdapter implements View.OnClickListener
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         convertView = layoutInflater.inflate(R.layout.item_gridview_baike, null);
         TextView tvCity = (TextView) convertView.findViewById(R.id.tvCity);
-        TextView tvCode = (TextView) convertView.findViewById(R.id.tvCode);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.ItemImage);
         final BaikeActivity.CityItem city = list.get(position);
 
@@ -62,7 +61,6 @@ public class GridViewAdapter extends BaseAdapter implements View.OnClickListener
         //System.out.println(city.getImagePath());
         //imageView.setImageResource(R.drawable.animal);
         tvCity.setText(city.getCityName());
-        tvCode.setText(city.getCityCode());
         final BitMapClass bmc = new BitMapClass();
 
         Runnable networkImg = new Runnable() {
