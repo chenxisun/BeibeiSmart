@@ -98,10 +98,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:paddingTop="2dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="3.3"
             android:layout_height="match_parent" />
         <ImageButton
             android:id="@+id/btn_EnglishReplay"
@@ -148,7 +149,7 @@
             android:background="@mipmap/englishplaycollection"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="3.3"
             android:layout_height="match_parent" />
     </LinearLayout>
         <TextView

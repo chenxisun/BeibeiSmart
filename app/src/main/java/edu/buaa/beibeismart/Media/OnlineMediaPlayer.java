@@ -4,6 +4,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -21,13 +22,32 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
         playUrlsList.clear();
     }
     public void stop(){
-        playUrlsList.removeFirst();
+        if(playUrlsList.size() > 0){
+            playUrlsList.removeFirst();
+        }
+        mediaPlayer.release();
+    }
+
+    public void stopAll(){
+        playUrlsList.clear();
         mediaPlayer.release();
     }
 
     private OnlineMediaPlayer() {
         initMediaPlayer();
         playUrlsList = new LinkedList();
+    }
+
+    public void PlayLocalMusic(String uri){
+        mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(uri);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static OnlineMediaPlayer getInstance(){
@@ -52,6 +72,7 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
     private void addPlayUrl(String url){
         Log.e("OnlineMediaPlayer: addPlayUrl",url);
         playUrlsList.addLast(url);
+
         Log.e("OnlineMediaPlayer: playUrlsList.size():",""+playUrlsList.size());
         if (playUrlsList.size() <= 1){
             playNet(0,playUrlsList.getFirst());
@@ -59,6 +80,7 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
     }
 
     public void play(String url){
+        Log.e("OnlineMediaPlayer",url);
         initMediaPlayer();
         addPlayUrl(url);
     }

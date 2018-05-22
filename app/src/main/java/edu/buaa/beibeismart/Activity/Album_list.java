@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.buaa.beibeismart.Fragment.EnglishPlayerFragment;
+import edu.buaa.beibeismart.Media.OnlineMediaPlayer;
 import edu.buaa.beibeismart.R;
 import edu.buaa.beibeismart.Service.RecordBackground;
 import edu.buaa.beibeismart.item_attrib;
@@ -44,7 +45,7 @@ import okhttp3.Response;
  * Created by fan on 2018/4/8.
  */
 
-public class Album_list extends BaseActivity implements RecordBackground.FinishActivityListener {
+public class Album_list extends BaseActivity implements requestClient.FinishActivityListener {
 
     String title = "";
     final String url_music_list = "http://47.94.165.157:8080/song/list?topic=song&pageNo=0&pageSize=1000";
@@ -56,7 +57,6 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
     private TextView album_list_none;
     private ListView album_list;
     private TextView album_title;
-    private TextView test_album_list;
     int flag = 0;
 
     private ArrayList<item_attrib> musicitems;
@@ -71,12 +71,16 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
         album_title.setText(title);
         verifyStoragePermissions(Album_list.this);
         getMusicData();
-
-        RecordBackground.setFinishActivityListener(this);
+        try{
+        requestClient.setFinishActivityListener(this);}
+        finally {
+            Log.e("finish","sucess");
+        }
 
         findViewById(R.id.back_btn_album_list).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                OnlineMediaPlayer.getInstance().stop();
                 if(title.endsWith("故事")){
                     startActivity(new Intent(My_story_list.Action));
                 }
@@ -90,7 +94,7 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
         album_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+//                EnglishPlayerFragment.stopMediaPlaying();
                 item_attrib item = musicitems.get(i);
                 // test_album_list.setText(item.getName()+item.getData());
                 EnglishPlayerFragment f1 = EnglishPlayerFragment.newInstance(item);
@@ -169,6 +173,7 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
                 break;
         }
         if(flag==-1){
+
             EnglishPlayerFragment f1 = EnglishPlayerFragment.newInstance(voice2Music);
             FragmentTransaction Mf = getFragmentManager().beginTransaction();
             Mf.replace(R.id.Player, f1);
@@ -276,6 +281,7 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
         }.start();
     }
 
+
     public static void callback(String request) {
         requestRes = request;
     }
@@ -292,9 +298,11 @@ public class Album_list extends BaseActivity implements RecordBackground.FinishA
     }
 
     private stopMediaPlay stopMediaPlay;
+
     public static void setStopMediaplay(stopMediaPlay stopMediaPlay){
         Log.e("info","shut down music play.");
     }
+
     public interface stopMediaPlay{
         void stopPlay();
     }

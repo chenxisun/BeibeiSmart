@@ -3,9 +3,9 @@ package edu.buaa.beibeismart.Service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
-import android.util.TimeUtils;
 import android.widget.Toast;
 
 import com.iflytek.cloud.ErrorCode;
@@ -23,10 +23,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import edu.buaa.beibeismart.Activity.Album_list;
+
+import javax.security.auth.callback.Callback;
 
 import edu.buaa.beibeismart.Media.OnlineMediaPlayer;
 import edu.buaa.beibeismart.requestClient;
@@ -44,7 +46,7 @@ public class RecordBackground extends Service {
 
     OnlineMediaPlayer onlineMediaPlayer;
 
-    requestClient requestCli=new requestClient();
+    requestClient requestCli = new requestClient();
 
     //识别出来的句子
     StringBuilder sentence = null;
@@ -95,41 +97,15 @@ public class RecordBackground extends Service {
         public void onEndOfSpeech() {
             //结束录音后，根据识别出来的句子，通过语音合成进行反馈
             Toast.makeText(getApplicationContext(), "结束录音", Toast.LENGTH_SHORT).show();
-//            try {
-//                TimeUnit.SECONDS.sleep(2);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-            if(recognizer.isListening()) {
-                recognizer.stopListening();
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//            if (recognizer.isListening()) {
+//                recognizer.stopListening();
+//                try {
+//                    TimeUnit.SECONDS.sleep(1);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
                 recognizer.startListening(recognizerListener);
-            }
-        }
-
-
-        private void getRemoteData(final String url) {
-            new Thread() {
-                @Override
-                public void run() {
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder()
-                            .url(url)
-                            .get().build();
-                    try {
-                        Response response = client.newCall(request).execute();
-                        requestRes = response.body().string();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }.start();
+//            }
         }
 
         /**
@@ -158,85 +134,16 @@ public class RecordBackground extends Service {
                 Log.e("TAG", sentence.toString());
 
                 voiceInput = sentence.toString();
-                if (voiceInput.length()>0) {
+                if (voiceInput.length() > 0) {
 
-//                    String url = String.format("http://47.94.165.157:8080/voice/get?isSleep=%s&waitNext=%s&voiceInput=%s", isSleep, waitNext, voiceInput);
-//                    Log.e("url", url);
                     if (!isPlaying())
-                    requestCli.get(getApplicationContext(), voiceInput);
-//                    getRemoteData(url);
-//                    Log.e("callback3", requestRes);
+                        requestCli.get(getApplicationContext(), voiceInput);
+
+
                 }
-
-//                    try {
-//                        JSONObject jobject = new JSONObject(requestRes);
-//                        if (jobject.getString("needWaitNext").equals("YES")) {
-//                            waitNext = "true";
-//                        } else if (jobject.getString("needWaitNext").equals("NO")) {
-//                            waitNext = "false";
-//                        }
-//                        command = jobject.getString("command");
-//
-//                        switch (command) {
-//                            case "-21":
-//                                isSleep = "true";
-//                                break;
-//                            case "-22":
-//                            case "-11":
-//                                isSleep = "false";
-//                                voicePath = jobject.getString("voicePath");
-//                                onlineMediaPlayer.play(voicePath);
-//                                break;
-//                            case "-8":
-//                            case "-7":
-//                                content = jobject.getString("content");
-//                                new Thread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        speaker.startSpeaking(content, synthesizerListener);
-//                                    }
-//                                }).start();
-//                            case "-12":
-//                                musicDuration = jobject.getString("forFangSheng_time");
-//                                musicData=jobject.getString("voicePath");
-//                                musicSize=jobject.getString("forFangSheng_size");
-//                                musicName="";
-//                                if (waitNext.equals("NO")){
-//                                playmusic(true);}
-//                            case "-13":
-//                                musicDuration = jobject.getString("forFangSheng_time");
-//                                musicData=jobject.getString("voicePath");
-//                                musicSize=jobject.getString("forFangSheng_size");
-//                                musicName="";
-//                                if (waitNext.equals("NO")){
-//                                playmusic(false);}
-//                            case "-5":
-//                                try{
-//                                playmusic(false);}
-//                                catch(Exception e){
-//                                }
-
-
-//                        }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-//                }
-
-
-//                startActivity(new Intent(getBaseContext(), MainActivity.class));
-
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        speaker.startSpeaking(sentence.toString(),synthesizerListener);
-//                    }
-//                }).start();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
 
@@ -258,14 +165,16 @@ public class RecordBackground extends Service {
         }
     };
 
+
     //语音合成监听器
     private static SynthesizerListener synthesizerListener = new SynthesizerListener() {
+
         /**
          * 开始播放
          */
         @Override
         public void onSpeakBegin() {
-
+            Log.e("RecordBackground","onSpeakBegin");
         }
 
         /**
@@ -273,6 +182,7 @@ public class RecordBackground extends Service {
          */
         @Override
         public void onBufferProgress(int i, int i1, int i2, String s) {
+            Log.e("RecordBackground","onBufferProgress");
 
         }
 
@@ -281,6 +191,7 @@ public class RecordBackground extends Service {
          */
         @Override
         public void onSpeakPaused() {
+            Log.e("RecordBackground","onSpeakPaused");
 
         }
 
@@ -289,6 +200,7 @@ public class RecordBackground extends Service {
          */
         @Override
         public void onSpeakResumed() {
+            Log.e("RecordBackground","onSpeakResumed");
 
         }
 
@@ -297,6 +209,7 @@ public class RecordBackground extends Service {
          */
         @Override
         public void onSpeakProgress(int i, int i1, int i2) {
+            Log.e("RecordBackground","onSpeakProgress");
 
         }
 
@@ -305,6 +218,7 @@ public class RecordBackground extends Service {
          */
         @Override
         public void onCompleted(SpeechError speechError) {
+            Log.e("RecordBackground","onCompleted");
 
         }
 
@@ -313,6 +227,7 @@ public class RecordBackground extends Service {
          */
         @Override
         public void onEvent(int i, int i1, int i2, Bundle bundle) {
+            Log.e("RecordBackground","onEvent");
 
         }
     };
@@ -332,13 +247,12 @@ public class RecordBackground extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        onlineMediaPlayer = OnlineMediaPlayer.getInstance();
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5abcd50a");
         //获取录音按钮视图
 
         //初始化语音对象
         recognizer = SpeechRecognizer.createRecognizer(this, mInitListener);
-        speaker = SpeechSynthesizer.createSynthesizer(this, mInitListener);
+
 
         //设置听写参数
         recognizer.setParameter(SpeechConstant.DOMAIN, "iat");
@@ -357,11 +271,12 @@ public class RecordBackground extends Service {
         recognizer.setParameter(SpeechConstant.ASR_PTT, "1");
 
         recognizer.setParameter(SpeechConstant.ASR_PTT, "0");
-
+        // create the synthesizer.
+        speaker = SpeechSynthesizer.createSynthesizer(this, mInitListener);
         //设置发音人
         speaker.setParameter(SpeechConstant.VOICE_NAME, "nannan");
         //设置语速
-        speaker.setParameter(SpeechConstant.SPEED, "30");
+        speaker.setParameter(SpeechConstant.SPEED, "60");
         //设置音量，范围0~100
         speaker.setParameter(SpeechConstant.VOLUME, "200");
         //设置云端
@@ -372,16 +287,24 @@ public class RecordBackground extends Service {
         speaker.setParameter(SpeechConstant.STREAM_TYPE, "3");
         // 设置播放合成音频打断音乐播放，默认为true
         speaker.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "true");
-        // 设置音频保存路径，需要申请WRITE_EXTERNAL_STORAGE权限，如不需保存注释该行代码
-        speaker.setParameter(SpeechConstant.TTS_AUDIO_PATH, "./sdcard/iflytek.pcm");
 
+        speaker.setParameter(SpeechConstant.AUDIO_FORMAT,"wav");
+        speaker.setParameter(SpeechConstant.TTS_AUDIO_PATH, Environment.getExternalStorageDirectory() +"/msc/tts.wav");
+
+        // 设置音频保存路径，需要申请WRITE_EXTERNAL_STORAGE权限，如不需保存注释该行代码
+//        speaker.setParameter(SpeechConstant.TTS_AUDIO_PATH, "./sdcard/iflytek.pcm");
         recognizer.startListening(recognizerListener);
+
+    }
+    public void speak(String text) {
+
+
+        Log.e("==========","=========语音播放code"+text);
 
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         return super.onStartCommand(intent, flags, startId);
 
     }
@@ -392,51 +315,50 @@ public class RecordBackground extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private static FinishActivityListener finishActivityListener;
-
-    public static void setFinishActivityListener(FinishActivityListener iFinishActivityListener) {
-        finishActivityListener = iFinishActivityListener;
-    }
-
-    public interface FinishActivityListener {
-        void finishActivity();
-    }
-
-    private static CallBackInterface callBackInterface;
-
-//    public static void callback(String request) {
-//        requestRes = request;
-//        new Thread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    speaker.startSpeaking(requestRes, synthesizerListener);
-//                                }
-//                            }).start();
-////        isSleep=isSleepy;
-////        waitNext=waitNexty;
-//    }
-
-    public static void speakContent(final String content){
-
-//        new Thread(new Runnable() {
+    public static void speakContent(final String sent) {
+//        new Thread(){
 //            @Override
 //            public void run() {
-                speaker.startSpeaking(content, synthesizerListener);
+//                speaker.startSpeaking(sent, synthesizerListener);
+//                speaker.stopSpeaking();
 //            }
-//        }).start();
+//        }.start();
     }
-    public static  boolean isPlaying(){
+    public static boolean isPlaying() {
         return speaker.isSpeaking();
     }
 
-    public interface CallBackInterface {
-        /**
-         * 这是一个回调函数，用于回答者B知道答案后给提问者A回电话，并告知提问者A答案是什么
-         * 这个回电话的方式callBack是提问者A确定的，所以这个方法的实现类是A类
-         * 这个回电话的内容result是回答者B提供的，所以这个变量的值是在B类中确定的
-         */
-        void callback(String result);
-    }
+    public static void callback(final String res,final int flag){
+//        speaker.startSpeaking(res,synthesizerListener);
+        new Thread(){
+            @Override
+            public void run() {
 
+                File dirFile = new File(Environment.getExternalStorageDirectory() +"/msc/tts.wav");
+                while(dirFile.exists()){
+                    Log.e("RecordBackground","1"+dirFile.exists());
+                    dirFile.delete();
+                }
+
+                speaker.synthesizeToUri(res,Environment.getExternalStorageDirectory() +"/msc/tts.wav",synthesizerListener);
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (flag==1){
+                    Log.e("RecordBackground",res);
+
+                    OnlineMediaPlayer.getInstance().PlayLocalMusic(Environment.getExternalStorageDirectory() +"/msc/tts.wav");
+                    Log.e("RecordBackground","2"+dirFile.exists());
+                    while(dirFile.exists()){
+                        Log.e("RecordBackground","3"+dirFile.exists());
+                        dirFile.delete();
+                    }
+                    Log.e("RecordBackground","4"+dirFile.exists());
+                }
+            }
+        }.start();
+    }
 
 }
