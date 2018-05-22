@@ -38,7 +38,6 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
     }
 
     private void initMediaPlayer(){
-
         mediaPlayer = new MediaPlayer();
         if(myPreparedListener == null){
             myPreparedListener = new MyPreparedListener(0);
@@ -47,23 +46,31 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
         mediaPlayer.setOnBufferingUpdateListener(this);
         mediaPlayer.setOnPreparedListener(myPreparedListener);
         mediaPlayer.setOnCompletionListener(this);
+
     }
 
     private void addPlayUrl(String url){
+        Log.e("OnlineMediaPlayer: addPlayUrl",url);
         playUrlsList.addLast(url);
+        Log.e("OnlineMediaPlayer: playUrlsList.size():",""+playUrlsList.size());
         if (playUrlsList.size() <= 1){
             playNet(0,playUrlsList.getFirst());
         }
     }
 
     public void play(String url){
-
         initMediaPlayer();
+        addPlayUrl(url);
+    }
+    public void playAppend(String url){
+        if (mediaPlayer == null){
+            initMediaPlayer();
+        }
         addPlayUrl(url);
     }
 
     private void playNet(int playPosition,String videoUrl) {
-        Log.e("OnlineMediaPlayer:",videoUrl);
+        Log.e("OnlineMediaPlayer: playNet",videoUrl);
         initMediaPlayer();
         try {
             mediaPlayer.reset();// 把各项参数恢复到初始状态
@@ -85,7 +92,7 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
 
-        Log.e("OnlineMediaPlayer on prepared:","prepare1");
+        Log.e("OnlineMediaPlayer on prepared11:","prepare1");
     }
 
     public boolean isPlaying(){
