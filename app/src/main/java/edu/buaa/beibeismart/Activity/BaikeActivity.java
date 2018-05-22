@@ -89,7 +89,11 @@ public class BaikeActivity extends BaseActivity implements View.OnClickListener,
     public class CityItem {
         private String cityName;
         private String cityCode;
-        private String imagePath;
+        private String image1Path;
+        private String image2Path;
+        private String image3Path;
+        private String image4Path;
+        private String image5Path;
         private String voicePath;
         private int dest;
 
@@ -101,13 +105,44 @@ public class BaikeActivity extends BaseActivity implements View.OnClickListener,
             return voicePath;
         }
 
-        public String getImagePath(){
-
-            return imagePath;
+        public String getImage1Path(){
+            return image1Path;
         }
 
-        public void setImagePath(String imagePath){
-            this.imagePath = imagePath;
+        public void setImage1Path(String image1Path){
+            this.image1Path = image1Path;
+        }
+
+        public String getImage2Path(){
+            return image2Path;
+        }
+
+        public void setImage2Path(String image2Path){
+            this.image2Path = image2Path;
+        }
+
+        public String getImage3Path(){
+            return image3Path;
+        }
+
+        public void setImage3Path(String image3Path){
+            this.image3Path = image3Path;
+        }
+
+        public String getImage4Path(){
+            return image4Path;
+        }
+
+        public void setImage4Path(String image4Path){
+            this.image4Path = image4Path;
+        }
+
+        public String getImage5Path(){
+            return image5Path;
+        }
+
+        public void setImage5Path(String image5Path){
+            this.image5Path = image5Path;
         }
 
         public String getCityName() {
@@ -133,12 +168,16 @@ public class BaikeActivity extends BaseActivity implements View.OnClickListener,
         cityList = new ArrayList<CityItem>();
         CityItem item = new CityItem();
         for(int i=0;i<ts.content.size();i++){
+            if(i >= 2) break;
             item = new CityItem();
             item.setCityName(ts.content.get(i).name);
             item.setCityCode("000");
             item.setVoicePath("http://47.94.165.157:8083" + ts.content.get(i).voicePath);
-            String s = "http://47.94.165.157:8083" + ts.content.get(i).img1Path;
-            item.setImagePath(s);
+            item.setImage1Path("http://47.94.165.157:8083" + ts.content.get(i).img1Path);
+            item.setImage2Path("http://47.94.165.157:8083" + ts.content.get(i).img2Path);
+            item.setImage3Path("http://47.94.165.157:8083" + ts.content.get(i).img3Path);
+            item.setImage4Path("http://47.94.165.157:8083" + ts.content.get(i).img4Path);
+            item.setImage5Path("http://47.94.165.157:8083" + ts.content.get(i).img5Path);
             cityList.add(item);
         }
         //cityList.addAll(cityList);

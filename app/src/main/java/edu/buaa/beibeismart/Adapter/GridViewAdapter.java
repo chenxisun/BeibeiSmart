@@ -1,11 +1,8 @@
 package edu.buaa.beibeismart.Adapter;
 
-import android.app.Notification;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,22 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.BaseAdapter;
 import android.content.Intent;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.logging.Handler;
 
 import edu.buaa.beibeismart.Activity.BaikeActivity;
 import edu.buaa.beibeismart.Activity.Baike_0_Activity;
-import edu.buaa.beibeismart.Activity.Baike_1_Activity;
 import edu.buaa.beibeismart.R;
-import retrofit2.http.Url;
 
 public class GridViewAdapter extends BaseAdapter implements View.OnClickListener{
     Context context;
@@ -80,7 +70,7 @@ public class GridViewAdapter extends BaseAdapter implements View.OnClickListener
             public void run(){
                 try{
 
-                    URL httpUrl = new URL(city.getImagePath());
+                    URL httpUrl = new URL(city.getImage1Path());
                     HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
                     conn.setConnectTimeout(600);
                     conn.setDoInput(true);
@@ -99,7 +89,8 @@ public class GridViewAdapter extends BaseAdapter implements View.OnClickListener
             continue;
         }
         imageView.setImageBitmap(bmc.bitmap);
-        imageView.setId(position % 5);
+
+        imageView.setId(position);
         imageView.setOnClickListener(this);
 
         return convertView;
@@ -108,26 +99,14 @@ public class GridViewAdapter extends BaseAdapter implements View.OnClickListener
     @Override
     public void onClick(View view) {
         Intent intent = null;
-        switch (view.getId()){
-            case 0:
-                intent = new Intent(baikeActivity, Baike_0_Activity.class);
-                intent.putExtra("voicePath",list.get(0).getVoicePath());
-                baikeActivity.startActivity(intent);
-                break;
-            case 1:
-                intent = new Intent(baikeActivity, Baike_1_Activity.class);
-                intent.putExtra("voicePath",list.get(1).getVoicePath());
-                baikeActivity.startActivity(intent);
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            default:
-                break;
-        }
+        int num = view.getId();
+        intent = new Intent(baikeActivity, Baike_0_Activity.class);
+        intent.putExtra("voicePath",list.get(num).getVoicePath());
+        intent.putExtra("img2Path",list.get(num).getImage2Path());
+        intent.putExtra("img3Path",list.get(num).getImage3Path());
+        intent.putExtra("img4Path",list.get(num).getImage4Path());
+        intent.putExtra("img5Path",list.get(num).getImage5Path());
+        baikeActivity.startActivity(intent);
     }
 }
 

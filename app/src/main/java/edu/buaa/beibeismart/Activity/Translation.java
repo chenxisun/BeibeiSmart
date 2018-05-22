@@ -16,6 +16,7 @@ public class Translation {
         public String img2Path;
         public String img3Path;
         public String img4Path;
+        public String img5Path;
         public String voicePath;
     }
     private boolean last;

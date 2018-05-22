@@ -60,11 +60,7 @@
             android:exported="true" />
 
         <activity android:name=".Activity.BaikeActivity" />
-        <activity android:name=".Activity.Baike_1_Activity" />
-        <activity android:name=".Activity.Baike_2_Activity" />
-        <activity android:name=".Activity.Baike_3_Activity" />
         <activity android:name=".Activity.Baike_0_Activity" />
-        <activity android:name=".Activity.BAIKE_4_Activity"></activity>
     </application>
 
 </manifest>
