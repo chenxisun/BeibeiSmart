@@ -68,8 +68,8 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
 
     private void disposeTypeItemClick( View view, int i){
         //播放音频
-        OnlineMediaPlayer.getInstance().play(UrlUtil.IP_MATERIAL+dataList.get(i).getEnglishVoicePath());
-        onlineMediaPlayer.play(UrlUtil.IP_MATERIAL+dataList.get(i).getChineseVoicePath());
+        onlineMediaPlayer.playAppend(UrlUtil.IP_MATERIAL+dataList.get(i).getEnglishVoicePath());
+        onlineMediaPlayer.playAppend(UrlUtil.IP_MATERIAL+dataList.get(i).getChineseVoicePath());
 
         String  topicContent =  dataList.get(i).getContent();
         Intent intent = new Intent(LearnEnglishActivity.this,EnglishWordsActivity.class);
