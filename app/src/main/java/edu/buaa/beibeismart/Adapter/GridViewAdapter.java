@@ -67,7 +67,6 @@ public class GridViewAdapter extends BaseAdapter implements View.OnClickListener
             @Override
             public void run(){
                 try{
-
                     URL httpUrl = new URL(city.getImage1Path());
                     HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
                     conn.setConnectTimeout(600);
@@ -84,6 +83,7 @@ public class GridViewAdapter extends BaseAdapter implements View.OnClickListener
         new Thread(networkImg).start();
         while(bmc.bitmap == null){
             System.out.println("aaa");
+            System.out.println(position);
             continue;
         }
         imageView.setImageBitmap(bmc.bitmap);
@@ -104,6 +104,8 @@ public class GridViewAdapter extends BaseAdapter implements View.OnClickListener
         intent.putExtra("img3Path",list.get(num).getImage3Path());
         intent.putExtra("img4Path",list.get(num).getImage4Path());
         intent.putExtra("img5Path",list.get(num).getImage5Path());
+        intent.putExtra("position",num);
+        //intent.putExtra("position",num);
         baikeActivity.startActivity(intent);
     }
 }

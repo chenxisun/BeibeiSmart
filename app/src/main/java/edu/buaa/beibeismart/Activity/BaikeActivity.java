@@ -159,15 +159,15 @@ public class BaikeActivity extends BaseActivity implements View.OnClickListener,
         cityList = new ArrayList<CityItem>();
         CityItem item = new CityItem();
         for(int i=0;i<ts.content.size();i++){
-            if(i >= 2) break;
+            if(i >= 10) break;
             item = new CityItem();
             item.setCityName(ts.content.get(i).name);
             item.setVoicePath("http://47.94.165.157:8083" + ts.content.get(i).voicePath);
-            item.setImage1Path("http://47.94.165.157:8083" + ts.content.get(i).img1Path);
+            item.setImage1Path("http://47.94.165.157:8083" + ts.content.get(i).img5Path);
             item.setImage2Path("http://47.94.165.157:8083" + ts.content.get(i).img2Path);
             item.setImage3Path("http://47.94.165.157:8083" + ts.content.get(i).img3Path);
             item.setImage4Path("http://47.94.165.157:8083" + ts.content.get(i).img4Path);
-            item.setImage5Path("http://47.94.165.157:8083" + ts.content.get(i).img5Path);
+            item.setImage5Path("http://47.94.165.157:8083" + ts.content.get(i).img1Path);
             cityList.add(item);
         }
         //cityList.addAll(cityList);

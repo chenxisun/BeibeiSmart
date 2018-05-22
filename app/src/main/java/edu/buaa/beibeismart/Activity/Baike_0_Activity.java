@@ -24,6 +24,7 @@ public class Baike_0_Activity extends BaseActivity implements View.OnClickListen
     public String img3Path;
     public String img4Path;
     public String img5Path;
+    public int position = 100;
     OnlineMediaPlayer onlineMediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,6 @@ public class Baike_0_Activity extends BaseActivity implements View.OnClickListen
         onlineMediaPlayer.play(voicePath);
         //System.out.println(UrlUtil.IP_MATERIAL);
         //System.out.println(voicePath);
-
         setImg2();
         setImg3();
         setImg4();
@@ -76,6 +76,7 @@ public class Baike_0_Activity extends BaseActivity implements View.OnClickListen
         ImageView imageView2 = findViewById(R.id.imageView2_0);
         Intent intent = getIntent();
         img2Path = intent.getStringExtra("img2Path");
+        //intent.getIntExtra("position",position);
         final BitClass bmc = new BitClass();
         Runnable networkImg = new Runnable() {
             @Override
@@ -97,7 +98,9 @@ public class Baike_0_Activity extends BaseActivity implements View.OnClickListen
         };
         new Thread(networkImg).start();
         while(bmc.bitmap == null){
-            System.out.println("aaa");
+            System.out.println("aa");
+            System.out.println(2);
+            System.out.println(img2Path);
             continue;
         }
         imageView2.setImageBitmap(bmc.bitmap);
@@ -127,7 +130,9 @@ public class Baike_0_Activity extends BaseActivity implements View.OnClickListen
         };
         new Thread(networkImg).start();
         while(bmc.bitmap == null){
-            System.out.println("aaa");
+            System.out.println("aa");
+            System.out.println(3);
+            System.out.println(img3Path);
             continue;
         }
         imageView3.setImageBitmap(bmc.bitmap);
@@ -143,7 +148,7 @@ public class Baike_0_Activity extends BaseActivity implements View.OnClickListen
             public void run(){
                 try{
 
-                    URL httpUrl = new URL(img2Path);
+                    URL httpUrl = new URL(img4Path);
                     HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
                     conn.setConnectTimeout(600);
                     conn.setDoInput(true);
@@ -158,7 +163,9 @@ public class Baike_0_Activity extends BaseActivity implements View.OnClickListen
         };
         new Thread(networkImg).start();
         while(bmc.bitmap == null){
-            System.out.println("aaa");
+            System.out.println("aa");
+            System.out.println(4);
+            System.out.println(img4Path);
             continue;
         }
         imageView4.setImageBitmap(bmc.bitmap);
@@ -188,7 +195,9 @@ public class Baike_0_Activity extends BaseActivity implements View.OnClickListen
         };
         new Thread(networkImg).start();
         while(bmc.bitmap == null){
-            System.out.println("aaa");
+            System.out.println("aa");
+            System.out.println(5);
+            System.out.println(img5Path);
             continue;
         }
         imageView5.setImageBitmap(bmc.bitmap);
