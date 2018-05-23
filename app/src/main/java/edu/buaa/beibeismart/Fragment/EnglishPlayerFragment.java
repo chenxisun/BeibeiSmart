@@ -3,11 +3,14 @@ package edu.buaa.beibeismart.Fragment;
 
 import android.icu.text.SimpleDateFormat;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,12 +28,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
+
 import edu.buaa.beibeismart.Activity.Album_list;
 import edu.buaa.beibeismart.Net.FileUtils;
 import edu.buaa.beibeismart.R;
 import edu.buaa.beibeismart.item_attrib;
 
 import static android.media.AudioManager.STREAM_MUSIC;
+import static com.iflytek.sunflower.config.a.r;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,15 +45,20 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
     TextView englishplayname;
     ImageButton englishplayandpause;
     ImageButton englishreplay;
+    ImageButton musicCellection;
     TextView totalTime_text;
     TextView playingTime_text;
     SeekBar playingProcess;
     MediaPlayer mediaPlayer = new MediaPlayer();
     Boolean playtag;
-    private Handler hangler = new Handler();
+    Handler hangler = new Handler();
+    Thread thread=null;
     static item_attrib item;
-    int totalTime = (int) item.getDuration();
     String[] musicname = item.getName().split("\\.");
+    int totalTime= (int) item.getDuration();
+    String musicstyle=item.getData().substring(item.getData().length()-4,item.getData().length());
+    String playerPath= Environment.getExternalStorageDirectory().toString()+"/voice/"+item.getName()+musicstyle;
+    File file = new File(playerPath);
 
 
     public EnglishPlayerFragment() {
@@ -71,6 +83,7 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
         englishplayname = getActivity().findViewById(R.id.EnglishPlayerName);
         englishplayandpause = getActivity().findViewById(R.id.btn_EnglishPlayandPause);
         englishreplay = getActivity().findViewById(R.id.btn_EnglishReplay);
+        musicCellection=getActivity().findViewById(R.id.btn_music_collection);
         playingProcess = getActivity().findViewById(R.id.englishplayerseek);
         totalTime_text = getActivity().findViewById(R.id.englishplayertotalTime);
         playingTime_text = getActivity().findViewById(R.id.englishplayerplayingTime);
@@ -83,7 +96,6 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
         playingProcess.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
             }
 
             @Override
@@ -119,13 +131,7 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
         englishreplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //  mediaPlayer.stop();
-                // playtag = false;
-                //  try {
-                //     mediaPlayer.prepare();
-                //  } catch (IOException e) {
-                //    e.printStackTrace();
-                //  }
+
                  if(mediaPlayer.isPlaying()){
 
                      playingProcess.setProgress(0);
@@ -146,22 +152,32 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
 
         });
 
+        musicCellection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(item.getData().contains("http")&&!file.exists()){
+                    downLoad(item.getData(),item.getName()+musicstyle);
+                    Toast.makeText(getActivity(),"正在下载~稍后将添加至收藏",Toast.LENGTH_LONG).show();
+                }
+                if(item.getData().contains("http")&&file.exists()){
+                    Toast.makeText(getActivity(),"这首歌已经下载啦",Toast.LENGTH_SHORT).show();
+                }
+
+                if(!item.getData().contains("http")){
+
+                    Toast.makeText(getActivity(),"这首歌已经在本地咯",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
     }
 
     private void initPlayer() {
-        //判断歌曲是否收藏并获得歌曲播放路径与信息
-        //downLoad("downloadPath",item.getName());
-       // String playerPath= Environment.getExternalStorageDirectory().toString() + "/voice/"+item.getName();
         //给播放器一个标题
         englishplayname.setText(musicname[0]);
 
-        //初始化播放器,显示音乐总时长,设置seekbar总时长和初始值
-        try {
-            mediaPlayer.setDataSource(item.getData());//item.getData();
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // 显示音乐总时长,设置seekbar总时长和初始值
 
         String time = getFormatDateTime("mm:ss", totalTime);
         totalTime_text.setText(time);
@@ -169,10 +185,56 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
         playingProcess.setProgress(0);
         playingProcess.setMax(totalTime);
 
-        mediaPlayer.start();
-        englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
-        playtag = true;
-        refreshTime();
+        // 判断歌曲是否收藏并获得歌曲播放路径与信息
+
+
+       if(item.getData().contains("http")&&!file.exists()){
+
+        // downLoad(item.getData(),item.getName()+musicstyle);
+
+            //初始化播放器
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(item.getData());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
+                playtag = true;
+                refreshTime();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+           // Toast.makeText(getActivity(),"正在下载音乐~",Toast.LENGTH_LONG).show();
+
+       }else if(file.exists()) {
+           try {
+               mediaPlayer.reset();
+               mediaPlayer.setDataSource(playerPath);
+               mediaPlayer.prepare();
+               mediaPlayer.start();
+               englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
+               playtag = true;
+               refreshTime();
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+
+       }else{
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(item.getData());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
+                playtag = true;
+                refreshTime();
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
+
+        }
     }
 
     //定义newInstance方法在打开该播放器时获得音乐对象
@@ -190,8 +252,11 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
     public void onDestroy() {
         super.onDestroy();
         // 退出当前fragment时候关闭播放器和进度线程
+        playtag=false;
         mediaPlayer.release();
-        Thread.interrupted();
+       // thread.interrupt();
+
+
     }
 
     //定义转换时间格式的方法
@@ -218,7 +283,7 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
 
     //启动线程改变画面-进度条移动和更新时间
     public void refreshTime() {
-        new Thread(new Runnable() {
+        thread=new Thread(new Runnable() {
             @Override
             public void run() {
                 while (playtag&&playingProcess.getProgress() < totalTime) {
@@ -233,18 +298,16 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        Thread.currentThread().interrupt();
                     }
                 }
             }
-        }).start();
-    }
-
-    public  void stopPlay(){
-        mediaPlayer.stop();
+        });
+        thread.start();
     }
 
     //从服务器下载歌曲,图片
-    public void downLoad(final String path, final String FileName) {
+   public void downLoad(final String path, final String FileName) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -255,7 +318,7 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
                     con.setConnectTimeout(5000);
                     con.setRequestProperty("Charset", "UTF-8");
                     con.setRequestMethod("GET");
-                    if (con.getResponseCode() == 200) {
+                    if (con.getResponseCode()== 200) {
                         InputStream is = con.getInputStream();//获取输入流
                         FileOutputStream fileOutputStream = null;//文件输出流
                         if (is != null) {
@@ -279,5 +342,9 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
         }).start();
     }
 
+    @Override
+    public void stopPlay() {
+        mediaPlayer.stop();
+    }
 }
 
