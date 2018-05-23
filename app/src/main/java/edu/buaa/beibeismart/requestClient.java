@@ -47,7 +47,9 @@ public class requestClient {
 //            finishActivityListener.finishActivity();
 
 //        finishActivityListener.finishActivity();
-
+        try{
+        finishActivityListener.finishActivity();}
+        catch (Exception e){}
         Intent intent = new Intent(context, Album_list.class);
         if (flag) {
             intent.putExtra("title", "所有音乐");
@@ -60,7 +62,6 @@ public class requestClient {
         intent.putExtra("musicName", musicName);
         intent.putExtra("musicSize", musicSize);
         context.startActivity(intent);
-        finishActivityListener.finishActivity();
 
     }
 
@@ -124,8 +125,8 @@ public class requestClient {
 //                                         if (content.length() > 0)
 //                                             speakContent(content);
                                          onlineMediaPlayer.stop();
-
-                                         if (waitNext.equals("NO")) {
+                                         if (waitNext.equals("false")) {
+                                             if(content.length()>0)
                                              RecordBackground.callback(content,0);
                                              playmusic(true);
                                              Log.e("r","1");
@@ -137,10 +138,10 @@ public class requestClient {
                                          musicDuration = jobject.getString("forFangSheng_time");
                                          musicData = jobject.getString("voicePath");
                                          musicSize = jobject.getString("forFangSheng_size");
-                                         musicName = jobject.getString("Name");;
+                                         musicName = jobject.getString("forFangSheng_name");;
                                          content = jobject.getString("content");
                                          onlineMediaPlayer.stop();
-                                         if (waitNext.equals("NO")) {
+                                         if (waitNext.equals("false")) {
                                              RecordBackground.callback(content,0);
                                              playmusic(false);
                                              Log.e("s","1");
@@ -175,17 +176,14 @@ public class requestClient {
         );
 //        callback(content);
     }
-
     private static FinishActivityListener finishActivityListener;
 
     public static void setFinishActivityListener(FinishActivityListener iFinishActivityListener) {
         finishActivityListener = iFinishActivityListener;
     }
-
     public interface FinishActivityListener {
         void finishActivity();
     }
-
 
 
 }
