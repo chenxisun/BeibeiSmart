@@ -330,9 +330,9 @@ public class RecordBackground extends Service {
 
     public static void callback(final String res,final int flag){
 //        speaker.startSpeaking(res,synthesizerListener);
-        new Thread(){
-            @Override
-            public void run() {
+//        new Thread(){
+//            @Override
+//            public void run() {
 
                 File dirFile = new File(Environment.getExternalStorageDirectory() +"/msc/tts.wav");
                 while(dirFile.exists()){
@@ -358,7 +358,7 @@ public class RecordBackground extends Service {
                     Log.e("RecordBackground","4"+dirFile.exists());
                 }
             }
-        }.start();
-    }
+//        }.start();
+//    }
 
 }
