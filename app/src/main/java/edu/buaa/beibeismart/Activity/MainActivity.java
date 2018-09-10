@@ -4,22 +4,12 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.*;
-import android.widget.Toast;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,11 +17,9 @@ import java.util.Map;
 
 import edu.buaa.beibeismart.Adapter.CatalogAdapter;
 import edu.buaa.beibeismart.Interface.OnRecyclerViewItemClickListener;
-import android.widget.Button;
-
 import edu.buaa.beibeismart.R;
-import edu.buaa.beibeismart.View.DividerItemLineDecoration;
 import edu.buaa.beibeismart.Service.RecordBackground;
+import edu.buaa.beibeismart.View.DividerItemLineDecoration;
 
 
 public class MainActivity extends BaseActivity implements OnRecyclerViewItemClickListener {
@@ -52,7 +40,8 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
                     android.Manifest.permission.RECORD_AUDIO},1);
         }
         initView();
-        startService(new Intent(this, RecordBackground.class));
+
+        startService(new Intent(this,   RecordBackground.class));
     }
 
     @Override
@@ -60,10 +49,13 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
         setContentView(R.layout.activity_main);
         RecyclerView rvCatalog = findViewById(R.id.gallery_mainactivity);
         rvCatalog.addItemDecoration(new DividerItemLineDecoration(this, DividerItemLineDecoration.HORIZONTAL_LIST,R.drawable.divider,40));
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        //layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         //GridLayoutManager gridLayoutManager = new GridLayoutManager(this,1);
-        rvCatalog.setLayoutManager(layoutManager);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
+        rvCatalog.setLayoutManager(gridLayoutManager);
+
         CatalogAdapter adapter = new CatalogAdapter(getApplicationContext(),dataList,this);
         rvCatalog.setAdapter(adapter);
     }
@@ -88,19 +80,39 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
 
         Map mapEng = new HashMap();
         mapEng.put("catalogId","wordLearning");
-        mapEng.put("catalog","单词学习");
+        mapEng.put("catalog","英语学习");
         mapEng.put("img",R.drawable.catalog_words_128);
 
-        Map mapDownload = new HashMap();
-        mapDownload.put("catalogId","download");
-        mapDownload.put("catalog","在线下载");
-        mapDownload.put("img",R.drawable.catalog_download_128);
+
+        Map mapWeather = new HashMap();
+        mapWeather.put("catalogId","weather");
+        mapWeather.put("catalog","天气预报");
+        mapWeather.put("img",R.drawable.catalog_download_128);
+
+        Map mapFaceRec = new HashMap();
+        mapFaceRec.put("catalogId","faceRec");
+        mapFaceRec.put("catalog","人脸识别");
+        mapFaceRec.put("img",R.drawable.catalog_download_128);
+
+        Map mapPoseMoniter = new HashMap();
+        mapPoseMoniter.put("catalogId","poseMoniter");
+        mapPoseMoniter.put("catalog","行为监控");
+        mapPoseMoniter.put("img",R.drawable.catalog_download_128);
+
+        Map mapFaceAnsys = new HashMap();
+        mapFaceAnsys.put("catalogId","faceAnsys");
+        mapFaceAnsys.put("catalog","表情分析");
+        mapFaceAnsys.put("img",R.drawable.catalog_download_128);
 
         dataList.add(mapMusic);
         dataList.add(mapStory);
         dataList.add(mapBio);
         dataList.add(mapEng);
-        dataList.add(mapDownload);
+        dataList.add(mapWeather);
+        dataList.add(mapFaceRec);
+        dataList.add(mapPoseMoniter);
+        dataList.add(mapFaceAnsys);
+
 
     }
 
@@ -133,6 +145,11 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(this,   RecordBackground.class));
+    }
 
     public static class PermisionUtils {
 

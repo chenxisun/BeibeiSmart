@@ -1,19 +1,13 @@
 package edu.buaa.beibeismart.Activity;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.util.TimeUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
@@ -31,9 +25,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.buaa.beibeismart.Fragment.EnglishPlayerFragment;
-import edu.buaa.beibeismart.Media.OnlineMediaPlayer;
+import edu.buaa.beibeismart.Net.UrlUtil;
 import edu.buaa.beibeismart.R;
-import edu.buaa.beibeismart.Service.RecordBackground;
 import edu.buaa.beibeismart.item_attrib;
 import edu.buaa.beibeismart.requestClient;
 import edu.buaa.beibeismart.time_transfer;
@@ -45,12 +38,12 @@ import okhttp3.Response;
  * Created by fan on 2018/4/8.
  */
 
-public class Album_list extends BaseActivity implements requestClient.FinishActivityListener {
+public class Album_list extends BaseActivity {
 
     String title = "";
-    final String url_music_list = "http://47.94.165.157:8080/song/list?topic=song&pageNo=0&pageSize=1000";
-    final String url_english_list = "http://47.94.165.157:8080/song/list?topic=english&pageNo=0&pageSize=1000";
-    final String url_story_list="http://47.94.165.157:8080/story/list?topic=tory&pageNo=0&pageSize=1000";
+    final String url_music_list = UrlUtil.IP + "/song/list?topic=song&pageNo=0&pageSize=1000";
+    final String url_english_list = UrlUtil.IP + "/song/list?topic=english&pageNo=0&pageSize=1000";
+    final String url_story_list = UrlUtil.IP + "/story/list?topic=tory&pageNo=0&pageSize=1000";
     static String requestRes = "";
     String requestResMusicList = "";
     String requestResEnglishList = "";
@@ -59,6 +52,8 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
     private TextView album_title;
     int flag = 0;
 
+    public static StartPlayerListener startListener;
+
     private ArrayList<item_attrib> musicitems;
     private item_attrib voice2Music;
 
@@ -66,41 +61,55 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.album_list_total);
+
+        requestClient.setFinishActivityListener(new requestClient.FinishActivityListener() {
+            @Override
+            public void finishActivity() {
+                finish();
+                Log.e("finish","activity");
+            }
+        });
+
+
         initData();
-        initView();
-        album_title.setText(title);
-        verifyStoragePermissions(Album_list.this);
         getMusicData();
-        try{
-        requestClient.setFinishActivityListener(this);}
-        finally {
-            Log.e("finish","sucess");
-        }
+        initView();
+
+        EnglishPlayerFragment f1 = new EnglishPlayerFragment();
+        FragmentTransaction Mf = getFragmentManager().beginTransaction();
+        Mf.replace(R.id.Player, f1);
+        Mf.commit();
+
+        album_title.setText(title);
 
         findViewById(R.id.back_btn_album_list).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OnlineMediaPlayer.getInstance().stop();
-                if(title.endsWith("故事")){
+
+//                stopListener.releasePlayer();
+
+                if (title.endsWith("故事")) {
                     startActivity(new Intent(My_story_list.Action));
-                }
-                else
-                startActivity(new Intent(My_Music_list.Action));
+                } else
+                    startActivity(new Intent(My_Music_list.Action));
+                finish();
             }
         });
 
-//        initPlayMusic(2);
+
 
         album_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                EnglishPlayerFragment.stopMediaPlaying();
+
+
                 item_attrib item = musicitems.get(i);
-                // test_album_list.setText(item.getName()+item.getData());
-                EnglishPlayerFragment f1 = EnglishPlayerFragment.newInstance(item);
-                FragmentTransaction Mf = getFragmentManager().beginTransaction();
-                Mf.replace(R.id.Player, f1);
-                Mf.commit();
+                try {
+                    startListener.startPlay(item);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -110,7 +119,7 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
 
     protected void initView() {
 
-        album_list = (ListView) findViewById(R.id.album_list);
+        album_list = findViewById(R.id.album_list);
         album_list_none = findViewById(R.id.album_list_none);
         album_title = findViewById(R.id.album_title);
 
@@ -129,20 +138,34 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
         }
     };
 
+    private Handler worker=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if (flag == -1) {
+                try {
+                    startListener.startPlay(voice2Music);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
     @Override
     protected void initData() {
-
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
-        if (title.equals("所有音乐")||title.equals("中文故事")){
-        flag = intent.getIntExtra("flag", 0);
-        if(flag==-1){item_attrib item=new item_attrib();
-        item.setSize(Integer.valueOf(intent.getStringExtra("musicSize"))*1000);
-        item.setName(intent.getStringExtra("musicName"));
-        item.setDuration(Integer.valueOf(intent.getStringExtra("musicDuration"))*1000);
-        item.setData(intent.getStringExtra("musicData"));
-        voice2Music=item;}
+        if (title.equals("所有音乐") || title.equals("中文故事")) {
+            flag = intent.getIntExtra("flag", 0);
+            if (flag == -1) {
+                item_attrib item = new item_attrib();
+                item.setSize(Integer.valueOf(intent.getStringExtra("musicSize")) * 1000);
+                item.setName(intent.getStringExtra("musicName"));
+                item.setDuration(Integer.valueOf(intent.getStringExtra("musicDuration")) * 1000);
+                item.setData(intent.getStringExtra("musicData"));
+//                voice2Music   =(item_attrib) intent.getSerializableExtra("music");
+                voice2Music=item;
+            }
 
         }
     }
@@ -166,19 +189,13 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
                 requestResEnglishList = requestRes;
                 extractMusicList(requestResEnglishList);
                 break;
-            case"中文故事":
+            case "中文故事":
                 getRemoteData(url_story_list);
                 requestResEnglishList = requestRes;
                 extractMusicList(requestResEnglishList);
                 break;
         }
-        if(flag==-1){
-
-            EnglishPlayerFragment f1 = EnglishPlayerFragment.newInstance(voice2Music);
-            FragmentTransaction Mf = getFragmentManager().beginTransaction();
-            Mf.replace(R.id.Player, f1);
-            Mf.commit();
-        }
+        worker.sendEmptyMessage(1);
     }
 
     private void getRemoteData(final String url) {
@@ -199,6 +216,7 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
                 handler.sendEmptyMessage(1);
             }
         }.start();
+
     }
 
     private void extractMusicList(final String requestResMusicList) {
@@ -211,8 +229,8 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
                 JSONObject item = jarray.getJSONObject(i);
                 String name = item.getString("name");
                 String path = item.getString("voicePath");
-                int duration = Integer.valueOf(item.getString("timeLength")) *1000;
-                int size =Integer.valueOf(item.getInt("size"))*1000 ;
+                int duration = Integer.valueOf(item.getString("timeLength")) * 1000;
+                int size = Integer.valueOf(item.getInt("size")) * 1000;
                 item_music.setName(name);
                 item_music.setDuration(duration);
                 item_music.setSize(size);         //需要更改
@@ -225,20 +243,6 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
 
     }
 
-    private void initPlayMusic(int id) {
-
-        if (id > 0) {
-
-            item_attrib item = musicitems.get(2);
-            // test_album_list.setText(item.getName()+item.getData());
-            EnglishPlayerFragment f1 = EnglishPlayerFragment.newInstance(item);
-            FragmentTransaction Mf = getFragmentManager().beginTransaction();
-            Mf.replace(R.id.Player, f1);
-            Mf.commit();
-
-        }
-
-    }
 
     private void getlocaldata() {
         //新建媒体扫描线程
@@ -252,11 +256,9 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
                         MediaStore.Audio.Media.SIZE,
                         MediaStore.Audio.Media.DATA,
                 };
-
                 Cursor cursor = getContentResolver().query(uri, project, null, null, null);
 
                 while (cursor.moveToNext()) {
-
                     item_attrib item = new item_attrib();
                     String name = cursor.getString(0);
                     item.setName(name);
@@ -268,44 +270,20 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
                     item.setData(data);
 //                    if(size>500000)
                     musicitems.add(item);
-
                 }
-
                 cursor.close();
                 //发消息到主线程
                 handler.sendEmptyMessage(1);
-
             }
-
 //            ;
         }.start();
     }
 
-
-    public static void callback(String request) {
-        requestRes = request;
-    }
-
     @Override
     public void onVolleyFinish(int isSuccess, Object result) {
-        requestRes = null;
 
     }
 
-    @Override
-    public void finishActivity() {
-        finish();
-    }
-
-    private stopMediaPlay stopMediaPlay;
-
-    public static void setStopMediaplay(stopMediaPlay stopMediaPlay){
-        Log.e("info","shut down music play.");
-    }
-
-    public interface stopMediaPlay{
-        void stopPlay();
-    }
 
     class musicListAdapter extends BaseAdapter {
 
@@ -329,10 +307,6 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
         public View getView(int i, View view, ViewGroup viewGroup) {
 
             View view1 = View.inflate(Album_list.this, R.layout.item_in_listview, null);
-//            TextView tv = new TextView(Album_list.this);
-//            tv.setTextSize(20);
-//            tv.setText(musicitems.get(i).toString());
-//            tv.setTextColor(Color.WHITE);
             TextView music_name = view1.findViewById(R.id.music_name);
             TextView music_duration = view1.findViewById(R.id.music_duration);
             TextView music_size = view1.findViewById(R.id.music_size);
@@ -344,4 +318,19 @@ public class Album_list extends BaseActivity implements requestClient.FinishActi
             return view1;
         }
     }
+
+    public static void setStartPlayerListener(StartPlayerListener startPlayerListener) {
+        startListener = startPlayerListener;
+    }
+
+    public interface StartPlayerListener {
+
+        void startPlay(item_attrib item) throws IOException;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
 }

@@ -1,46 +1,40 @@
 package edu.buaa.beibeismart.Fragment;
 
 
+import android.app.DownloadManager;
+import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.SystemClock;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Date;
 
-
 import edu.buaa.beibeismart.Activity.Album_list;
-import edu.buaa.beibeismart.Net.FileUtils;
+import edu.buaa.beibeismart.Media.SlackMusicPlayer;
 import edu.buaa.beibeismart.R;
 import edu.buaa.beibeismart.item_attrib;
 
-import static android.media.AudioManager.STREAM_MUSIC;
-import static com.iflytek.sunflower.config.a.r;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EnglishPlayerFragment extends BaseFragment implements Album_list.stopMediaPlay {
+public class EnglishPlayerFragment extends BaseFragment {
 
     TextView englishplayname;
     ImageButton englishplayandpause;
@@ -49,16 +43,21 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
     TextView totalTime_text;
     TextView playingTime_text;
     SeekBar playingProcess;
-    MediaPlayer mediaPlayer = new MediaPlayer();
+
+    SlackMusicPlayer slackMusicPlayer = SlackMusicPlayer.instance;
+
+    //OnlineMediaPlayer mediaPlayer=OnlineMediaPlayer.getInstance();
     Boolean playtag;
     Handler hangler = new Handler();
-    Thread thread=null;
-    static item_attrib item;
-    String[] musicname = item.getName().split("\\.");
-    int totalTime= (int) item.getDuration();
-    String musicstyle=item.getData().substring(item.getData().length()-4,item.getData().length());
-    String playerPath= Environment.getExternalStorageDirectory().toString()+"/voice/"+item.getName()+musicstyle;
-    File file = new File(playerPath);
+    //    static item_attrib item;
+    static item_attrib item = null;
+    String[] musicname;
+    int totalTime;
+    String musicstyle;
+    String playerPath;
+    File file;
+    playerHandler PlayerHandler = new playerHandler();
+    testWorkerThread t = new testWorkerThread();
 
 
     public EnglishPlayerFragment() {
@@ -72,10 +71,12 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_english_player, container, false);
 
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
 
 
@@ -83,14 +84,15 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
         englishplayname = getActivity().findViewById(R.id.EnglishPlayerName);
         englishplayandpause = getActivity().findViewById(R.id.btn_EnglishPlayandPause);
         englishreplay = getActivity().findViewById(R.id.btn_EnglishReplay);
-        musicCellection=getActivity().findViewById(R.id.btn_music_collection);
+        musicCellection = getActivity().findViewById(R.id.btn_music_collection);
         playingProcess = getActivity().findViewById(R.id.englishplayerseek);
         totalTime_text = getActivity().findViewById(R.id.englishplayertotalTime);
         playingTime_text = getActivity().findViewById(R.id.englishplayerplayingTime);
 
-        //初始化播放器
-        initPlayer();
-        Album_list.setStopMediaplay(this);
+        englishreplay.setEnabled(false);
+        englishplayandpause.setEnabled(false);
+        musicCellection.setEnabled(false);
+
 
         //设置seekbar的用户改变音乐进度监听事件
         playingProcess.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -101,12 +103,35 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
+                slackMusicPlayer.pause();
+                playtag = false;
+
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                updateTime();
-                mediaPlayer.seekTo(playingProcess.getProgress());
+
+                if (playingProcess.getProgress() == playingProcess.getMax()) {
+//                    slackMusicPlayer.seekTo(0);
+//                    slackMusicPlayer.pause();
+////                        mediaPlayer.pause();
+//                    playtag = false;
+//                    englishplayandpause.setBackgroundResource(R.mipmap.englishplay);
+//                    playingProcess.setProgress(slackMusicPlayer.getCurrentPosition());
+//                    playingTime_text.setText(getFormatDateTime("mm:ss", slackMusicPlayer.getCurrentPosition()));
+                    setPlay(0);
+
+                } else {
+//                    slackMusicPlayer.seekTo(playingProcess.getProgress());
+//                    slackMusicPlayer.continuePlay();
+//                    englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
+//                    playtag = true;
+//                    refreshTime();
+                    setPlay(playingProcess.getProgress());
+                }
+
+//                mediaPlayer.seekTo(playingProcess.getProgress());
+
             }
         });
 
@@ -114,148 +139,154 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
         englishplayandpause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
-                    playtag = false;
-                    englishplayandpause.setBackgroundResource(R.mipmap.englishplay);
+                if (t.isAlive()) {
                 } else {
-                    mediaPlayer.start();
-                    englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
-                    playtag = true;
-                    refreshTime();
-                }
 
+                    if (slackMusicPlayer.isPlaying()) {
+                      setPause();
+                    } else {
+                    setContinuePlay();
+                    }
+                }
             }
         });
         //设置重播
         englishreplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                 if(mediaPlayer.isPlaying()){
-
-                     playingProcess.setProgress(0);
-                     playingTime_text.setText("00:00");
-                     mediaPlayer.seekTo(0);
-                     englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
-
-                 }else {
-                     playingProcess.setProgress(0);
-                     playingTime_text.setText("00:00");
-                     mediaPlayer.seekTo(0);
-                     mediaPlayer.start();
-                     playtag = true;
-                     refreshTime();
-                     englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
-                 }
+                if (t.isAlive()) {
+                } else {
+                        setPlay(0);
+                        setContinuePlay();
+//                    if (slackMusicPlayer.isPlaying()) {
+//                        playingProcess.setProgress(0);
+//                        playingTime_text.setText("00:00");
+////                        mediaPlayer.seekTo(0);
+//                        slackMusicPlayer.seekTo(0);
+//                        englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
+//
+//                    } else {
+//                        playingProcess.setProgress(0);
+//                        playingTime_text.setText("00:00");
+//
+////                        mediaPlayer.seekTo(0);
+//
+//////                        mediaPlayer.start();
+//
+//                        slackMusicPlayer.continuePlay();
+//                        slackMusicPlayer.seekTo(0);
+//
+//                        playtag = true;
+//                        refreshTime();
+//                        englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
+//                    }
                 }
-
+            }
         });
 
         musicCellection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(item.getData().contains("http")&&!file.exists()){
-                    downLoad(item.getData(),item.getName()+musicstyle);
-                    Toast.makeText(getActivity(),"正在下载~稍后将添加至收藏",Toast.LENGTH_LONG).show();
+                if (t.isAlive()) {
+                } else {
+                    if (item.getData().contains("http")) {
+                        String musicstyle = item.getData().substring(item.getData().length() - 4, item.getData().length());
+                        String playerPath = Environment.getExternalStorageDirectory().toString() + "/voice/" + item.getName() + musicstyle;
+                        File file = new File(playerPath);
+                        if (file.exists()) {
+                            Toast.makeText(getActivity(), "下载过啦~在收藏中播放更快哦", Toast.LENGTH_SHORT).show();
+                        } else {
+                            //创建下载任务,downloadUrl就是下载链接
+                            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(item.getData()));
+                            //指定下载路径和下载文件名
+                            request.setDestinationInExternalPublicDir("/voice/", item.getName() + musicstyle);
+                            //获取下载管理器
+                            DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+                            //将下载任务加入下载队列，否则不会进行下载
+                            downloadManager.enqueue(request);
+                            Toast.makeText(getActivity(), "开始下载~", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+//                        mediaPlayer.pause();
+                        slackMusicPlayer.pause();
+                        playtag = false;
+                        slackMusicPlayer.release();
+//                        mediaPlayer.reset();
+//                        mediaPlayer.reset();
+                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        File file = new File(item.getData());
+                        Uri uri = Uri.fromFile(file);
+                        intent.setData(uri);
+                        getActivity().sendBroadcast(intent);
+                        file.delete();
+                        Toast.makeText(getActivity(), "歌曲已经删除~", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                if(item.getData().contains("http")&&file.exists()){
-                    Toast.makeText(getActivity(),"这首歌已经下载啦",Toast.LENGTH_SHORT).show();
-                }
-
-                if(!item.getData().contains("http")){
-
-                    Toast.makeText(getActivity(),"这首歌已经在本地咯",Toast.LENGTH_SHORT).show();
-                }
-
             }
         });
 
+        Album_list.setStartPlayerListener(new Album_list.StartPlayerListener() {
+
+            @Override
+            public void startPlay(item_attrib item) throws IOException {
+
+                slackMusicPlayer.release();
+                Log.e("time", "00");
+                setPlayer(item);
+            }
+        });
     }
 
-    private void initPlayer() {
+
+    public void setPlayer(item_attrib item1) throws IOException {
+
+        item = item1;
+        musicname = item.getName().split("\\.");
+        totalTime = (int) item.getDuration();
+        musicstyle = item.getData().substring(item.getData().length() - 4, item.getData().length());
+        playerPath = Environment.getExternalStorageDirectory().toString() + "/voice/" + item.getName() + musicstyle;
+        file = new File(playerPath);
+        playingTime_text.setText("00:00");
+
         //给播放器一个标题
         englishplayname.setText(musicname[0]);
 
-        // 显示音乐总时长,设置seekbar总时长和初始值
+        if (item.getData().contains("http")) {
+            Toast.makeText(getActivity(), "正在加载歌曲~", Toast.LENGTH_SHORT).show();
+            if (file.exists()) {
+                musicCellection.setBackgroundResource(R.mipmap.englishplaycollected);
+            } else {
+                musicCellection.setBackgroundResource(R.mipmap.englishplaycollection);
+            }
+        } else {
+            musicCellection.setBackgroundResource(R.mipmap.delete);
+        }
 
+        // 显示音乐总时长,设置seekbar总时长和初始值
         String time = getFormatDateTime("mm:ss", totalTime);
         totalTime_text.setText(time);
-
         playingProcess.setProgress(0);
         playingProcess.setMax(totalTime);
-
+        englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
         // 判断歌曲是否收藏并获得歌曲播放路径与信息
-
-
-       if(item.getData().contains("http")&&!file.exists()){
-
-        // downLoad(item.getData(),item.getName()+musicstyle);
-
-            //初始化播放器
-            try {
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(item.getData());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-                englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
-                playtag = true;
-                refreshTime();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-           // Toast.makeText(getActivity(),"正在下载音乐~",Toast.LENGTH_LONG).show();
-
-       }else if(file.exists()) {
-           try {
-               mediaPlayer.reset();
-               mediaPlayer.setDataSource(playerPath);
-               mediaPlayer.prepare();
-               mediaPlayer.start();
-               englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
-               playtag = true;
-               refreshTime();
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-
-       }else{
-            try {
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(item.getData());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-                englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
-                playtag = true;
-                refreshTime();
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            }
-
-        }
-    }
-
-    //定义newInstance方法在打开该播放器时获得音乐对象
-    public static EnglishPlayerFragment newInstance(item_attrib item_in) {
-        item = item_in;
-        //String music_name= item_in.getName();
-        EnglishPlayerFragment fragment = new EnglishPlayerFragment();
-        Bundle args = new Bundle();
-        //args.putString("param", music_name);
-        fragment.setArguments(args);
-        return fragment;
+        Log.e("time", "01");
+        t.start();
+//        while( playingProcess.getProgress() >0 ){
+        englishreplay.setEnabled(true);
+        englishplayandpause.setEnabled(true);
+        musicCellection.setEnabled(true);
+//     }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         // 退出当前fragment时候关闭播放器和进度线程
-        playtag=false;
-        mediaPlayer.release();
-       // thread.interrupt();
+        playtag = false;
+        // while (t.isAlive()){}
+        slackMusicPlayer.release();
 
+        Log.e("time", "07");
 
     }
 
@@ -268,26 +299,23 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
 
     //进度条改变时候更新时间和播放进度
     public void updateTime() {
-        int time = playingProcess.getProgress()+1000;
-        if (time >= totalTime) {
-            time = 0;
-            mediaPlayer.seekTo(0);
-            mediaPlayer.pause();
-            playtag = false;
-            englishplayandpause.setBackgroundResource(R.mipmap.englishplay);
+
+        int time = slackMusicPlayer.getCurrentPosition();
+
+        if (time >= totalTime-100) {
+
+            setPlay(0);
         }
-            playingProcess.setProgress(time);
-            playingTime_text.setText(getFormatDateTime("mm:ss", time));
+        setTimeandProsess();
 
     }
 
     //启动线程改变画面-进度条移动和更新时间
     public void refreshTime() {
-        thread=new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                while (playtag&&playingProcess.getProgress() < totalTime) {
-
+                while (playtag && playingProcess.getProgress() < totalTime) {
                     hangler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -295,56 +323,77 @@ public class EnglishPlayerFragment extends BaseFragment implements Album_list.st
                         }
                     });
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                        Thread.currentThread().interrupt();
                     }
-                }
-            }
-        });
-        thread.start();
-    }
-
-    //从服务器下载歌曲,图片
-   public void downLoad(final String path, final String FileName) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(path);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setReadTimeout(5000);
-                    con.setConnectTimeout(5000);
-                    con.setRequestProperty("Charset", "UTF-8");
-                    con.setRequestMethod("GET");
-                    if (con.getResponseCode()== 200) {
-                        InputStream is = con.getInputStream();//获取输入流
-                        FileOutputStream fileOutputStream = null;//文件输出流
-                        if (is != null) {
-                            FileUtils fileUtils = new FileUtils();
-                            fileOutputStream = new FileOutputStream(fileUtils.createFile(FileName));//指定文件保存路径
-                            byte[] buf = new byte[1024];
-                            int ch;
-                            while ((ch = is.read(buf)) != -1) {
-                                fileOutputStream.write(buf, 0, ch);//将获取到的流写入文件中
-                            }
-                        }
-                        if (fileOutputStream != null) {
-                            fileOutputStream.flush();
-                            fileOutputStream.close();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         }).start();
+        Log.e("thread refresh", "finish");
     }
 
-    @Override
-    public void stopPlay() {
-        mediaPlayer.stop();
+    public void setPlay(int position){
+        if(position==0){
+            slackMusicPlayer.seekTo(0);
+            slackMusicPlayer.pause();
+            playtag = false;
+            englishplayandpause.setBackgroundResource(R.mipmap.englishplay);
+            setTimeandProsess();
+        }else{
+            slackMusicPlayer.seekTo(playingProcess.getProgress());
+            setContinuePlay();
+        }
+
     }
+
+    public void setPause(){
+        slackMusicPlayer.pause();
+        playtag = false;
+        englishplayandpause.setBackgroundResource(R.mipmap.englishplay);
+    }
+
+    public void setContinuePlay(){
+        slackMusicPlayer.continuePlay();
+        englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
+        playtag = true;
+        refreshTime();
+    }
+
+     public void setTimeandProsess(){
+         playingProcess.setProgress(slackMusicPlayer.getCurrentPosition());
+         playingTime_text.setText(getFormatDateTime("mm:ss", slackMusicPlayer.getCurrentPosition()));
+     }
+
+    class playerHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            String s = (String) msg.obj;
+
+            playtag = true;
+            refreshTime();
+            Log.e("time", "06");
+        }
+    }
+
+    class testWorkerThread extends Thread {
+        @Override
+        public void run() {
+            Log.e("time", "02");
+
+            if (file.exists()) {
+                slackMusicPlayer.play(playerPath);
+            } else {
+                slackMusicPlayer.play(item.getData());
+            }
+            Log.e("time", "04");
+            String s = "finish";
+            Message msg = PlayerHandler.obtainMessage();
+            msg.obj = s;
+            PlayerHandler.sendMessage(msg);
+            Log.e("time", "05");
+        }
+    }
+
 }
 

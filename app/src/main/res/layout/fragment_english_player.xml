@@ -19,6 +19,7 @@
             android:id="@+id/EnglishPlayerName"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:text="请点击歌曲播放"
             android:textColor="#000000"
             android:textSize="36sp"/>
         <TextView
@@ -46,7 +47,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="2.5"
         android:orientation="horizontal">
         <TextView
             android:layout_width="0dp"
@@ -55,7 +56,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="6"
+        android:layout_weight="7"
         android:orientation="vertical"
         android:background="@mipmap/englishplayband">
         <TextView
@@ -98,11 +99,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingTop="2dp"
+        android:paddingTop="5dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="3.8"
+            android:layout_weight="4"
             android:layout_height="match_parent" />
         <ImageButton
             android:id="@+id/btn_EnglishReplay"
@@ -150,7 +151,7 @@
             android:background="@mipmap/englishplaycollection"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="3.8"
+            android:layout_weight="4"
             android:layout_height="match_parent" />
     </LinearLayout>
         <TextView

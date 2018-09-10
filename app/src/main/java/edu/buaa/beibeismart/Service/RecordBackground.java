@@ -2,6 +2,7 @@ package edu.buaa.beibeismart.Service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
@@ -25,16 +26,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-
-import javax.security.auth.callback.Callback;
 
 import edu.buaa.beibeismart.Media.OnlineMediaPlayer;
+import edu.buaa.beibeismart.Media.SlackMusicPlayer;
 import edu.buaa.beibeismart.requestClient;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class RecordBackground extends Service {
 
@@ -54,6 +49,9 @@ public class RecordBackground extends Service {
     static String isSleep = "false";
     static String waitNext = "false";
     String voiceInput = "";
+
+
+
 //    String voicePath = "";
 //    String command = "0";
 //    String content = "";
@@ -138,8 +136,6 @@ public class RecordBackground extends Service {
 
                     if (!isPlaying())
                         requestCli.get(getApplicationContext(), voiceInput);
-
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -262,10 +258,10 @@ public class RecordBackground extends Service {
         recognizer.setParameter(SpeechConstant.ACCENT, "mandarin ");
 
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理
-        recognizer.setParameter(SpeechConstant.VAD_BOS, "8000");
+        recognizer.setParameter(SpeechConstant.VAD_BOS, "5000");
 
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
-        recognizer.setParameter(SpeechConstant.VAD_EOS, "1000");
+        recognizer.setParameter(SpeechConstant.VAD_EOS, "1500");
 
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
         recognizer.setParameter(SpeechConstant.ASR_PTT, "1");
@@ -309,6 +305,7 @@ public class RecordBackground extends Service {
 
     }
 
+
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -341,15 +338,23 @@ public class RecordBackground extends Service {
                 }
 
                 speaker.synthesizeToUri(res,Environment.getExternalStorageDirectory() +"/msc/tts.wav",synthesizerListener);
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+               while (!dirFile.exists()){}
                 if (flag==1){
                     Log.e("RecordBackground",res);
 
-                    OnlineMediaPlayer.getInstance().PlayLocalMusic(Environment.getExternalStorageDirectory() +"/msc/tts.wav");
+//                    MediaPlayer speakingPlayer =new MediaPlayer();
+//                    try {
+//                        speakingPlayer.setDataSource(Environment.getExternalStorageDirectory() +"/msc/tts.wav");
+//                        speakingPlayer.prepare();
+//                        speakingPlayer.start();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+
+                    Log.e("RecordBackground","p"+dirFile.exists());
+
+                    PlayLocalMusic(Environment.getExternalStorageDirectory() +"/msc/tts.wav");
+
                     Log.e("RecordBackground","2"+dirFile.exists());
                     while(dirFile.exists()){
                         Log.e("RecordBackground","3"+dirFile.exists());
@@ -360,5 +365,39 @@ public class RecordBackground extends Service {
             }
 //        }.start();
 //    }
+
+    public static void PlayLocalMusic(String uri) {
+//        speakingPlayer =new MediaPlayer();
+
+          SlackMusicPlayer playerOnActivity=SlackMusicPlayer.instance;
+           MediaPlayer speakingPlayer=new MediaPlayer();
+
+        if (playerOnActivity.isPlaying() && playerOnActivity.getCurrentPosition()>0) {
+            Log.e("isplaying", String.valueOf(playerOnActivity.isPlaying()));
+            playerOnActivity.pause();
+            try {
+                speakingPlayer.reset();
+                speakingPlayer.setDataSource(uri);
+                speakingPlayer.prepare();
+                speakingPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            while (speakingPlayer.isPlaying()) {
+            }
+            playerOnActivity.continuePlay();
+
+        } else {
+
+            try {
+                speakingPlayer.reset();
+                speakingPlayer.setDataSource(uri);
+                speakingPlayer.prepare();
+                speakingPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

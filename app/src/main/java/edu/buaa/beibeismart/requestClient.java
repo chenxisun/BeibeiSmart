@@ -3,7 +3,6 @@ package edu.buaa.beibeismart;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,8 +10,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import edu.buaa.beibeismart.Activity.Album_list;
-import edu.buaa.beibeismart.Media.OnlineMediaPlayer;
-
+import edu.buaa.beibeismart.Activity.MainActivity;
+import edu.buaa.beibeismart.Media.SlackMusicPlayer;
 import edu.buaa.beibeismart.Service.RecordBackground;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -20,11 +19,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static edu.buaa.beibeismart.Net.UrlUtil.IP;
 
 
 public class requestClient {
 
-    OnlineMediaPlayer onlineMediaPlayer=OnlineMediaPlayer.getInstance();
+//    OnlineMediaPlayer onlineMediaPlayer = OnlineMediaPlayer.getInstance();
 
     final OkHttpClient client = new OkHttpClient();
 
@@ -37,19 +37,25 @@ public class requestClient {
     String musicSize = "";
     String musicData = "";
     String musicName = "";
-//    private CallBackInterface callBackInterface;
-    int flag=0;
+    //    private CallBackInterface callBackInterface;
+    int flag = 0;
     Context context;
 
 
     public void playmusic(boolean flag) {
 
-//            finishActivityListener.finishActivity();
+        try {
+            Intent intent = new Intent(context, MainActivity.class);
+            Log.e("context", String.valueOf(context.getApplicationContext().getClass()));
+            context.startActivity(intent);
 
-//        finishActivityListener.finishActivity();
-        try{
-        finishActivityListener.finishActivity();}
-        catch (Exception e){}
+            finishActivityListener.finishActivity();
+            while (!SlackMusicPlayer.instance.isNull()) {
+            }
+            Log.e("context", String.valueOf(context.getApplicationContext().getClass()));
+        } catch (Exception e) {
+        }
+
         Intent intent = new Intent(context, Album_list.class);
         if (flag) {
             intent.putExtra("title", "所有音乐");
@@ -67,7 +73,7 @@ public class requestClient {
 
     public void get(final Context context, String voiceInput) {
 
-        String url = String.format("http://47.94.165.157:8080/voice/get?isSleep=%s&waitNext=%s&voiceInput=%s", isSleep, waitNext, voiceInput);
+        String url = String.format(IP + "/voice/get?isSleep=%s&waitNext=%s&voiceInput=%s", isSleep, waitNext, voiceInput);
 
         Log.e("url", url);
 
@@ -83,6 +89,7 @@ public class requestClient {
                          public void onFailure(Call call, IOException e) {
 //                             Toast.makeText(context, "Get 失败", Toast.LENGTH_SHORT).show();
                          }
+
                          @Override
                          public void onResponse(Call call, final Response response) throws IOException {
                              final String severResult = response.body().string();
@@ -102,55 +109,57 @@ public class requestClient {
                                      case "-22":
                                      case "-11":
                                          isSleep = "false";
-                                         flag=2;
+                                         flag = 2;
                                          voicePath = jobject.getString("voicePath");
-                                         if(waitNext.equals("NO"))
-                                         onlineMediaPlayer.play(voicePath);
+                                         if (waitNext.equals("NO"))
+                                             RecordBackground.PlayLocalMusic(voicePath);
+
+//                                             onlineMediaPlayer.play(voicePath);
+
                                          break;
                                      case "-8":
                                      case "-7":
                                          content = jobject.getString("content");
+
 //                                         speakContent(content);
 //                                         callBackInterface.callback(content);
-                                         onlineMediaPlayer.stopAll();
-                                         RecordBackground.callback(content,1);
+
+//                                         onlineMediaPlayer.stopAll();
+
+                                         RecordBackground.callback(content, 1);
                                          break;
                                      case "-12":
-                                         flag=0;
+                                         flag = 0;
                                          musicDuration = jobject.getString("forFangSheng_time");
                                          musicData = jobject.getString("voicePath");
                                          musicSize = jobject.getString("forFangSheng_size");
                                          musicName = jobject.getString("forFangSheng_name");
                                          content = jobject.getString("content");
-//                                         if (content.length() > 0)
-//                                             speakContent(content);
-                                         onlineMediaPlayer.stop();
                                          if (waitNext.equals("false")) {
-                                             if(content.length()>0)
-                                             RecordBackground.callback(content,0);
+                                             if (content.length() > 0)
+                                                 RecordBackground.callback(content, 0);
                                              playmusic(true);
-                                             Log.e("r","1");
-                                         }
-                                         else RecordBackground.callback(content,1);
+                                             Log.e("r", "1");
+                                         } else RecordBackground.callback(content, 1);
                                          break;
                                      case "-13":
-                                         flag=1;
+                                         flag = 1;
                                          musicDuration = jobject.getString("forFangSheng_time");
                                          musicData = jobject.getString("voicePath");
                                          musicSize = jobject.getString("forFangSheng_size");
-                                         musicName = jobject.getString("forFangSheng_name");;
+                                         musicName = jobject.getString("forFangSheng_name");
+                                         ;
                                          content = jobject.getString("content");
-                                         onlineMediaPlayer.stop();
                                          if (waitNext.equals("false")) {
-                                             RecordBackground.callback(content,0);
+                                             if (content.length() > 0)
+                                                 RecordBackground.callback(content, 0);
                                              playmusic(false);
-                                             Log.e("s","1");
-                                         }
-                                         else{RecordBackground.callback(content,1);}
+                                             Log.e("s", "1");
+                                         } else RecordBackground.callback(content, 1);
                                          break;
                                      case "-5":
                                          try {
-                                             switch (flag){
+                                             switch (flag) {
                                                  case 0:
                                                      playmusic(true);
                                                      break;
@@ -158,14 +167,21 @@ public class requestClient {
                                                      playmusic(false);
                                                      break;
                                                  case 2:
-                                                     onlineMediaPlayer.play(voicePath);
+                                                     RecordBackground.PlayLocalMusic(voicePath);
                                                      break;
                                              }
 
-
                                          } catch (Exception e) {
-                                             Log.e("playerro",e.toString());
+                                             Log.e("playerro", e.toString());
                                          }
+                                         break;
+                                     case "-4":
+                                         content = "你说的贝贝还不太懂，等我学习下再来告诉你";
+                                         RecordBackground.callback(content, 1);
+                                         break;
+                                     case "-2":
+                                         content="您说的贝贝没有听清楚，请重新开始对话";
+                                         RecordBackground.callback(content, 1);
                                          break;
                                  }
                              } catch (JSONException e) {
@@ -176,11 +192,14 @@ public class requestClient {
         );
 //        callback(content);
     }
+
+
     private static FinishActivityListener finishActivityListener;
 
     public static void setFinishActivityListener(FinishActivityListener iFinishActivityListener) {
         finishActivityListener = iFinishActivityListener;
     }
+
     public interface FinishActivityListener {
         void finishActivity();
     }

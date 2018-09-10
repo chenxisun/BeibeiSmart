@@ -6,11 +6,8 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Queue;
 
-import edu.buaa.beibeismart.Activity.LearnEnglishActivity;
-
-public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class OnlineMediaPlayer extends MediaPlayer implements MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
     private static MediaPlayer mediaPlayer;
     private static OnlineMediaPlayer onlineMediaPlayer;
@@ -33,7 +30,7 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
         mediaPlayer.release();
     }
 
-    private OnlineMediaPlayer() {
+    public OnlineMediaPlayer() {
         initMediaPlayer();
         playUrlsList = new LinkedList();
     }
@@ -54,6 +51,14 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
         if (onlineMediaPlayer == null){
             onlineMediaPlayer = new OnlineMediaPlayer();
         }
+        return onlineMediaPlayer;
+    }
+
+    public static OnlineMediaPlayer RefreshPlayer() {
+
+
+        onlineMediaPlayer=new OnlineMediaPlayer();
+
         return onlineMediaPlayer;
     }
 
@@ -117,8 +122,10 @@ public class OnlineMediaPlayer implements MediaPlayer.OnBufferingUpdateListener,
         Log.e("OnlineMediaPlayer on prepared11:","prepare1");
     }
 
-    public boolean isPlaying(){
-        return mediaPlayer.isPlaying();
+
+    @Override
+    public boolean isPlaying() {
+        return super.isPlaying();
     }
 
     @Override

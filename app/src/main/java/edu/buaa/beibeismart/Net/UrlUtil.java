@@ -1,10 +1,6 @@
 package edu.buaa.beibeismart.Net;
 
 import android.text.format.Time;
-import android.util.Log;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Uri
@@ -15,7 +11,7 @@ public class UrlUtil {
 
 //    public static final String IP = "http://172.19.38.1:8080/spring-mvc-showcase";
 //    public static final String IP = "";
-    public static final String IP = "http://47.94.165.157:8080";
+    public static final String IP = "http://47.94.223.2:8080";
 //    public static final String IP_MATERIAL = "http://47.94.165.157:8083";
     public static final String IP_MATERIAL = "";
 //    public static final String IP = "http://192.168.253.1:8080/spring-mvc-showcase";
