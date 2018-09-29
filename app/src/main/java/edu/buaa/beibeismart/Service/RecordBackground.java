@@ -39,8 +39,6 @@ public class RecordBackground extends Service {
     //语音合成对象
     private static SpeechSynthesizer speaker;
 
-    OnlineMediaPlayer onlineMediaPlayer;
-
     requestClient requestCli = new requestClient();
 
     //识别出来的句子
@@ -370,7 +368,8 @@ public class RecordBackground extends Service {
 //        speakingPlayer =new MediaPlayer();
 
           SlackMusicPlayer playerOnActivity=SlackMusicPlayer.instance;
-           MediaPlayer speakingPlayer=new MediaPlayer();
+//           MediaPlayer speakingPlayer=new MediaPlayer();
+        OnlineMediaPlayer speakingPlayer=OnlineMediaPlayer.getInstance();
 
         if (playerOnActivity.isPlaying() && playerOnActivity.getCurrentPosition()>0) {
             Log.e("isplaying", String.valueOf(playerOnActivity.isPlaying()));

@@ -31,7 +31,7 @@ public class My_Music_list extends BaseActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(My_Music_list.this, Album_list.class);
-                intent.putExtra("title", "所有音乐");
+                intent.putExtra("title", "中文儿歌");
                 startActivity(intent);
 
             }
@@ -55,20 +55,12 @@ public class My_Music_list extends BaseActivity {
 
             }
         });
-        findViewById(R.id.child_music).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(My_Music_list.this, Album_list.class);
-                intent.putExtra("title", "儿歌");
-                startActivity(intent);
 
-            }
-        });
         findViewById(R.id.english_music).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(My_Music_list.this, Album_list.class);
-                intent.putExtra("title", "英文歌");
+                intent.putExtra("title", "英文儿歌");
                 startActivity(intent);
             }
         });

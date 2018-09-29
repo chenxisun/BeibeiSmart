@@ -1,6 +1,8 @@
 package edu.buaa.beibeismart.Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -52,6 +54,7 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
     protected void initView() {
         setContentView(R.layout.activity_learn_english);
         gvCatalogs = findViewById(R.id.gv_catalog);
+        gvCatalogs.setSelector(new ColorDrawable(Color.TRANSPARENT));
         Button btnReture = findViewById(R.id.btn_learn_english_return);
 
         btnReture.setOnClickListener(this);

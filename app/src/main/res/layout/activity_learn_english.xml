@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.LearnEnglishActivity">
+    tools:context=".Activity.LearnEnglishActivity"
+    android:background="@drawable/u0">
 
 
     <Button
         android:id="@+id/btn_learn_english_return"
-        android:layout_width="@dimen/btn_width_128"
-        android:layout_height="@dimen/btn_height_81"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/return_white_128"
+        android:layout_margin="10dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/back_btn"
         />
 
     <GridView
         android:id="@+id/gv_catalog"
+        android:listSelector="#00000000"
         android:layout_below="@id/btn_learn_english_return"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"

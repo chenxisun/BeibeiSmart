@@ -44,6 +44,8 @@ public class EnglishPlayerFragment extends BaseFragment {
     TextView playingTime_text;
     SeekBar playingProcess;
 
+//    OnlineMediaPlayer mediaPlayer = OnlineMediaPlayer.RefreshPlayer();
+
     SlackMusicPlayer slackMusicPlayer = SlackMusicPlayer.instance;
 
     //OnlineMediaPlayer mediaPlayer=OnlineMediaPlayer.getInstance();
@@ -254,12 +256,12 @@ public class EnglishPlayerFragment extends BaseFragment {
         if (item.getData().contains("http")) {
             Toast.makeText(getActivity(), "正在加载歌曲~", Toast.LENGTH_SHORT).show();
             if (file.exists()) {
-                musicCellection.setBackgroundResource(R.mipmap.englishplaycollected);
+                musicCellection.setBackgroundResource(R.drawable.englishplaycollected);
             } else {
-                musicCellection.setBackgroundResource(R.mipmap.englishplaycollection);
+                musicCellection.setBackgroundResource(R.drawable.englishplaycollection);
             }
         } else {
-            musicCellection.setBackgroundResource(R.mipmap.delete);
+            musicCellection.setBackgroundResource(R.drawable.delete);
         }
 
         // 显示音乐总时长,设置seekbar总时长和初始值
@@ -267,7 +269,7 @@ public class EnglishPlayerFragment extends BaseFragment {
         totalTime_text.setText(time);
         playingProcess.setProgress(0);
         playingProcess.setMax(totalTime);
-        englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
+        englishplayandpause.setBackgroundResource(R.drawable.englishpause);
         // 判断歌曲是否收藏并获得歌曲播放路径与信息
         Log.e("time", "01");
         t.start();
@@ -338,7 +340,7 @@ public class EnglishPlayerFragment extends BaseFragment {
             slackMusicPlayer.seekTo(0);
             slackMusicPlayer.pause();
             playtag = false;
-            englishplayandpause.setBackgroundResource(R.mipmap.englishplay);
+            englishplayandpause.setBackgroundResource(R.drawable.englishplay);
             setTimeandProsess();
         }else{
             slackMusicPlayer.seekTo(playingProcess.getProgress());
@@ -350,12 +352,12 @@ public class EnglishPlayerFragment extends BaseFragment {
     public void setPause(){
         slackMusicPlayer.pause();
         playtag = false;
-        englishplayandpause.setBackgroundResource(R.mipmap.englishplay);
+        englishplayandpause.setBackgroundResource(R.drawable.englishplay);
     }
 
     public void setContinuePlay(){
         slackMusicPlayer.continuePlay();
-        englishplayandpause.setBackgroundResource(R.mipmap.englishpause);
+        englishplayandpause.setBackgroundResource(R.drawable.englishpause);
         playtag = true;
         refreshTime();
     }

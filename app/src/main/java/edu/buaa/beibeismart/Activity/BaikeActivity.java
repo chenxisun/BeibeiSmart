@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,13 +47,21 @@ public class BaikeActivity extends BaseActivity implements View.OnClickListener,
     String Getstring;
     public Translation ts;
 
+    Button animal;
+    Button fruit;
+    Button english;
+    Button vegetable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baike);
         findViewById(R.id.btn_baike_return).setOnClickListener(this);
+        findViewById(R.id.btn_baike_fruit).setOnClickListener(this);
+        findViewById(R.id.btn_baike_vegetable).setOnClickListener(this);
+        findViewById(R.id.btn_baike_english).setOnClickListener(this);
+        findViewById(R.id.btn_baike_animal).setOnClickListener(this);
         //LayoutInflater layoutInflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
-        gridView = (GridView)findViewById(R.id.grid);
         request(this);
 
         //getImage();
@@ -213,6 +222,22 @@ public class BaikeActivity extends BaseActivity implements View.OnClickListener,
             case R.id.btn_baike_return:
                 Intent intent = new Intent(BaikeActivity.this,MainActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.btn_baike_animal:
+                Intent intent2 = new Intent(BaikeActivity.this,Baike_ListActivity.class);
+                startActivity(intent2);
+                break;
+            case  R.id.btn_baike_english:
+                Intent intent3 = new Intent(BaikeActivity.this,Baike_ListActivity.class);
+                startActivity(intent3);
+                break;
+            case R.id.btn_baike_fruit:
+                Intent intent4 = new Intent(BaikeActivity.this,Baike_ListActivity.class);
+                startActivity(intent4);
+                break;
+            case R.id.btn_baike_vegetable:
+                Intent intent5 = new Intent(BaikeActivity.this,Baike_ListActivity.class);
+                startActivity(intent5);
                 break;
             default:
                 break;

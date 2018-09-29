@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import edu.buaa.beibeismart.Activity.Album_list;
 import edu.buaa.beibeismart.Activity.MainActivity;
+import edu.buaa.beibeismart.Media.OnlineMediaPlayer;
 import edu.buaa.beibeismart.Media.SlackMusicPlayer;
 import edu.buaa.beibeismart.Service.RecordBackground;
 import okhttp3.Call;
@@ -27,6 +28,8 @@ public class requestClient {
 //    OnlineMediaPlayer onlineMediaPlayer = OnlineMediaPlayer.getInstance();
 
     final OkHttpClient client = new OkHttpClient();
+    SlackMusicPlayer playerOnActivity=SlackMusicPlayer.instance;
+
 
     String isSleep = "false";
     String waitNext = "false";
@@ -58,7 +61,7 @@ public class requestClient {
 
         Intent intent = new Intent(context, Album_list.class);
         if (flag) {
-            intent.putExtra("title", "所有音乐");
+            intent.putExtra("title", "中文儿歌");
         } else {
             intent.putExtra("title", "中文故事");
         }
@@ -176,10 +179,20 @@ public class requestClient {
                                          }
                                          break;
                                      case "-4":
+
+                                         if (playerOnActivity.isPlaying()){
+                                             break;
+                                     };
+
                                          content = "你说的贝贝还不太懂，等我学习下再来告诉你";
                                          RecordBackground.callback(content, 1);
                                          break;
                                      case "-2":
+
+                                         if (playerOnActivity.isPlaying()){
+                                             break;
+                                         };
+
                                          content="您说的贝贝没有听清楚，请重新开始对话";
                                          RecordBackground.callback(content, 1);
                                          break;

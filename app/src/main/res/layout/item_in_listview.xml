@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="音乐名称"
-        android:textSize="20dp"/>
+        android:textSize="35dp"/>
     <TextView
         android:id="@+id/music_duration"
         android:layout_toRightOf="@+id/img_mp3"

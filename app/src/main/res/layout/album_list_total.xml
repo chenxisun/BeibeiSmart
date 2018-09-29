@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main"
+    android:background="@drawable/u0"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -11,14 +11,17 @@
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="90dp">
+
             <TextView
-            android:id="@+id/album_title"
-            android:layout_width="match_parent"
+                android:id="@+id/album_title"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="40dp"
-            android:background="#003366"/>
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+
+                android:gravity="center"
+                android:textSize="40dp" />
             <Button
                 android:id="@+id/back_btn_album_list"
                 android:layout_margin="10dp"
@@ -31,7 +34,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#333666">
+            >
 
             <ListView
                 android:id="@+id/album_list"

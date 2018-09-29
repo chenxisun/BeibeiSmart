@@ -155,7 +155,7 @@ public class Album_list extends BaseActivity {
     protected void initData() {
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
-        if (title.equals("所有音乐") || title.equals("中文故事")) {
+        if (title.equals("中文儿歌") || title.equals("中文故事")) {
             flag = intent.getIntExtra("flag", 0);
             if (flag == -1) {
                 item_attrib item = new item_attrib();
@@ -172,7 +172,7 @@ public class Album_list extends BaseActivity {
 
     private void getMusicData() {
         switch (title) {
-            case "所有音乐":
+            case "中文儿歌":
                 getRemoteData(url_music_list);
                 requestResMusicList = requestRes;
                 extractMusicList(requestResMusicList);
@@ -182,9 +182,7 @@ public class Album_list extends BaseActivity {
                 break;
             case "轻音乐":
                 break;
-            case "儿歌":
-                break;
-            case "英文歌":
+            case "英文儿歌":
                 getRemoteData(url_english_list);
                 requestResEnglishList = requestRes;
                 extractMusicList(requestResEnglishList);
@@ -214,6 +212,7 @@ public class Album_list extends BaseActivity {
                     e.printStackTrace();
                 }
                 handler.sendEmptyMessage(1);
+                Log.e("reqList",url);
             }
         }.start();
 

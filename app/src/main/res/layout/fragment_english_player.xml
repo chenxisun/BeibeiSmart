@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="edu.buaa.beibeismart.Fragment.EnglishPlayerFragment"
     android:orientation="vertical"
-    android:background="@mipmap/musicplayerbg">
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -21,7 +21,8 @@
             android:layout_height="match_parent"
             android:text="请点击歌曲播放"
             android:textColor="#000000"
-            android:textSize="36sp"/>
+            android:textSize="30sp"
+            android:layout_marginTop="3dp"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="2"
@@ -33,15 +34,17 @@
         android:layout_weight="12">
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:layout_height="match_parent" />
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="6"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/u70"
+            android:layout_margin="30dp"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:layout_height="match_parent" />
     </LinearLayout>
     <LinearLayout
@@ -56,9 +59,10 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="7"
+        android:layout_weight="6"
         android:orientation="vertical"
-        android:background="@mipmap/englishplayband">
+        android:background="@drawable/englishplayband"
+        android:layout_marginTop="5dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -99,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingTop="5dp"
+        android:padding="4dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="0dp"
@@ -110,7 +114,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@mipmap/englishreplay"/>
+            android:background="@drawable/englishreplay"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
@@ -119,7 +123,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@mipmap/englishplayup"/>
+            android:background="@drawable/englishplayup"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
@@ -129,7 +133,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@mipmap/englishplay"/>
+            android:background="@drawable/englishplay"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
@@ -138,7 +142,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@mipmap/englishplaydown"/>
+            android:background="@drawable/englishplaydown"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
@@ -148,7 +152,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:id="@+id/btn_music_collection"
-            android:background="@mipmap/englishplaycollection"/>
+            android:background="@drawable/englishplaycollection"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="4"

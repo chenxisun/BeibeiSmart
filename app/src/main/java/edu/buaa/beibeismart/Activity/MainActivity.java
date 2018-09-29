@@ -87,22 +87,22 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
         Map mapWeather = new HashMap();
         mapWeather.put("catalogId","weather");
         mapWeather.put("catalog","天气预报");
-        mapWeather.put("img",R.drawable.catalog_download_128);
+        mapWeather.put("img",R.drawable.catalog_weather_128);
 
         Map mapFaceRec = new HashMap();
         mapFaceRec.put("catalogId","faceRec");
         mapFaceRec.put("catalog","人脸识别");
-        mapFaceRec.put("img",R.drawable.catalog_download_128);
+        mapFaceRec.put("img",R.drawable.catalog_face_128);
 
         Map mapPoseMoniter = new HashMap();
         mapPoseMoniter.put("catalogId","poseMoniter");
         mapPoseMoniter.put("catalog","行为监控");
-        mapPoseMoniter.put("img",R.drawable.catalog_download_128);
+        mapPoseMoniter.put("img",R.drawable.catalog_behave_128);
 
         Map mapFaceAnsys = new HashMap();
         mapFaceAnsys.put("catalogId","faceAnsys");
-        mapFaceAnsys.put("catalog","表情分析");
-        mapFaceAnsys.put("img",R.drawable.catalog_download_128);
+        mapFaceAnsys.put("catalog","表情识别");
+        mapFaceAnsys.put("img",R.drawable.catalog_emoji_128);
 
         dataList.add(mapMusic);
         dataList.add(mapStory);
@@ -110,8 +110,9 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
         dataList.add(mapEng);
         dataList.add(mapWeather);
         dataList.add(mapFaceRec);
-        dataList.add(mapPoseMoniter);
         dataList.add(mapFaceAnsys);
+        dataList.add(mapPoseMoniter);
+
 
 
     }
