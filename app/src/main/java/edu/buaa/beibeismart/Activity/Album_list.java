@@ -56,6 +56,7 @@ public class Album_list extends BaseActivity {
 
     private ArrayList<item_attrib> musicitems;
     private item_attrib voice2Music;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -293,7 +294,6 @@ public class Album_list extends BaseActivity {
 
         @Override
         public Object getItem(int i) {
-
             return null;
         }
 

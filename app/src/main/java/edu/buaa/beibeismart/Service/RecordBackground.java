@@ -32,7 +32,6 @@ import edu.buaa.beibeismart.Media.SlackMusicPlayer;
 import edu.buaa.beibeismart.requestClient;
 
 public class RecordBackground extends Service {
-
     // 语音识别对象
     private SpeechRecognizer recognizer;
 
@@ -100,6 +99,7 @@ public class RecordBackground extends Service {
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
+
                 recognizer.startListening(recognizerListener);
 //            }
         }
@@ -158,7 +158,6 @@ public class RecordBackground extends Service {
         public void onEvent(int i, int i1, int i2, Bundle bundle) {
         }
     };
-
 
     //语音合成监听器
     private static SynthesizerListener synthesizerListener = new SynthesizerListener() {

@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.buaa.beibeismart.Adapter.CatalogAdapter;
+import edu.buaa.beibeismart.Camera.CameraActivity;
 import edu.buaa.beibeismart.Interface.OnRecyclerViewItemClickListener;
 import edu.buaa.beibeismart.R;
 import edu.buaa.beibeismart.Service.RecordBackground;
@@ -70,7 +71,7 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
 
         Map mapStory = new HashMap();
         mapStory.put("catalogId","story");
-        mapStory.put("catalog","故事");
+        mapStory.put("catalog","文学");
         mapStory.put("img",R.drawable.catalog_story_128);
 
         Map mapBio = new HashMap();
@@ -80,7 +81,7 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
 
         Map mapEng = new HashMap();
         mapEng.put("catalogId","wordLearning");
-        mapEng.put("catalog","英语学习");
+        mapEng.put("catalog","英语");
         mapEng.put("img",R.drawable.catalog_words_128);
 
 
@@ -141,7 +142,9 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
                 intent = new Intent(MainActivity.this,LearnEnglishActivity.class);
                 startActivity(intent);
                 break;
-            case "download":
+            case "faceRec":
+                intent=new Intent(MainActivity.this, CameraActivity.class);
+                startActivity(intent);
                 break;
         }
     }

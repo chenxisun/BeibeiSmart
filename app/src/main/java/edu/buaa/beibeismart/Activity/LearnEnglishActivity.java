@@ -83,7 +83,6 @@ public class LearnEnglishActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initData() {
         super.initData();
-
         String url = UrlUtil.IP+"/english/words/topics";
         //String url = "http://47.94.165.157:8080/english/words/topics";
         stringRequest = new StringRequest(Request.Method.GET,url,this,this);
