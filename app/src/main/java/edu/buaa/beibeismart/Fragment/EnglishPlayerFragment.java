@@ -231,8 +231,8 @@ public class EnglishPlayerFragment extends BaseFragment {
 
             @Override
             public void startPlay(item_attrib item) throws IOException {
-
-                slackMusicPlayer.release();
+                slackMusicPlayer.pause();
+                slackMusicPlayer.pause();
                 Log.e("time", "00");
                 setPlayer(item);
             }
@@ -245,7 +245,7 @@ public class EnglishPlayerFragment extends BaseFragment {
         item = item1;
         musicname = item.getName().split("\\.");
         totalTime = (int) item.getDuration();
-        musicstyle = item.getData().substring(item.getData().length() - 4, item.getData().length());
+        musicstyle = item.getData().substring(item.getData().length()- 4, item.getData().length());
         playerPath = Environment.getExternalStorageDirectory().toString() + "/voice/" + item.getName() + musicstyle;
         file = new File(playerPath);
         playingTime_text.setText("00:00");

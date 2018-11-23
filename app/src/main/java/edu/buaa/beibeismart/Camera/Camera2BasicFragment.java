@@ -64,7 +64,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facepp.error.FaceppParseException;
+//import com.facepp.error.FaceppParseException;
 
 import org.json.JSONArray;
 import org.json.JSONException;

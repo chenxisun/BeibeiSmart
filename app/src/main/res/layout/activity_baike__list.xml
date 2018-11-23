@@ -2,68 +2,144 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/u0">
+    android:background="@drawable/u0"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:orientation="horizontal"
             >
             <Button
-                android:id="@+id/btn_BackBaikelist"
+                android:id="@+id/btn_BackBaikeActivity"
                 android:layout_margin="10dp"
                 android:layout_width="80dp"
                 android:layout_height="60dp"
+                android:layout_gravity="center"
                 android:background="@drawable/arrow_l"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/BaikeTitle"
+                android:paddingTop="5dp"
+                android:textColor="#000"
+                android:textSize="36sp"
+                android:gravity="center" />
+
         </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#666699"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+           <ListView
+               android:layout_width="300dp"
+               android:layout_height="match_parent"
+               android:id="@+id/baike_listView"
+               android:gravity="center">
 
-            <Button
-                android:id="@+id/btn_example1"
+           </ListView>
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#666699"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:textColor="#000"
-                android:background="@color/transparent"
-                android:text="示例1" />
-            <Button
-                android:id="@+id/btn_example2"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="示例2"
-                android:textColor="#000"
-                android:background="@color/transparent"
-                android:layout_marginTop="1dp" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <edu.buaa.beibeismart.MyImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/baikeItemImage1"
+                    android:layout_gravity="center" />
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/baike_biankuang1"/>
+
+                <edu.buaa.beibeismart.MyImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/baikeItemImage2"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/baike_biankuang2"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical">
+                    <edu.buaa.beibeismart.MyImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:id="@+id/baikeItemImage3"
+                        android:layout_gravity="center"
+                        />
+                    <TextView
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/baike_biankuang3"/>
+                    <edu.buaa.beibeismart.MyImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:id="@+id/baikeItemImage4"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/baike_biankuang4"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.3"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="8"
+                        android:layout_height="match_parent" />
+                    <Button
+                        android:id="@+id/btn_baikeplay"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="45dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/transparent"
+                        />
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/baike_title"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:textSize="36sp"
-            android:textColor="#000"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:layout_gravity="center"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="7"/>
-
-    </LinearLayout>
 
 </LinearLayout>
