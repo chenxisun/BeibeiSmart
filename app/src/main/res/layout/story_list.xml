@@ -67,7 +67,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:paddingTop="10dp"
-                android:text="英文故事"
+                android:text="认识汉字"
                 android:textSize="30dp" />
 
         </LinearLayout>

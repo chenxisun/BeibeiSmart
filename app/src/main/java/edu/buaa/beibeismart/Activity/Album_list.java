@@ -308,10 +308,10 @@ public class Album_list extends BaseActivity {
             View view1 = View.inflate(Album_list.this, R.layout.item_in_listview, null);
             TextView music_name = view1.findViewById(R.id.music_name);
             TextView music_duration = view1.findViewById(R.id.music_duration);
-            TextView music_size = view1.findViewById(R.id.music_size);
+//            TextView music_size = view1.findViewById(R.id.music_size);
             item_attrib item = musicitems.get(i);
             music_name.setText(item.getName());
-            music_size.setText(Formatter.formatFileSize(Album_list.this, item.getSize()));
+//            music_size.setText(Formatter.formatFileSize(Album_list.this, item.getSize()));
             music_duration.setText(time_transfer.timeParse(item.getDuration()));
 
             return view1;
