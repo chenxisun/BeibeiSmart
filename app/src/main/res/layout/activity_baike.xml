@@ -36,10 +36,13 @@
     </LinearLayout>
 
 </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#666699"/>
 
 
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -47,57 +50,79 @@
             android:id="@+id/btn_baike_animal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="动物百科"
+            android:text="动物"
             android:textSize="20sp"
             android:layout_weight="1"
             android:textColor="#000"
             android:background="@color/transparent"
             android:layout_alignParentStart="true"
-
             app:srcCompat="@drawable/white" />
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#666699"/>
 
         <Button
             android:id="@+id/btn_baike_fruit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="水果百科"
+            android:text="水果"
             android:textSize="20sp"
             android:textColor="#000"
             android:background="@color/transparent"
             android:layout_alignBottom="@+id/imageView5_0"
             android:layout_alignParentStart="true"
             app:srcCompat="@drawable/white" />
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#666699"/>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+
+
         <Button
             android:id="@+id/btn_baike_vegetable"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="蔬菜百科"
+            android:text="蔬菜"
             android:textSize="20sp"
             android:textColor="#000"
             android:background="@color/transparent"
             android:layout_alignParentEnd="true"
             app:srcCompat="@drawable/white" />
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#666699"/>
 
         <Button
             android:layout_weight="1"
-            android:id="@+id/btn_baike_english"
+            android:id="@+id/btn_baike_letter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:text="英语百科"
+            android:text="字母"
             android:textSize="20sp"
             android:textColor="#000"
             android:background="@color/transparent"
-            android:layout_marginEnd="3dp"
+            app:srcCompat="@drawable/white" />
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#666699"/>
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btn_baike_shape"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:text="图形"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:background="@color/transparent"
             app:srcCompat="@drawable/white" />
 
     </LinearLayout>
