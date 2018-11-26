@@ -146,6 +146,9 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
                 intent=new Intent(MainActivity.this, CameraActivity.class);
                 startActivity(intent);
                 break;
+            case "faceAnsys":
+                startActivity(new Intent(MainActivity.this,EmotionActivity.class));
+                break;
         }
     }
 
