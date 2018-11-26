@@ -31,8 +31,6 @@ import okhttp3.Response;
 
 public class Baike_ListActivity extends BaseActivity implements View.OnClickListener{
 
-
-
     TextView title;
     String animal_url = UrlUtil.IP+"/wikipedia/list?pageNo=0&pageSize=10";
     static String requestRes = "";
