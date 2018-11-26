@@ -55,7 +55,7 @@ package="edu.buaa.beibeismart">
     <activity android:name=".Activity.LearnEnglishActivity" />
 
     <activity android:name=".Activity.EnglishWordsActivity" />
-
+    <activity android:name=".Activity.EmotionActivity"></activity>
     <activity android:name=".Activity.MainActivity">
 
         <intent-filter>
