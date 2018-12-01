@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -15,33 +17,38 @@
 
         <TextView
             android:id="@+id/resultText1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
+            android:layout_width="189dp"
+            android:layout_height="83dp"
+            android:textSize="36sp"
+            app:autoSizeMinTextSize="36sp" />
 
         <TextView
             android:id="@+id/resultText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text=""
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/resultText3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text=""
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/resultText4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text=""
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/resultText5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text=""
+            android:textSize="30sp" />
 
         <edu.buaa.beibeismart.RectView
             android:id="@+id/rectView"
