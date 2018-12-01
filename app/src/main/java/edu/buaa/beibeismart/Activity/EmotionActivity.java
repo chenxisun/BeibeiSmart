@@ -456,7 +456,7 @@ public class EmotionActivity extends BaseActivity implements View.OnClickListene
                                                     layoutParams.setMargins(right, top, 0, 0);
                                                     rectView.setRect(left,top,right,bottom,color);
                                                     resultText1.setLayoutParams(layoutParams);
-                                                    resultText1.setTextSize(20);
+                                                    resultText1.setTextSize(40);
                                                     resultText1.setTextColor(Color.BLUE);
                                                     resultText1.setText(endResult);
                                                     }
@@ -504,7 +504,7 @@ public class EmotionActivity extends BaseActivity implements View.OnClickListene
                 e.printStackTrace();
             } finally {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
