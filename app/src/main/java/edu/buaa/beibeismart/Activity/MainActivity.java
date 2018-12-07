@@ -20,6 +20,7 @@ import edu.buaa.beibeismart.Camera.CameraActivity;
 import edu.buaa.beibeismart.Interface.OnRecyclerViewItemClickListener;
 import edu.buaa.beibeismart.R;
 import edu.buaa.beibeismart.Service.RecordBackground;
+import edu.buaa.beibeismart.SkeletonDetect.SkeletonActivity;
 import edu.buaa.beibeismart.View.DividerItemLineDecoration;
 
 
@@ -148,6 +149,11 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
                 break;
             case "faceAnsys":
                 startActivity(new Intent(MainActivity.this,EmotionActivity.class));
+                break;
+            case "poseMoniter":
+                //intent=new Intent(MainActivity.this, SkeletonActivity.class);
+                //startActivity(intent);
+                startActivity(new Intent(MainActivity.this,SkeletonActivity.class));
                 break;
         }
     }

@@ -3,15 +3,15 @@
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="perpolred">#f000ff</color>
-    <color name="pink">#CCADB5</color>
+    <color name="perpolred">#00ff00</color>
+    <color name="pink">#ccadb5</color>
     <color name="whitesmoke">#F5F5F5</color> <!-- 烟白色 -->
     <color name="error_gray">#EBEBEB</color>
     <color name="blank">#C3C3C3</color>
 
     <!--button-->
-    <color name="btnClick">#FF4081</color>
-    <color name="btnNormal">#FF80ab</color>
+    <color name="btnClick">#ffec40</color>
+    <color name="btnNormal">#ff80ab</color>
 
     <!-- Theme -->
     <color name="colorPrimary">#3F51B5</color>
@@ -19,7 +19,7 @@
     <color name="colorSecond">#3260FD</color>
     <color name="colorPrimaryLight">#c5cae9</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorFallback">#FF80ab</color>
+    <color name="colorFallback">#ff80ab</color>
     <color name="default_gray">#4cA2A2A2</color>
 
 
