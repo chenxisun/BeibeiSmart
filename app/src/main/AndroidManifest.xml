@@ -7,14 +7,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
-
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CAMERA" />
+
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -77,21 +75,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".Activity.FaceRecActivity" />
-        <activity android:name=".Activity.EnglishActivity" />
-        <activity android:name=".Activity.IpaLearnActivity" />
-        <activity android:name=".Activity.IPA1Activity" />
-        <activity android:name=".Activity.Ipa2Activity" />
-        <activity android:name=".Activity.IPA3Activity" />
-        <activity android:name=".Activity.IPA4Activity" />
-        <activity android:name=".Activity.IPA5Activity" />
-        <activity android:name=".Activity.IPA6Activity" />
-        <activity android:name=".Activity.Keben3Acontent1Activity" />
-        <activity android:name=".Activity.Keben3Acontent2Activity" />
-        <activity android:name=".Activity.KebencontentActivity" />
-        <activity android:name=".Activity.KenbenActivity" />
-        <activity android:name=".Activity.Keben3Bcontent1Activity" />
-        <activity android:name=".Activity.Keben3Bcontent2Activity"></activity>
+        <activity android:name=".Activity.FaceRecActivity"></activity>
     </application>
 
 </manifest>
