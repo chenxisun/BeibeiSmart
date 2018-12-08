@@ -89,7 +89,11 @@ public class EmotionActivity extends BaseActivity implements View.OnClickListene
     private TextView resultText5;
     private Button button;
     private Paint paint;
-    private RectView rectView;
+    private RectView rectView1;
+    private RectView rectView2;
+    private RectView rectView3;
+    private RectView rectView4;
+    private RectView rectView5;
     private static int noFaceNumber = 0;
 
     private final TextureView.SurfaceTextureListener surfaceTextureListener
@@ -301,9 +305,9 @@ public class EmotionActivity extends BaseActivity implements View.OnClickListene
         resultText3 = (TextView)findViewById(R.id.resultText3);
         resultText4=(TextView)findViewById(R.id.resultText4);
         resultText5=(TextView)findViewById(R.id.resultText5);
-        rectView=(RectView)findViewById(R.id.rectView);
+        rectView1=(RectView)findViewById(R.id.rectView1);
         button=(Button)findViewById(R.id.returnback);
-        rectView.initRect();
+        rectView1.initRect();
         paint = new Paint();
         paint.setColor(Color.rgb(255, 0, 0));
         paint.setStyle(Paint.Style.STROKE);
@@ -410,7 +414,6 @@ public class EmotionActivity extends BaseActivity implements View.OnClickListene
 //                        mFile.delete();
                         bitmap.recycle();
                         final String htmlStr = response.body().string();
-
                         try {
                             JSONObject js = new JSONObject(htmlStr);
                             js.get("faces");
@@ -418,7 +421,7 @@ public class EmotionActivity extends BaseActivity implements View.OnClickListene
                             if (new GsonBuilder().create().fromJson(htmlStr, facebean.class).getFaces().size() != 0) {
                                 final facebean facebean1 = new GsonBuilder().create().fromJson(htmlStr, facebean.class);
                                 int a = facebean1.getFaces().size();
-                                if(a>1){a=1;}//多个人脸存在很多BUG，当前仅测试单个人脸的情况
+//                                if(a>1){a=1;}
                                 for(int t=0;t<a;t++) {
                                     String result;
                                     result = "";
@@ -454,25 +457,25 @@ public class EmotionActivity extends BaseActivity implements View.OnClickListene
                                                     if (endResult != null) {
                                                     FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                                                     layoutParams.setMargins(right, top, 0, 0);
-                                                    rectView.setRect(left,top,right,bottom,color);
+                                                    rectView1.setRect(left,top,right,bottom,color);
                                                     resultText1.setLayoutParams(layoutParams);
-                                                    resultText1.setTextSize(20);
+//                                                    resultText1.setTextSize(40);
                                                     resultText1.setTextColor(Color.BLUE);
                                                     resultText1.setText(endResult);
                                                     }
                                                     break;
-//                                                case 1:
-//                                                    if (endResult != null) { resultText2.setText(endResult); }
-//                                                    break;
-//                                                case 2:
-//                                                    if (endResult != null) { resultText3.setText(endResult); }
-//                                                    break;
-//                                                case 3:
-//                                                    if (endResult != null) { resultText4.setText(endResult); }
-//                                                    break;
-//                                                case 4:
-//                                                    if (endResult != null) { resultText5.setText(endResult); }
-//                                                    break;
+                                                case 1:
+                                                    if (endResult != null) { resultText2.setText(endResult); }
+                                                    break;
+                                                case 2:
+                                                    if (endResult != null) { resultText3.setText(endResult); }
+                                                    break;
+                                                case 3:
+                                                    if (endResult != null) { resultText4.setText(endResult); }
+                                                    break;
+                                                case 4:
+                                                    if (endResult != null) { resultText5.setText(endResult); }
+                                                    break;
                                                 //当前仅测试单个人脸，多个人脸存在bug
                                                     default:
                                                         break;
@@ -487,7 +490,7 @@ public class EmotionActivity extends BaseActivity implements View.OnClickListene
                                     @Override
                                     public void run() {
                                         //更新UI
-                                        rectView.setRect(0,0,0,0,0);
+                                        rectView1.setRect(0,0,0,0,0);
                                         resultText1.setText("");
                                     }
                                 });
@@ -504,7 +507,7 @@ public class EmotionActivity extends BaseActivity implements View.OnClickListene
                 e.printStackTrace();
             } finally {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
