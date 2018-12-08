@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.buaa.beibeismart.Adapter.CatalogAdapter;
-import edu.buaa.beibeismart.Camera.CameraActivity;
 import edu.buaa.beibeismart.Interface.OnRecyclerViewItemClickListener;
 import edu.buaa.beibeismart.R;
 import edu.buaa.beibeismart.Service.RecordBackground;
@@ -143,7 +142,7 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
                 startActivity(intent);
                 break;
             case "faceRec":
-                intent=new Intent(MainActivity.this, CameraActivity.class);
+                intent=new Intent(MainActivity.this, FaceRecActivity.class);
                 startActivity(intent);
                 break;
             case "faceAnsys":

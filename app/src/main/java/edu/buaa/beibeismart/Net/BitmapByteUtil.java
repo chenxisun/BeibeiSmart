@@ -1,4 +1,4 @@
-package edu.buaa.beibeismart.Camera;
+package edu.buaa.beibeismart.Net;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

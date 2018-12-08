@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package edu.buaa.beibeismart;
+package edu.buaa.beibeismart.View;
 
 import android.content.Context;
 import android.util.AttributeSet;

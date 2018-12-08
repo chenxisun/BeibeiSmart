@@ -1,127 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
-package="edu.buaa.beibeismart">
-
-
-
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-<uses-permission android:name="android.permission.INTERNET" />
-
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-<!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
-
-<uses-permission android:name="android.permission.CAMERA" />
-
-<uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
-
-
-
-<uses-permission android:name="android.permission.CAMERA" />
-
-
-
-<uses-feature android:name="android.hardware.camera" />
-
-<uses-feature android:name="android.hardware.camera.autofocus" />
-
-
-
-<application
-
-    android:allowBackup="true"
-
-    android:icon="@mipmap/ic_launcher"
-
-    android:label="@string/app_name"
-
-    android:roundIcon="@mipmap/ic_launcher_round"
-
-    android:supportsRtl="true"
-
-    android:theme="@style/Theme.AppCompat.NoActionBar">
-
-    <activity android:name=".Activity.EnglishWordsActivity2" />
-
-    <activity android:name=".Activity.LearnEnglishActivity" />
-
-    <activity android:name=".Activity.EnglishWordsActivity" />
-    <activity android:name=".Activity.EmotionActivity"></activity>
-    <activity android:name=".Activity.MainActivity">
-
-        <intent-filter>
-
-            <action android:name="android.intent.action.MAIN" />
-
-
-
-            <category android:name="android.intent.category.LAUNCHER" />
-
-        </intent-filter>
-
-    </activity>
-
-
-
-    <activity
-
-        android:name=".Activity.My_Music_list"
-
-        android:launchMode="singleTask">
-
-        <intent-filter>
-
-            <category android:name="android.intent.category.DEFAULT" />
-            <action android:name="edu.buaa.beibeismart.intent.music_list" />
-
-        </intent-filter>
-
-    </activity>
-
-    <activity
-
-        android:name=".Activity.My_story_list"
-
-        android:launchMode="singleTask">
-
-        <intent-filter>
-
-            <category android:name="android.intent.category.DEFAULT" />
-            <action android:name="edu.buaa.beibeismart.intent.story_list" />
-
-        </intent-filter>
-
-    </activity>
-
-    <activity android:name=".Activity.Album_list" />
-    <service
-
-        android:name=".Service.RecordBackground"
-
-        android:enabled="true"
-
-        android:exported="true" />
-
-
-
-    <activity android:name=".Activity.BaikeActivity" />
-    <activity android:name=".Activity.Baike_ListActivity" />
-
-    <activity android:name=".Camera.CameraActivity">
-
-    </activity>
-
-</application>
-
-
+    package="edu.buaa.beibeismart">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".Activity.EnglishWordsActivity2" />
+        <activity android:name=".Activity.LearnEnglishActivity" />
+        <activity android:name=".Activity.EnglishWordsActivity" />
+        <activity android:name=".Activity.EmotionActivity" />
+        <activity android:name=".Activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.My_Music_list"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="edu.buaa.beibeismart.intent.music_list" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.My_story_list"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="edu.buaa.beibeismart.intent.story_list" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.Album_list" />
+
+        <service
+            android:name=".Service.RecordBackground"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".Activity.BaikeActivity" />
+        <activity android:name=".Activity.Baike_ListActivity" />
+        <activity android:name=".Activity.FaceRecActivity"></activity>
+    </application>
 
 </manifest>
