@@ -1,4 +1,4 @@
-package edu.buaa.beibeismart.Camera;
+package edu.buaa.beibeismart.Net;
 
 public class Constant {
 	public static final String APP_KEY = "M-Kid1l_G443dOBlXt4fYp2C3tFwLb5Z";

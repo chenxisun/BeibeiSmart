@@ -49,7 +49,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.buaa.beibeismart.AutoFitTextureView;
+import edu.buaa.beibeismart.View.AutoFitTextureView;
 import edu.buaa.beibeismart.Bean.facebean;
 import edu.buaa.beibeismart.R;
 import edu.buaa.beibeismart.RectView;

@@ -1,0 +1,175 @@
+Index: app/src/main/java/edu/buaa/beibeismart/Adapter/GridViewAdapter.java
+===================================================================
+--- app/src/main/java/edu/buaa/beibeismart/Adapter/GridViewAdapter.java	(revision 62f391c51b8da83f8aae7371a1164ca75fdf1b71)
++++ app/src/main/java/edu/buaa/beibeismart/Adapter/GridViewAdapter.java	(revision 62f391c51b8da83f8aae7371a1164ca75fdf1b71)
+@@ -1,115 +0,0 @@
+-package edu.buaa.beibeismart.Adapter;
+-
+-import android.content.Context;
+-import android.graphics.Bitmap;
+-import android.graphics.BitmapFactory;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-import android.widget.ImageView;
+-import android.widget.TextView;
+-import android.widget.BaseAdapter;
+-import android.content.Intent;
+-
+-import java.io.InputStream;
+-import java.net.HttpURLConnection;
+-import java.net.URL;
+-import java.util.List;
+-
+-import edu.buaa.beibeismart.Activity.BaikeActivity;
+-import edu.buaa.beibeismart.Activity.Baike_0_Activity;
+-import edu.buaa.beibeismart.R;
+-
+-public class GridViewAdapter extends BaseAdapter implements View.OnClickListener{
+-    Context context;
+-    List<BaikeActivity.CityItem> list;
+-    BaikeActivity baikeActivity;
+-
+-
+-    public GridViewAdapter(Context _context, List<BaikeActivity.CityItem> _list, BaikeActivity baikeActivity) {
+-        this.list = _list;
+-        this.context = _context;
+-        this.baikeActivity = baikeActivity;
+-    }
+-
+-    @Override
+-    public int getCount() {
+-        return list.size();
+-    }
+-
+-    @Override
+-    public Object getItem(int position) {
+-        return list.get(position);
+-    }
+-
+-    @Override
+-    public long getItemId(int position) {
+-        return position;
+-    }
+-
+-    @Override
+-    public View getView(int position, View convertView, ViewGroup parent) {
+-
+-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+-        convertView = layoutInflater.inflate(R.layout.item_gridview_baike, null);
+-        TextView tvCity = (TextView) convertView.findViewById(R.id.tvCity);
+-        ImageView imageView = (ImageView) convertView.findViewById(R.id.ItemImage);
+-        final BaikeActivity.CityItem city = list.get(position);
+-
+-        //Glide.with(context).load(city.getImagePath()).into(imageView);
+-        //imageView.setImageResource(city.getImageId());
+-        //System.out.println(city.getImagePath());
+-        //imageView.setImageResource(R.drawable.animal);
+-        tvCity.setText(city.getCityName());
+-        final BitMapClass bmc = new BitMapClass();
+-
+-        Runnable networkImg = new Runnable() {
+-            @Override
+-            public void run(){
+-                try{
+-                    URL httpUrl = new URL(city.getImage1Path());
+-                    HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
+-                    conn.setConnectTimeout(600);
+-                    conn.setDoInput(true);
+-                    conn.setUseCaches(false);
+-                    InputStream in = conn.getInputStream();
+-                    bmc.bitmap = BitmapFactory.decodeStream(in);
+-                    in.close();
+-                }catch (Exception e) {
+-                    e.printStackTrace();
+-                }
+-            }
+-        };
+-        new Thread(networkImg).start();
+-        while(bmc.bitmap == null){
+-            System.out.println("aaa");
+-            System.out.println(position);
+-            continue;
+-        }
+-        imageView.setImageBitmap(bmc.bitmap);
+-
+-        imageView.setId(position);
+-        imageView.setOnClickListener(this);
+-
+-        return convertView;
+-    }
+-
+-    @Override
+-    public void onClick(View view) {
+-        Intent intent = null;
+-        int num = view.getId();
+-        intent = new Intent(baikeActivity, Baike_0_Activity.class);
+-        intent.putExtra("voicePath",list.get(num).getVoicePath());
+-        intent.putExtra("img2Path",list.get(num).getImage2Path());
+-        intent.putExtra("img3Path",list.get(num).getImage3Path());
+-        intent.putExtra("img4Path",list.get(num).getImage4Path());
+-        intent.putExtra("img5Path",list.get(num).getImage5Path());
+-        intent.putExtra("position",num);
+-        //intent.putExtra("position",num);
+-        baikeActivity.startActivity(intent);
+-    }
+-}
+-
+-class BitMapClass{
+-    public Bitmap bitmap = null;
+-}
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectModuleManager\">\n    <modules>\n      <module fileurl=\"file://$PROJECT_DIR$/BeibeiSmart.iml\" filepath=\"$PROJECT_DIR$/BeibeiSmart.iml\" />\n      <module fileurl=\"file://$PROJECT_DIR$/app/app.iml\" filepath=\"$PROJECT_DIR$/app/app.iml\" />\n    </modules>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(revision 62f391c51b8da83f8aae7371a1164ca75fdf1b71)
++++ .idea/modules.xml	(date 1543231080293)
+@@ -3,6 +3,8 @@
+   <component name="ProjectModuleManager">
+     <modules>
+       <module fileurl="file://$PROJECT_DIR$/BeibeiSmart.iml" filepath="$PROJECT_DIR$/BeibeiSmart.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/BeibeiSmart-dev.iml" filepath="$PROJECT_DIR$/.idea/BeibeiSmart-dev.iml" />
++      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+     </modules>
+   </component>
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\n\nbuildscript {\n    \n    repositories {\n        google()\n        jcenter()\n    }\n    dependencies {\n        classpath 'com.android.tools.build:gradle:3.1.2'\n        \n\n        // NOTE: Do not place your application dependencies here; they belong\n        // in the individual module build.gradle files\n        classpath 'com.google.gms:google-services:3.2.0'\n    }\n}\n\nallprojects {\n    repositories {\n        google()\n        jcenter()\n    }\n}\n\ntask clean(type: Delete) {\n    delete rootProject.buildDir\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 62f391c51b8da83f8aae7371a1164ca75fdf1b71)
++++ build.gradle	(date 1543231035402)
+@@ -7,7 +7,7 @@
+         jcenter()
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:3.1.2'
++        classpath 'com.android.tools.build:gradle:3.2.1'
+         
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Sun May 13 09:30:51 CST 2018\ndistributionBase=GRADLE_USER_HOME\ndistributionPath=wrapper/dists\nzipStoreBase=GRADLE_USER_HOME\nzipStorePath=wrapper/dists\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-4.4-all.zip\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>GBK
+===================================================================
+--- gradle/wrapper/gradle-wrapper.properties	(revision 62f391c51b8da83f8aae7371a1164ca75fdf1b71)
++++ gradle/wrapper/gradle-wrapper.properties	(date 1543231035587)
+@@ -1,6 +1,6 @@
+-#Sun May 13 09:30:51 CST 2018
++#Mon Nov 26 19:17:15 CST 2018
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-4.4-all.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-4.6-all.zip

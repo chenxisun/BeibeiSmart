@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <edu.buaa.beibeismart.AutoFitTextureView
+        <edu.buaa.beibeismart.View.AutoFitTextureView
             android:id="@+id/surfaceText"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

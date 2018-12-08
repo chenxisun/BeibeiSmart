@@ -1,4 +1,4 @@
-package edu.buaa.beibeismart.Camera;
+package edu.buaa.beibeismart.Net;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -42,27 +41,24 @@ public class FaceApi {
         return null;
     }
 
-    public static String search(Bitmap mbitMap) throws Exception{
+    public static String search(String face_token) throws Exception{
 
 //        File file = new File("你的本地图片路径");
 //        byte[] buff = getBytesFromFile(file);
-        BitmapByteUtil bitmapByteUtil = new BitmapByteUtil();
-        byte[] buff=bitmapByteUtil.bitmapToByte(mbitMap);
         String url = "https://api-cn.faceplusplus.com/facepp/v3/search";
         HashMap<String, String> map = new HashMap<>();
         HashMap<String, byte[]> byteMap = new HashMap<>();
         map.put("api_key", Constant.APP_KEY);
         map.put("api_secret", Constant.APP_SECRET);
         map.put("outer_id","beibei");
-        byteMap.put("image_file", buff);
+        map.put("face_token",face_token);
         try{
-            byte[] bacd = post(url, map, byteMap);
+            byte[] bacd = post(url, map,byteMap);
             String str = new String(bacd);
             Log.e("search res",str);
             return str;
         }catch (Exception e) {
             e.printStackTrace();
-
         }
         return null;
     }
@@ -108,6 +104,7 @@ public class FaceApi {
     private final static int CONNECT_TIME_OUT = 30000;
     private final static int READ_OUT_TIME = 50000;
     private static String boundaryString = getBoundary();
+
     protected static byte[] post(String url, HashMap<String, String> map, HashMap<String, byte[]> fileMap) throws Exception {
         HttpURLConnection conne;
         URL url1 = new URL(url);
