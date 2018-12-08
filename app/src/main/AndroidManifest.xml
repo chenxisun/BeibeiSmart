@@ -80,6 +80,7 @@
         </provider>
 
         <activity android:name=".Activity.FaceRecActivity"></activity>
+    </application>
 
 </manifest>
 
