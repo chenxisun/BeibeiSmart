@@ -139,7 +139,7 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
                 startActivity(intent);
                 break;
             case "wordLearning":
-                intent = new Intent(MainActivity.this,LearnEnglishActivity.class);
+                intent = new Intent(MainActivity.this,EnglishActivity.class);
                 startActivity(intent);
                 break;
             case "faceRec":

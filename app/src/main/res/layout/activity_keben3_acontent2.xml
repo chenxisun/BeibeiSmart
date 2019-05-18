@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/u0"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <Button
+            android:id="@+id/back_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/back_btn"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/storytime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Story Time"
+            android:textSize="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/funtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fun Time"
+            android:textSize="30dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/cartoontime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cartoon Time"
+            android:textSize="30dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/letterandsong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Letter Time and Song/Rhyme Time"
+            android:textSize="30dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/checkoutandticking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Checkout time and Ticking time"
+            android:textSize="30dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/wordlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word List"
+            android:textSize="30dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
