@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BeibeiSmart-dev.iml" filepath="$PROJECT_DIR$/BeibeiSmart-dev.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BeibeiSmart.iml" filepath="$PROJECT_DIR$/BeibeiSmart.iml" />
+      <module fileurl="file://D:\AndroidStudioProjects\BeibeiSmart\BeibeiSmart-dev.iml" filepath="D:\AndroidStudioProjects\BeibeiSmart\BeibeiSmart-dev.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
