@@ -4,7 +4,9 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 
-public class SlackMusicPlayer {
+import edu.buaa.beibeismart.Activity.KebencontentActivity;
+
+public class SlackMusicPlayer  {
 
     public final static SlackMusicPlayer instance = new SlackMusicPlayer();
 

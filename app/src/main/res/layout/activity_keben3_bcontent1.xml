@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/u0"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <Button
+            android:id="@+id/back_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/back_btn"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/unit1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unit1 In class"
+            android:textSize="20dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/unit2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unit2 In the library"
+            android:textSize="20dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/unit3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unit3 Is this your pencil?"
+            android:textSize="20dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/unit4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unit4 Where's the bird?"
+            android:textSize="20dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/unit5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unit5 How old are you?"
+            android:textSize="20dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/unit6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unit6 What time is it?"
+            android:textSize="20dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/unit7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unit7 On the farm"
+            android:textSize="20dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/unit8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unit8 We're twins!"
+            android:textSize="20dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
